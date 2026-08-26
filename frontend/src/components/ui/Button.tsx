@@ -1,0 +1,27 @@
+import type { ButtonHTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
+
+export type ButtonVariant = "primary" | "secondary" | "outline";
+
+const variants: Record<ButtonVariant, string> = {
+  primary: "bg-amber-600 text-white hover:bg-amber-700",
+  secondary: "bg-zinc-900 text-white hover:bg-zinc-800",
+  outline: "border border-zinc-300 text-zinc-900 hover:bg-zinc-100",
+};
+
+/** Shared class string so links styled as buttons (e.g. CTAButton) stay in sync. */
+export function buttonVariants(variant: ButtonVariant = "primary", className?: string) {
+  return cn(
+    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+    variants[variant],
+    className
+  );
+}
+
+export function Button({
+  variant = "primary",
+  className,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant }) {
+  return <button className={buttonVariants(variant, className)} {...props} />;
+}
