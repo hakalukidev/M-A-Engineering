@@ -15,15 +15,28 @@ export function buildSearchIndex(): SearchableItem[] {
       image: category.coverImage,
     });
 
-    for (const product of category.products) {
+    for (const subcategory of category.subcategories) {
       items.push({
-        type: "product",
-        slug: product.id,
+        type: "subcategory",
+        slug: subcategory.slug,
         categorySlug: category.slug,
-        title: product.name,
-        description: product.description,
-        image: product.image,
+        subcategorySlug: subcategory.slug,
+        title: subcategory.name,
+        description: subcategory.shortDescription,
+        image: subcategory.coverImage,
       });
+
+      for (const product of subcategory.products) {
+        items.push({
+          type: "product",
+          slug: product.id,
+          categorySlug: category.slug,
+          subcategorySlug: subcategory.slug,
+          title: product.name,
+          description: product.description,
+          image: product.image,
+        });
+      }
     }
   }
 

@@ -16,5 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...categoryRoutes];
+  const subcategoryRoutes: MetadataRoute.Sitemap = getAllCategories().flatMap((category) =>
+    category.subcategories.map((subcategory) => ({
+      url: `${siteConfig.url}/categories/${category.slug}/${subcategory.slug}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }))
+  );
+
+  return [...staticRoutes, ...categoryRoutes, ...subcategoryRoutes];
 }

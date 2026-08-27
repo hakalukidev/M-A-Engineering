@@ -57,26 +57,26 @@ export function InquiryForm({
         name="name"
         required
         placeholder="Full name"
-        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-amber-600"
+        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
       />
       <input
         name="phone"
         required
         placeholder="Phone number"
-        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-amber-600"
+        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
       />
       <input
         name="email"
         type="email"
         placeholder="Email (optional)"
-        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-amber-600"
+        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
       />
       <textarea
         name="message"
         required
         rows={3}
-        placeholder="What machine are you interested in?"
-        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-amber-600"
+        placeholder="What equipment are you interested in?"
+        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
       />
       <Button type="submit" disabled={status === "submitting"} className="w-full">
         {status === "submitting" ? "Sending..." : "Send Inquiry"}

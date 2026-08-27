@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProductGallery } from "@/components/category/ProductGallery";
+import { SubcategoryCard } from "@/components/category/SubcategoryCard";
 import { InquiryPopup } from "@/components/cta/InquiryPopup";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -38,7 +38,21 @@ export default async function CategoryPage({ params }: PageProps<"/categories/[s
         subtitle={category.shortDescription}
         className="mb-10"
       />
-      <ProductGallery products={category.products} />
+      {category.subcategories.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
+          Subcategories for this category are coming soon — check back shortly.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {category.subcategories.map((subcategory) => (
+            <SubcategoryCard
+              key={subcategory.id}
+              categorySlug={category.slug}
+              subcategory={subcategory}
+            />
+          ))}
+        </div>
+      )}
       <InquiryPopup
         config={{
           id: `${category.slug}-scroll-popup`,

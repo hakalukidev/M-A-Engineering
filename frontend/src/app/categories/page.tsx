@@ -6,7 +6,7 @@ import { getAllCategories } from "@/data/categories";
 
 export const metadata: Metadata = {
   title: "Categories",
-  description: "Browse all machinery categories.",
+  description: "Browse all equipment categories.",
 };
 
 export default function CategoriesPage() {

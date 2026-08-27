@@ -1,7 +1,8 @@
 /**
- * Shared domain types for the machinery showcase site.
- * Mirrors the scope in the proposal: 4-5 categories, each with 10-15
- * images + descriptions, plus the CTA/popup and inquiry-form shapes.
+ * Shared domain types for the equipment showcase site.
+ * Mirrors the scope in the proposal: 4-5 categories, each split into
+ * subcategories with 10-15 images + descriptions, plus the CTA/popup and
+ * inquiry-form shapes.
  */
 
 export interface Product {
@@ -9,10 +10,20 @@ export interface Product {
   /** Slug-safe name, used for alt text and search matching. */
   name: string;
   description: string;
-  /** Path under /public/images/categories/<category-slug>/... */
+  /** Path under /public/images/categories/<category-slug>/<subcategory-slug>/... */
   image: string;
   /** Optional extra specs shown on hover / lightbox caption. */
   specs?: Record<string, string>;
+}
+
+export interface Subcategory {
+  id: string;
+  slug: string;
+  name: string;
+  shortDescription: string;
+  /** Card/hero image for the subcategory itself. */
+  coverImage: string;
+  products: Product[];
 }
 
 export interface Category {
@@ -22,7 +33,7 @@ export interface Category {
   shortDescription: string;
   /** Card/hero image for the category itself. */
   coverImage: string;
-  products: Product[];
+  subcategories: Subcategory[];
 }
 
 export type CtaAction = "call" | "whatsapp" | "quote" | "custom";
@@ -55,9 +66,11 @@ export interface InquiryFormValues {
 }
 
 export interface SearchableItem {
-  type: "category" | "product";
+  type: "category" | "subcategory" | "product";
   slug: string;
   categorySlug: string;
+  /** Present for subcategories and products, which live one level under a category. */
+  subcategorySlug?: string;
   title: string;
   description: string;
   image: string;

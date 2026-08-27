@@ -17,13 +17,13 @@ export default function ContactPage() {
         <SectionHeading eyebrow="Get in touch" title="Contact Us" className="mb-6" />
         <ul className="space-y-4 text-sm text-zinc-700">
           <li className="flex items-center gap-3">
-            <Phone size={18} className="text-amber-600" /> {siteConfig.contact.phone}
+            <Phone size={18} className="text-brand-green" /> {siteConfig.contact.phone}
           </li>
           <li className="flex items-center gap-3">
-            <Mail size={18} className="text-amber-600" /> {siteConfig.contact.email}
+            <Mail size={18} className="text-brand-green" /> {siteConfig.contact.email}
           </li>
           <li className="flex items-center gap-3">
-            <MapPin size={18} className="text-amber-600" /> {siteConfig.contact.address}
+            <MapPin size={18} className="text-brand-green" /> {siteConfig.contact.address}
           </li>
         </ul>
       </div>

@@ -29,7 +29,16 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-zinc-400">
             <li>{siteConfig.contact.phone}</li>
             <li>{siteConfig.contact.email}</li>
-            <li>{siteConfig.contact.address}</li>
+            <li>
+              <a
+                href={siteConfig.contact.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                {siteConfig.contact.address}
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -41,6 +50,16 @@ export function Footer() {
             {siteConfig.social.linkedin && <li>LinkedIn</li>}
           </ul>
         </div>
+      </Container>
+
+      <Container className="pb-12">
+        <iframe
+          src={siteConfig.contact.mapEmbedUrl}
+          title="Our location on Google Maps"
+          className="h-64 w-full rounded-lg border-0"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
       </Container>
 
       <div className="border-t border-white/10 py-4 text-center text-xs text-zinc-500">

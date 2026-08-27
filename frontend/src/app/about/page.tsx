@@ -15,7 +15,7 @@ export default function AboutPage() {
       <p className="max-w-2xl text-zinc-600">
         {/* TODO: replace with the Client's company profile (proposal section 9). */}
         Company profile content goes here — history, expertise, and what sets the
-        company apart in the machinery industry.
+        company apart in the equipment supply industry.
       </p>
     </Container>
   );

@@ -5,10 +5,11 @@
  */
 
 export const siteConfig = {
-  name: "Machinery Company",
-  shortName: "Machinery Co.",
+  name: "MA Engineering",
+  shortName: "MAE",
+  tagline: "MA Engineering",
   description:
-    "Heavy-duty machinery for industrial and agricultural use — browse our categories and get a quote today.",
+    "Restaurant, commercial kitchen, bakery, medical, and food shop equipment — browse our categories and get a quote today.",
   url: "https://www.example.com", // TODO: replace with the live domain
   locale: "en",
 
@@ -16,7 +17,9 @@ export const siteConfig = {
     phone: "+8801XXXXXXXXX", // TODO: client phone
     whatsapp: "+8801XXXXXXXXX", // TODO: client WhatsApp (E.164, no spaces)
     email: "info@example.com", // TODO: client inquiry inbox
-    address: "Sylhet, Bangladesh", // TODO: client address
+    address: "167, M A Engineering Factory, 21 Matikata Rd, Dhaka 1206",
+    mapUrl: "https://maps.app.goo.gl/oRsHQjYAMjP7Pc21A",
+    mapEmbedUrl: "https://www.google.com/maps?cid=12514140176141258819&output=embed",
   },
 
   social: {

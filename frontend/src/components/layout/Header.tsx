@@ -2,64 +2,102 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Container } from "@/components/ui/Container";
+import { Menu, Phone, X } from "lucide-react";
+import { buttonVariants } from "@/components/ui/Button";
 import { SearchBar } from "@/components/layout/SearchBar";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { LogoMark } from "@/components/layout/LogoMark";
 import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
+import { cn, telHref } from "@/lib/utils";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 backdrop-blur">
-      <Container className="flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="text-lg font-bold tracking-tight text-zinc-900">
-          {siteConfig.shortName}
-        </Link>
-
-        <nav className="hidden items-center gap-6 md:flex">
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
-            >
-              {item.label}
+    <div className="sticky top-0 z-30 bg-brand-cream px-3 py-3 sm:px-5 sm:py-4">
+      <div className="mx-auto w-full max-w-7xl">
+        <header className="overflow-hidden rounded-2xl bg-brand-card shadow-sm">
+          <div className="flex min-h-20 items-center justify-between gap-4 px-5 py-3 sm:px-7">
+            <Link href="/" className="flex shrink-0 items-center gap-2.5">
+              <LogoMark className="h-9 w-9 sm:h-10 sm:w-10" />
+              <span className="flex flex-col leading-tight">
+                <span className="whitespace-nowrap font-sans text-lg font-black tracking-tight text-brand-ink sm:text-xl">
+                  {siteConfig.shortName}
+                </span>
+                <span className="mt-0.5 whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.2em] text-brand-muted">
+                  {siteConfig.tagline}
+                </span>
+              </span>
             </Link>
-          ))}
-        </nav>
 
-        <div className="flex items-center gap-2">
-          <SearchBar />
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            onClick={() => setMobileOpen((v) => !v)}
-            className="rounded-full p-2 text-zinc-600 hover:bg-zinc-100 md:hidden"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </Container>
+            <nav className="hidden items-center gap-7 lg:flex">
+              {siteConfig.nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm font-medium text-brand-ink/70 hover:text-brand-ink"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
 
-      <nav
-        className={cn(
-          "flex flex-col gap-1 border-t border-zinc-200 bg-white px-4 py-3 md:hidden",
-          mobileOpen ? "block" : "hidden"
-        )}
-      >
-        {siteConfig.nav.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setMobileOpen(false)}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+            <div className="flex items-center gap-2 sm:gap-3">
+              <SearchBar />
+
+              <a
+                href={telHref(siteConfig.contact.phone)}
+                aria-label="Call us"
+                className="hidden rounded-full p-2.5 text-brand-ink/70 hover:bg-brand-cream hover:text-brand-ink sm:inline-flex"
+              >
+                <Phone size={18} />
+              </a>
+
+              <div className="hidden sm:block">
+                <Link href="/contact" className={buttonVariants("accent")}>
+                  Get a Quote
+                </Link>
+              </div>
+
+              <button
+                type="button"
+                aria-label="Toggle menu"
+                onClick={() => setMobileOpen((v) => !v)}
+                className="rounded-full p-2.5 text-brand-ink/70 hover:bg-brand-cream hover:text-brand-ink lg:hidden"
+              >
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <nav
+            className={cn(
+              "flex-col gap-1 border-t border-brand-cream px-5 py-3 lg:hidden",
+              mobileOpen ? "flex" : "hidden"
+            )}
           >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-    </header>
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-2 py-2 text-sm font-medium text-brand-ink/80 hover:bg-brand-cream/60"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className={cn(buttonVariants("accent"), "mt-2 w-full")}
+            >
+              Get a Quote
+            </Link>
+          </nav>
+
+          <Breadcrumbs />
+        </header>
+      </div>
+    </div>
   );
 }
