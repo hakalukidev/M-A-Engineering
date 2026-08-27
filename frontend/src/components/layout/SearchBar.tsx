@@ -35,9 +35,11 @@ export function SearchBar() {
               <Link
                 key={`${item.type}-${item.categorySlug}-${item.slug}`}
                 href={
-                  item.subcategorySlug
-                    ? `/categories/${item.categorySlug}/${item.subcategorySlug}`
-                    : `/categories/${item.categorySlug}`
+                  item.type === "product"
+                    ? `/categories/${item.categorySlug}/${item.subcategorySlug}/${item.slug}`
+                    : item.subcategorySlug
+                      ? `/categories/${item.categorySlug}/${item.subcategorySlug}`
+                      : `/categories/${item.categorySlug}`
                 }
                 onClick={() => setQuery("")}
                 className="block rounded-lg px-3 py-2 text-sm hover:bg-zinc-50"

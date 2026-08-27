@@ -3,13 +3,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "bg-audio-muted";
+const UNLOCK_EVENTS = ["click", "keydown", "touchstart"] as const;
 
 /**
- * Background-audio control for the site-wide player.
- * Starts muted (browser autoplay policy) and remembers the visitor's
- * mute/unmute choice in localStorage across page navigations.
+ * Site-wide welcome-audio control. Plays once (no loop) as soon as a
+ * visitor enters the site, and remembers the visitor's mute/unmute choice
+ * in localStorage across page navigations.
+ *
+ * Browsers block audible autoplay without a prior user gesture, so if the
+ * immediate `play()` attempt is rejected, playback is deferred to the
+ * visitor's first click/keydown/touch anywhere on the page.
  */
-export function useAudioPlayer(src: string, defaultMuted = true) {
+export function useAudioPlayer(src: string, defaultMuted = false) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   // Start at `defaultMuted` on both server and first client render (avoids a
   // hydration mismatch), then sync the visitor's remembered choice from
@@ -25,18 +30,40 @@ export function useAudioPlayer(src: string, defaultMuted = true) {
 
   useEffect(() => {
     const audio = new Audio(src);
-    audio.loop = true;
+    audio.loop = false;
     audio.muted = muted;
     audioRef.current = audio;
 
-    // Autoplay is allowed unmuted-or-not only after a user gesture in most
-    // browsers; attempt play, but don't treat a rejection as an error.
+    let cancelled = false;
+    const removeUnlockListeners = () => {
+      UNLOCK_EVENTS.forEach((event) =>
+        window.removeEventListener(event, playOnce)
+      );
+    };
+    function playOnce() {
+      removeUnlockListeners();
+      if (cancelled) return;
+      audio.play().then(
+        () => setIsPlaying(true),
+        () => setIsPlaying(false)
+      );
+    }
+
+    // Try to autoplay immediately; if the browser blocks it, fall back to
+    // starting playback on the visitor's first interaction with the page.
     audio.play().then(
       () => setIsPlaying(true),
-      () => setIsPlaying(false)
+      () => {
+        setIsPlaying(false);
+        UNLOCK_EVENTS.forEach((event) =>
+          window.addEventListener(event, playOnce, { once: true })
+        );
+      }
     );
 
     return () => {
+      cancelled = true;
+      removeUnlockListeners();
       audio.pause();
       audioRef.current = null;
     };

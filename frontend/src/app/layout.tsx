@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/cta/WhatsAppButton";
-import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer";
+import { FloatingActionStack } from "@/components/cta/FloatingActionStack";
 import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
@@ -34,6 +33,21 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: siteConfig.name,
+  description: siteConfig.description,
+  url: siteConfig.url,
+  telephone: siteConfig.contact.phone,
+  email: siteConfig.contact.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.contact.address,
+  },
+  sameAs: Object.values(siteConfig.social).filter((url) => url.startsWith("http")),
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -41,11 +55,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
-        <WhatsAppButton />
-        <BackgroundAudioPlayer />
+        <FloatingActionStack />
       </body>
     </html>
   );

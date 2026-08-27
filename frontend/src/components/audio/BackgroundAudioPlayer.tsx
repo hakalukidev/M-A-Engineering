@@ -4,7 +4,7 @@ import { Volume2, VolumeX } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { siteConfig } from "@/config/site";
 
-/** Site-wide background audio with a visible mute/play control (proposal 4.4). */
+/** Site-wide welcome audio (plays once on entry) with a visible mute control (proposal 4.4). */
 export function BackgroundAudioPlayer() {
   const { muted, toggleMuted } = useAudioPlayer(
     siteConfig.backgroundAudio.src,

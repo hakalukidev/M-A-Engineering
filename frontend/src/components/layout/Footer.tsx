@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
+import { telHref } from "@/lib/utils";
 
 export function Footer() {
   return (
@@ -27,16 +29,24 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold text-white">Contact</p>
           <ul className="mt-3 space-y-2 text-sm text-zinc-400">
-            <li>{siteConfig.contact.phone}</li>
-            <li>{siteConfig.contact.email}</li>
+            <li>
+              <a href={telHref(siteConfig.contact.phone)} className="flex items-center gap-2 hover:text-white">
+                <Phone size={14} /> {siteConfig.contact.phone}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center gap-2 hover:text-white">
+                <Mail size={14} /> {siteConfig.contact.email}
+              </a>
+            </li>
             <li>
               <a
                 href={siteConfig.contact.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white"
+                className="flex items-start gap-2 hover:text-white"
               >
-                {siteConfig.contact.address}
+                <MapPin size={14} className="mt-0.5 shrink-0" /> {siteConfig.contact.address}
               </a>
             </li>
           </ul>
@@ -45,9 +55,42 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold text-white">Follow</p>
           <ul className="mt-3 space-y-2 text-sm text-zinc-400">
-            {siteConfig.social.facebook && <li>Facebook</li>}
-            {siteConfig.social.youtube && <li>YouTube</li>}
-            {siteConfig.social.linkedin && <li>LinkedIn</li>}
+            {siteConfig.social.facebook && (
+              <li>
+                <a
+                  href={siteConfig.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white"
+                >
+                  <ExternalLink size={14} /> Facebook
+                </a>
+              </li>
+            )}
+            {siteConfig.social.youtube && (
+              <li>
+                <a
+                  href={siteConfig.social.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white"
+                >
+                  <ExternalLink size={14} /> YouTube
+                </a>
+              </li>
+            )}
+            {siteConfig.social.linkedin && (
+              <li>
+                <a
+                  href={siteConfig.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white"
+                >
+                  <ExternalLink size={14} /> LinkedIn
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </Container>

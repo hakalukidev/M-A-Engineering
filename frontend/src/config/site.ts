@@ -23,10 +23,48 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: "",
-    youtube: "",
-    linkedin: "",
+    facebook: "https://facebook.com/maengineering", // TODO: client Facebook page URL
+    youtube: "https://youtube.com/@maengineering", // TODO: client YouTube channel URL
+    linkedin: "https://linkedin.com/company/maengineering", // TODO: client LinkedIn page URL
+    /** Facebook page id/username used to build the m.me Messenger deep link. */
+    messenger: "maengineering", // TODO: client Facebook page id
   },
+
+  /**
+   * Manual payment methods for the order form (proposal 4.5 — no payment
+   * gateway). Numbers below are placeholders; replace with the Client's
+   * real merchant/personal accounts before launch.
+   */
+  paymentMethods: [
+    {
+      id: "bkash",
+      name: "bKash",
+      accountLabel: "Send Money to",
+      accountValue: "017XXXXXXXX", // TODO: client bKash number
+      instructions: "Send Money (not Payment) to this bKash number, then enter the Transaction ID below.",
+    },
+    {
+      id: "nagad",
+      name: "Nagad",
+      accountLabel: "Send Money to",
+      accountValue: "018XXXXXXXX", // TODO: client Nagad number
+      instructions: "Send Money to this Nagad number, then enter the Transaction ID below.",
+    },
+    {
+      id: "rocket",
+      name: "Rocket",
+      accountLabel: "Send Money to",
+      accountValue: "019XXXXXXXX-X", // TODO: client Rocket number
+      instructions: "Send Money to this Rocket number, then enter the Transaction ID below.",
+    },
+    {
+      id: "bank",
+      name: "Bank Transfer",
+      accountLabel: "Account Number",
+      accountValue: "XXXX-XXXXXXX-XXX (Example Bank Ltd.)", // TODO: client bank account details
+      instructions: "Transfer to this account, then enter the deposit slip/reference number below.",
+    },
+  ],
 
   nav: [
     { label: "Home", href: "/" },
@@ -35,10 +73,15 @@ export const siteConfig = {
     { label: "Contact", href: "/contact" },
   ],
 
-  /** Background audio, muted-by-default per browser autoplay policy. */
+  /**
+   * Welcome audio — plays once, unmuted, as soon as a visitor enters the
+   * site. Browsers block audible autoplay without a user gesture, so the
+   * player falls back to firing on the visitor's first click/tap if the
+   * immediate attempt is blocked (see useAudioPlayer).
+   */
   backgroundAudio: {
-    src: "/audio/background.mp3",
-    defaultMuted: true,
+    src: "/audio/welcome.mp3",
+    defaultMuted: false,
   },
 } as const;
 

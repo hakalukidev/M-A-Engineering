@@ -16,3 +16,8 @@ export function whatsappHref(phone: string, message?: string) {
   const query = message ? `?text=${encodeURIComponent(message)}` : "";
   return `https://wa.me/${digits}${query}`;
 }
+
+/** Format a BDT price for display, e.g. `formatPrice(45000)` -> "৳45,000". */
+export function formatPrice(bdt: number) {
+  return `৳${bdt.toLocaleString("en-US")}`;
+}

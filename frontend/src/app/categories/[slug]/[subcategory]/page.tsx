@@ -45,7 +45,11 @@ export default async function SubcategoryPage({
         subtitle={subcategory.shortDescription}
         className="mb-10"
       />
-      <ProductGallery products={subcategory.products} />
+      <ProductGallery
+        products={subcategory.products}
+        categorySlug={slug}
+        subcategorySlug={subcategory.slug}
+      />
       <InquiryPopup
         config={{
           id: `${slug}-${subcategory.slug}-scroll-popup`,

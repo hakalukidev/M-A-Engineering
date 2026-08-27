@@ -7,11 +7,15 @@
 
 export interface Product {
   id: string;
-  /** Slug-safe name, used for alt text and search matching. */
+  /** Slug-safe name, used for alt text, search matching, and the product's own URL segment. */
   name: string;
   description: string;
   /** Path under /public/images/categories/<category-slug>/<subcategory-slug>/... */
   image: string;
+  /** Fixed size/spec shown next to the price (e.g. "Standard / 4-seat"). */
+  size: string;
+  /** Fixed order price in BDT — see formatPrice in lib/utils. */
+  price: number;
   /** Optional extra specs shown on hover / lightbox caption. */
   specs?: Record<string, string>;
 }
@@ -63,6 +67,26 @@ export interface InquiryFormValues {
   message: string;
   /** Pre-filled when the form is opened from a category/product page. */
   interestedIn?: string;
+}
+
+/** One of the 3-4 manual payment methods offered on the order form (no payment gateway). */
+export interface PaymentMethod {
+  id: string;
+  name: string;
+  /** e.g. "Send Money to" */
+  accountLabel: string;
+  accountValue: string;
+  instructions: string;
+}
+
+export interface OrderFormValues {
+  productId: string;
+  name: string;
+  phone: string;
+  address: string;
+  paymentMethodId: string;
+  /** Transaction/reference ID the customer enters from their payment app. */
+  transactionRef: string;
 }
 
 export interface SearchableItem {

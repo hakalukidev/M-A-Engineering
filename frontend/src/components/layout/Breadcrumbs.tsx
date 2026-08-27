@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { getCategoryBySlug, getSubcategoryBySlug } from "@/data/categories";
+import { getCategoryBySlug, getProductBySlug, getSubcategoryBySlug } from "@/data/categories";
 
 function titleCase(segment: string) {
   return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -19,16 +19,19 @@ export function Breadcrumbs() {
     const href = `/${segments.slice(0, i + 1).join("/")}`;
     const isCategorySlug = segments[0] === "categories" && i === 1;
     const isSubcategorySlug = segments[0] === "categories" && i === 2;
+    const isProductSlug = segments[0] === "categories" && i === 3;
     const label = isCategorySlug
       ? getCategoryBySlug(segment)?.name ?? titleCase(segment)
       : isSubcategorySlug
         ? getSubcategoryBySlug(segments[1], segment)?.name ?? titleCase(segment)
-        : titleCase(segment);
+        : isProductSlug
+          ? getProductBySlug(segments[1], segments[2], segment)?.name ?? titleCase(segment)
+          : titleCase(segment);
     return { label, href, isLast: i === segments.length - 1 };
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="border-t border-brand-cream px-6 py-2.5">
+    <nav aria-label="Breadcrumb" className="border-t border-brand-cream bg-brand-card px-6 py-2.5">
       <ol className="flex flex-wrap items-center gap-1.5 text-xs text-brand-muted">
         <li>
           <Link href="/" className="hover:text-brand-ink">

@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# user-uploaded order payment proofs
+/public/uploads/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
