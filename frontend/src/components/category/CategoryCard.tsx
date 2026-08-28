@@ -16,8 +16,8 @@ import {
 import type { Category } from "@/types";
 import { cn } from "@/lib/utils";
 
-/** Per-category glyph, shown as a badge and as a watermark when the cover image is missing. */
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
+/** Per-category glyph, shown as a badge and as a watermark when the cover image is missing. Also reused wherever a category needs a matching icon (e.g. the categories directory page). */
+export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "restaurant-equipment": UtensilsCrossed,
   "commercial-kitchen-equipment": Flame,
   "bakery-equipment": Croissant,
