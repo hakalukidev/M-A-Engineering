@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
+import { InquiryForm } from "@/components/forms/InquiryForm";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { LogoMark } from "@/components/layout/LogoMark";
@@ -26,6 +28,7 @@ import { cn, telHref } from "@/lib/utils";
  */
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   return (
     <div className="sticky top-0 z-30 bg-brand-cream px-3 py-3 sm:px-5 sm:py-4">
@@ -71,9 +74,13 @@ export function Header() {
                 </a>
 
                 <div className="hidden sm:block">
-                  <Link href="/contact" className={buttonVariants("primary")}>
+                  <button
+                    type="button"
+                    onClick={() => setQuoteOpen(true)}
+                    className={buttonVariants("primary")}
+                  >
                     Get a Quote
-                  </Link>
+                  </button>
                 </div>
 
                 <button
@@ -103,19 +110,30 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  setQuoteOpen(true);
+                }}
                 className={cn(buttonVariants("primary"), "mt-2 w-full")}
               >
                 Get a Quote
-              </Link>
+              </button>
             </nav>
           </div>
 
           <Breadcrumbs />
         </header>
       </div>
+
+      <Modal open={quoteOpen} onClose={() => setQuoteOpen(false)} title="Get a Quote">
+        <p className="mb-4 text-sm text-zinc-600">
+          Share a few details about the equipment or order you have in mind — a real person will
+          follow up directly.
+        </p>
+        <InquiryForm onSuccess={() => setQuoteOpen(false)} />
+      </Modal>
     </div>
   );
 }
