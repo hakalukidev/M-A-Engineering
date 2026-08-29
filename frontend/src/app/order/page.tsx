@@ -16,12 +16,12 @@ export default async function OrderPage({
   const { product } = await searchParams;
 
   return (
-    <Container className="max-w-2xl py-16">
+    <Container className="max-w-5xl py-16">
       <SectionHeading
         eyebrow="Order"
         title="Place Your Order"
         subtitle="Pick a product, pay by bKash/Nagad/Rocket/Bank, and upload your payment proof — no online payment gateway needed."
-        className="mb-10"
+        className="mb-10 max-w-2xl"
       />
       <OrderForm defaultProductId={product} />
     </Container>

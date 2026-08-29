@@ -47,8 +47,22 @@ export function searchIndex(query: string, index: SearchableItem[] = buildSearch
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
-  return index.filter(
-    (item) =>
-      item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
-  );
+  return index
+    .map((item) => {
+      const title = item.title.toLowerCase();
+      if (title.startsWith(q)) return { item, score: 3 };
+      if (title.includes(q)) return { item, score: 2 };
+      // Product descriptions are currently boilerplate placeholder text shared
+      // across every product ("placeholder description... materials... Client"),
+      // so a short query (e.g. a single letter) matches almost everything via
+      // the description. Only fall back to description matches once the query
+      // is specific enough to be meaningful.
+      if (q.length >= 3 && item.description.toLowerCase().includes(q)) {
+        return { item, score: 1 };
+      }
+      return null;
+    })
+    .filter((result): result is { item: SearchableItem; score: number } => result !== null)
+    .sort((a, b) => b.score - a.score)
+    .map((result) => result.item);
 }
