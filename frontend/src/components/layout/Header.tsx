@@ -40,7 +40,7 @@ export function Header() {
       <div className="mx-auto w-full max-w-7xl">
         <header className="rounded-2xl shadow-md [&>*:first-child]:rounded-t-2xl [&>*:last-child]:rounded-b-2xl">
           <div className="bg-brand-green-dark">
-            <div className="grid min-h-20 grid-cols-2 items-center gap-4 px-5 py-3 sm:px-7 lg:grid-cols-[1fr_auto_1fr]">
+            <div className="grid min-h-20 grid-cols-[auto_1fr] items-center gap-4 px-5 py-3 sm:px-7 lg:grid-cols-[1fr_auto_1fr]">
               <nav className="hidden items-center gap-6 lg:flex">
                 {siteConfig.nav.map((item) => (
                   <Link
@@ -57,15 +57,15 @@ export function Header() {
                 ))}
               </nav>
 
-              <Link href="/" className="flex shrink-0 items-center gap-2.5 justify-self-start lg:justify-self-center">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-cream p-1 shadow-sm sm:h-10 sm:w-10">
+              <Link href="/" className="flex min-w-0 items-center gap-2.5 justify-self-start lg:min-w-fit lg:justify-self-center">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-cream p-1 shadow-sm sm:h-10 sm:w-10">
                   <LogoMark className="h-full w-full" />
                 </span>
-                <span className="flex flex-col leading-tight">
-                  <span className="whitespace-nowrap font-serif text-lg font-semibold italic tracking-tight text-brand-cream sm:text-xl">
+                <span className="flex min-w-0 flex-col leading-tight">
+                  <span className="truncate font-serif text-lg font-semibold italic tracking-tight text-brand-cream sm:text-xl">
                     {siteConfig.tagline}
                   </span>
-                  <span className="mt-0.5 whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.2em] text-brand-cream/60">
+                  <span className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-[0.2em] text-brand-cream/60">
                     {siteConfig.shortName}
                   </span>
                 </span>

@@ -5,7 +5,7 @@ export type ButtonVariant = "primary" | "secondary" | "outline" | "accent";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-brand-orange text-white hover:bg-brand-orange-dark",
-  secondary: "bg-zinc-900 text-white hover:bg-zinc-800",
+  secondary: "bg-brand-ink text-brand-cream hover:bg-brand-ink/85",
   outline: "border border-zinc-300 text-zinc-900 hover:bg-zinc-100",
   accent: "bg-brand-green text-white hover:bg-brand-green-dark",
 };

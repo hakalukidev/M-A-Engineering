@@ -42,6 +42,7 @@ export default function ProductsPage() {
             subcategory.products.map((product) => ({
               product,
               subcategorySlug: subcategory.slug,
+              subcategoryName: subcategory.name,
             }))
           );
 
@@ -60,12 +61,13 @@ export default function ProductsPage() {
                 </p>
               ) : (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                  {products.map(({ product, subcategorySlug }) => (
+                  {products.map(({ product, subcategorySlug, subcategoryName }) => (
                     <ProductCard
                       key={product.id}
                       product={product}
                       categorySlug={category.slug}
                       subcategorySlug={subcategorySlug}
+                      subcategoryName={subcategoryName}
                     />
                   ))}
                 </div>

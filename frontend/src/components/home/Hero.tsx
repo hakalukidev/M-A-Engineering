@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, LayoutGrid } from "lucide-react";
 import { CTAButton } from "@/components/cta/CTAButton";
+import { TextAnimate } from "@/components/magicui/text-animate";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { getAllCategories, getAllProducts } from "@/data/categories";
@@ -85,7 +86,16 @@ export function Hero() {
                 Restaurant &middot; Commercial Kitchen &middot; Bakery &middot; Medical &middot; Food Shop
               </p>
               <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-brand-cream sm:text-5xl">
-                Equipment That Keeps Your <span className="font-serif italic text-brand-orange">Business</span> Running
+                <TextAnimate
+                  segments={[
+                    { text: "Equipment" },
+                    { text: "That" },
+                    { text: "Keeps" },
+                    { text: "Your" },
+                    { text: "Business", className: "font-serif italic text-brand-orange" },
+                    { text: "Running" },
+                  ]}
+                />
               </h1>
               <p className="max-w-md text-lg text-brand-cream/70">{siteConfig.description}</p>
               <div className="flex flex-wrap items-center gap-3 pt-2">

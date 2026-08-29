@@ -14,7 +14,7 @@ export function SearchBar() {
   const results = useMemo(() => searchIndex(debouncedQuery, index), [debouncedQuery, index]);
 
   return (
-    <div className="relative min-w-0 flex-1 sm:max-w-48 sm:flex-none lg:max-w-72">
+    <div className="relative min-w-[120px] flex-1 sm:max-w-48 sm:flex-none lg:max-w-72">
       <div className="flex items-center gap-1.5 rounded-full bg-brand-cream px-3 py-2.5 sm:gap-2 sm:px-4">
         <Search size={16} className="shrink-0 text-brand-muted" />
         <input

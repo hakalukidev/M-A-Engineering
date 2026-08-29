@@ -6,10 +6,12 @@ export function ProductGallery({
   products,
   categorySlug,
   subcategorySlug,
+  subcategoryName,
 }: {
   products: Product[];
   categorySlug: string;
   subcategorySlug: string;
+  subcategoryName?: string;
 }) {
   if (products.length === 0) {
     return (
@@ -27,6 +29,7 @@ export function ProductGallery({
           product={product}
           categorySlug={categorySlug}
           subcategorySlug={subcategorySlug}
+          subcategoryName={subcategoryName}
         />
       ))}
     </div>
