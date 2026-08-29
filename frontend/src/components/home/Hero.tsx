@@ -71,7 +71,7 @@ export function Hero() {
         <div className="flex flex-col gap-6">
           <div className="relative min-h-[420px] overflow-hidden rounded-3xl bg-brand-green-dark sm:min-h-[480px]">
             <Image
-              src="/images/hero/boutique-kitchen.jpg"
+              src="/images/hero/homeimg.jpg"
               alt="Warm, professionally equipped kitchen interior"
               fill
               priority

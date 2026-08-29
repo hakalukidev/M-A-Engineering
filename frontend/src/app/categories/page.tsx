@@ -105,42 +105,53 @@ export default function CategoriesPage() {
             subtitle="Every subcategory, grouped by category and always in motion — hover a card to pause it and jump straight to the type you need."
             className="mb-8"
           />
-          <div className="space-y-5">
+          <div className="space-y-4">
             {categories.map((category) => {
               const Icon = CATEGORY_ICONS[category.slug] ?? Package;
+              const typeCount = category.subcategories.length;
               return (
-                <MagicCard key={category.id} className="p-5 sm:p-6">
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                <MagicCard
+                  key={category.id}
+                  className="shadow-sm transition-shadow duration-300 hover:shadow-md"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-4 sm:px-6">
                     <Link
                       href={`/categories/${category.slug}`}
-                      className="group/title inline-flex items-center gap-2.5 text-lg font-semibold text-brand-ink transition-colors hover:text-brand-green-dark"
+                      className="group/title inline-flex items-center gap-3 text-lg font-semibold text-brand-ink transition-colors hover:text-brand-green-dark"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green-dark transition-colors group-hover/title:bg-brand-green group-hover/title:text-brand-cream">
-                        <Icon size={16} strokeWidth={1.75} />
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green to-brand-green-dark text-brand-cream shadow-sm ring-1 ring-brand-green-dark/10 transition-transform duration-300 group-hover/title:scale-105">
+                        <Icon size={17} strokeWidth={1.75} />
                       </span>
                       {category.name}
                     </Link>
-                    <span className="text-sm text-brand-ink/50">
-                      {category.subcategories.length}{" "}
-                      {category.subcategories.length === 1 ? "type" : "types"}
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/15 bg-brand-green/6 px-3 py-1 text-xs font-semibold text-brand-green-dark">
+                      {typeCount}
+                      <span className="font-medium text-brand-ink/50">
+                        {typeCount === 1 ? "type" : "types"}
+                      </span>
                     </span>
                   </div>
-                  {category.subcategories.length === 0 ? (
-                    <p className="text-sm text-brand-ink/50">
+                  {typeCount === 0 ? (
+                    <p className="px-5 py-5 text-sm text-brand-ink/50 sm:px-6">
                       Types coming soon — check back shortly.
                     </p>
                   ) : (
-                    <Marquee pauseOnHover className="[--duration:26s] py-1">
-                      {category.subcategories.map((subcategory) => (
-                        <Link
-                          key={subcategory.id}
-                          href={`/categories/${category.slug}/${subcategory.slug}`}
-                          className="shrink-0 rounded-full border border-zinc-200 bg-brand-cream px-4 py-2 text-sm font-medium whitespace-nowrap text-brand-ink/80 transition-colors hover:border-brand-green hover:bg-brand-green/8 hover:text-brand-green-dark"
-                        >
-                          {subcategory.name}
-                        </Link>
-                      ))}
-                    </Marquee>
+                    <div className="relative">
+                      <Marquee pauseOnHover className="[--duration:26s] px-5 py-4 sm:px-6">
+                        {category.subcategories.map((subcategory) => (
+                          <Link
+                            key={subcategory.id}
+                            href={`/categories/${category.slug}/${subcategory.slug}`}
+                            className="shrink-0 rounded-full border border-zinc-200 bg-brand-cream px-4 py-2 text-sm font-medium whitespace-nowrap text-brand-ink/80 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-green hover:bg-brand-green/8 hover:text-brand-green-dark hover:shadow"
+                          >
+                            {subcategory.name}
+                          </Link>
+                        ))}
+                      </Marquee>
+                      {/* Edge fades so the loop reads as scrolling under the card, not clipping mid-chip. */}
+                      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-brand-card to-transparent sm:w-16" />
+                      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-brand-card to-transparent sm:w-16" />
+                    </div>
                   )}
                 </MagicCard>
               );
