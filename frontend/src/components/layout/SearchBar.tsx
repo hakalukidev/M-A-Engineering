@@ -14,15 +14,15 @@ export function SearchBar() {
   const results = useMemo(() => searchIndex(debouncedQuery, index), [debouncedQuery, index]);
 
   return (
-    <div className="relative w-28 sm:w-48 lg:w-72">
-      <div className="flex items-center gap-2 rounded-full bg-brand-cream px-4 py-2.5">
+    <div className="relative min-w-0 flex-1 sm:max-w-48 sm:flex-none lg:max-w-72">
+      <div className="flex items-center gap-1.5 rounded-full bg-brand-cream px-3 py-2.5 sm:gap-2 sm:px-4">
         <Search size={16} className="shrink-0 text-brand-muted" />
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search equipment..."
-          className="w-full bg-transparent text-sm text-brand-ink outline-none placeholder:text-brand-muted"
+          placeholder="Search..."
+          className="w-full min-w-0 overflow-hidden text-ellipsis bg-transparent text-sm text-brand-ink outline-none placeholder:text-brand-muted"
         />
       </div>
 

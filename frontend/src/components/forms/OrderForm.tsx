@@ -1,12 +1,44 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
+import Image from "next/image";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { getAllProducts } from "@/data/categories";
 import { siteConfig } from "@/config/site";
 import { formatPrice } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
+
+/** Real logo files, dropped in /public/images/payments — keyed by siteConfig.paymentMethods id. */
+const PAYMENT_LOGOS: Record<
+  string,
+  { src: string; alt: string; fit: "contain" | "cover"; padded?: boolean }
+> = {
+  bkash: { src: "/images/payments/bkash.svg", alt: "bKash", fit: "contain" },
+  nagad: { src: "/images/payments/nagad.svg", alt: "Nagad", fit: "contain" },
+  rocket: { src: "/images/payments/rocket.png", alt: "Rocket", fit: "contain", padded: true },
+  bank: { src: "/images/payments/bank.jpg", alt: "Bank cards", fit: "cover" },
+};
+
+function PaymentMethodBadge({ id }: { id: string }) {
+  const logo = PAYMENT_LOGOS[id];
+  if (!logo) return null;
+
+  return (
+    <span className="relative block h-11 w-full overflow-hidden rounded-md bg-white">
+      <Image
+        src={logo.src}
+        alt={logo.alt}
+        fill
+        sizes="120px"
+        className={
+          logo.fit === "contain" ? (logo.padded ? "object-contain p-2" : "object-contain p-1") : "object-cover"
+        }
+      />
+    </span>
+  );
+}
 
 /**
  * Fixed-price order form — no payment gateway (proposal 4.5).
@@ -97,26 +129,35 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
       <div className="space-y-2 rounded-xl border border-zinc-200 p-4">
         <p className="text-sm font-semibold text-zinc-900">2. Choose a payment method</p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {siteConfig.paymentMethods.map((method) => (
-            <label
-              key={method.id}
-              className={`cursor-pointer rounded-lg border px-3 py-2 text-center text-sm font-medium transition-colors ${
-                paymentMethodId === method.id
-                  ? "border-brand-green bg-brand-green/10 text-brand-green-dark"
-                  : "border-zinc-300 text-zinc-700 hover:bg-zinc-50"
-              }`}
-            >
-              <input
-                type="radio"
-                name="paymentMethodId"
-                value={method.id}
-                checked={paymentMethodId === method.id}
-                onChange={() => setPaymentMethodId(method.id)}
-                className="sr-only"
-              />
-              {method.name}
-            </label>
-          ))}
+          {siteConfig.paymentMethods.map((method) => {
+            const selected = paymentMethodId === method.id;
+            return (
+              <label
+                key={method.id}
+                className={`relative flex cursor-pointer flex-col items-center gap-2 rounded-lg border p-2 text-center transition-colors ${
+                  selected
+                    ? "border-brand-green bg-brand-green/10"
+                    : "border-zinc-300 hover:bg-zinc-50"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMethodId"
+                  value={method.id}
+                  checked={selected}
+                  onChange={() => setPaymentMethodId(method.id)}
+                  className="sr-only"
+                />
+                {selected && (
+                  <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-green text-white">
+                    <Check size={10} strokeWidth={3} />
+                  </span>
+                )}
+                <PaymentMethodBadge id={method.id} />
+                <span className="text-xs font-medium text-zinc-700">{method.name}</span>
+              </label>
+            );
+          })}
         </div>
 
         {selectedPaymentMethod && (

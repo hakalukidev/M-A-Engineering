@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
@@ -29,6 +30,10 @@ import { cn, telHref } from "@/lib/utils";
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <div className="sticky top-0 z-30 bg-brand-cream px-3 py-3 sm:px-5 sm:py-4">
@@ -41,7 +46,11 @@ export function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="text-sm font-medium text-brand-cream/75 transition-colors hover:text-brand-cream"
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-brand-cream",
+                      isActive(item.href) ? "text-brand-cream" : "text-brand-cream/75"
+                    )}
                   >
                     {item.label}
                   </Link>
@@ -105,7 +114,11 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-2 py-2 text-sm font-medium text-brand-cream/85 hover:bg-brand-cream/10"
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={cn(
+                    "rounded-lg px-2 py-2 text-sm font-medium hover:bg-brand-cream/10",
+                    isActive(item.href) ? "bg-brand-cream/10 text-brand-cream" : "text-brand-cream/85"
+                  )}
                 >
                   {item.label}
                 </Link>

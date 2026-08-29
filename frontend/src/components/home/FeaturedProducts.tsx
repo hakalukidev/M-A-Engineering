@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getCategoryBySlug, getProductBySlug } from "@/data/categories";
@@ -52,7 +52,7 @@ export function FeaturedProducts() {
             <Link
               key={product.id}
               href={`/categories/${categorySlug}/${subcategorySlug}/${product.id}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 text-left transition-shadow hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/5 hover:ring-zinc-200"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-zinc-100">
                 <Image
@@ -60,7 +60,7 @@ export function FeaturedProducts() {
                   alt={product.name}
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-brand-green-dark shadow-sm">
                   {category.name}
@@ -69,9 +69,12 @@ export function FeaturedProducts() {
               <div className="flex flex-1 flex-col p-3.5">
                 <p className="text-sm font-semibold leading-snug text-zinc-900">{product.name}</p>
                 <p className="mt-0.5 text-xs text-zinc-500">{product.size}</p>
-                <p className="mt-auto pt-2 text-sm font-bold text-brand-green-dark">
-                  {formatPrice(product.price)}
-                </p>
+                <div className="mt-auto flex items-end justify-between gap-2 pt-2">
+                  <p className="text-sm font-bold text-brand-green-dark">{formatPrice(product.price)}</p>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green-dark transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white">
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
