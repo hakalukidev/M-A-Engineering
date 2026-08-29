@@ -56,7 +56,7 @@ export default function ProductsPage() {
               </div>
 
               {products.length === 0 ? (
-                <p className="rounded-xl border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
+                <p className="rounded-md border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
                   Products for this category are coming soon — check back shortly.
                 </p>
               ) : (

@@ -29,7 +29,7 @@ export function Modal({
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
+            className="relative w-full max-w-md rounded-md bg-white p-6 shadow-xl"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}

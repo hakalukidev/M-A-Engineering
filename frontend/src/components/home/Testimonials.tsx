@@ -46,7 +46,7 @@ export function Testimonials() {
           {DEMO_TESTIMONIALS.map((t, i) => (
             <div
               key={i}
-              className="group flex flex-col rounded-2xl bg-white p-6 ring-1 ring-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-900/5 hover:ring-brand-green/30"
+              className="group flex flex-col rounded-md bg-white p-6 ring-1 ring-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-900/5 hover:ring-brand-green/30"
             >
               <Quote className="h-6 w-6 shrink-0 text-brand-orange transition-transform duration-300 group-hover:scale-110" strokeWidth={1.75} />
               <p className="mt-3 flex-1 text-sm italic leading-relaxed text-zinc-600">

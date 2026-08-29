@@ -13,7 +13,7 @@ export function SubcategoryCard({
   return (
     <Link
       href={`/categories/${categorySlug}/${subcategory.slug}`}
-      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-2xl bg-zinc-100"
+      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-md bg-zinc-100"
     >
       <Image
         src={subcategory.coverImage}

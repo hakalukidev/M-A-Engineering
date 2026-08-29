@@ -29,21 +29,21 @@ const actions = [
     label: "Chat on WhatsApp",
     href: whatsappHref(siteConfig.contact.whatsapp, "Hi, I'm interested in your equipment."),
     icon: WhatsAppIcon,
-    className: "bg-[#25D366] hover:bg-[#20BD5A]",
+    className: "bg-brand-primary hover:bg-brand-primary-dark",
   },
   {
     key: "call",
     label: "Call us",
     href: telHref(siteConfig.contact.phone),
     icon: Phone,
-    className: "bg-brand-orange hover:bg-brand-orange-dark",
+    className: "bg-brand-primary hover:bg-brand-primary-dark",
   },
   {
     key: "messenger",
     label: "Message us on Facebook",
     href: `https://m.me/${siteConfig.social.messenger}`,
     icon: MessengerIcon,
-    className: "bg-[#0084FF] hover:bg-[#006FDB]",
+    className: "bg-brand-primary hover:bg-brand-primary-dark",
   },
 ];
 

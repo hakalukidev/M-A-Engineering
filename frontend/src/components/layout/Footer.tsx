@@ -99,7 +99,7 @@ export function Footer() {
         <iframe
           src={siteConfig.contact.mapEmbedUrl}
           title="Our location on Google Maps"
-          className="h-64 w-full rounded-lg border-0"
+          className="h-64 w-full rounded-md border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />

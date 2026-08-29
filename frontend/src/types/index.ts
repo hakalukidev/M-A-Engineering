@@ -12,6 +12,14 @@ export interface Product {
   description: string;
   /** Path under /public/images/categories/<category-slug>/<subcategory-slug>/... */
   image: string;
+  /**
+   * Optional extra photos (other angles, in-context shots) shown as a
+   * thumbnail strip under the main image on the product page. Omit when
+   * there's only the one photo — the product page falls back to `image`
+   * alone rather than padding the strip with unrelated pictures (e.g. the
+   * subcategory's cover shot, which isn't actually a photo of this product).
+   */
+  images?: string[];
   /** Fixed size/spec shown next to the price (e.g. "Standard / 4-seat"). */
   size: string;
   /** Fixed order price in BDT — see formatPrice in lib/utils. */

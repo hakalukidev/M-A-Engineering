@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }: PageProps<"/categories/[s
         className="mb-10"
       />
       {category.subcategories.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
+        <p className="rounded-md border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
           Subcategories for this category are coming soon — check back shortly.
         </p>
       ) : (

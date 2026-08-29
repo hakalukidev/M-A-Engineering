@@ -40,7 +40,7 @@ export default function ContactPage() {
       {/* Banner — full-bleed photo with the page heading overlaid, matching the About/homepage composition. */}
       <section className="bg-brand-cream pb-10 pt-10 sm:pb-14 sm:pt-14">
         <Container>
-          <div className="relative min-h-[280px] overflow-hidden rounded-3xl bg-brand-green-dark sm:min-h-[340px]">
+          <div className="relative min-h-[280px] overflow-hidden rounded-md bg-brand-green-dark sm:min-h-[340px]">
             <Image
               src="/images/categories/bakery-equipment/cover.jpg"
               alt="MA Engineering equipment ready for delivery"
@@ -79,7 +79,7 @@ export default function ContactPage() {
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="flex items-start gap-4 rounded-2xl bg-brand-green/8 p-4 transition-colors hover:bg-brand-green/12"
+                    className="flex items-start gap-4 rounded-md bg-brand-green/8 p-4 transition-colors hover:bg-brand-green/12"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
                       <Icon size={18} />
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   </a>
                 </li>
               ))}
-              <li className="flex items-start gap-4 rounded-2xl border border-brand-green/15 p-4">
+              <li className="flex items-start gap-4 rounded-md border border-brand-green/15 p-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
                   <Clock size={18} />
                 </span>
@@ -122,7 +122,7 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="rounded-3xl border border-brand-green/15 bg-brand-card p-6 sm:p-8">
+            <div className="rounded-md border border-brand-green/15 bg-brand-card p-6 sm:p-8">
               <SectionHeading
                 eyebrow="Send an inquiry"
                 title="Tell Us What You Need"

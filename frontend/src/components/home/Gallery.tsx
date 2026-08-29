@@ -33,7 +33,7 @@ function GalleryTile({
   return (
     <Link
       href={`/categories/${categorySlug}/${subcategorySlug}`}
-      className={`group relative block overflow-hidden rounded-2xl bg-zinc-100 ${className ?? ""}`}
+      className={`group relative block overflow-hidden rounded-md bg-zinc-100 ${className ?? ""}`}
     >
       <Image
         src={image}

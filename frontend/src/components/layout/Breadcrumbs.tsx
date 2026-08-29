@@ -31,8 +31,8 @@ export function Breadcrumbs() {
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="border-t border-brand-cream bg-brand-card px-6 py-2.5">
-      <ol className="flex flex-wrap items-center gap-1.5 text-xs text-brand-muted">
+    <nav aria-label="Breadcrumb" className="border-t border-brand-cream bg-brand-card">
+      <ol className="flex w-full flex-wrap items-center gap-1.5 px-[20px] py-2.5 text-xs text-brand-muted">
         <li>
           <Link href="/" className="hover:text-brand-ink">
             Home

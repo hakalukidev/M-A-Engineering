@@ -13,6 +13,8 @@
   --brand-ink: #211f1a;
   --brand-muted: #8c8375;
   --brand-card: #ffffff;
+  --brand-primary: #004731;
+  --brand-primary-dark: #003927;
 }
 
 /*
@@ -33,6 +35,8 @@
   --color-brand-ink: var(--brand-ink);
   --color-brand-muted: var(--brand-muted);
   --color-brand-card: var(--brand-card);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-dark: var(--brand-primary-dark);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-playfair);

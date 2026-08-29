@@ -27,7 +27,7 @@ export function SearchBar() {
       </div>
 
       {debouncedQuery && (
-        <div className="absolute left-0 right-0 top-full z-40 mt-2 max-h-80 overflow-y-auto rounded-xl border border-zinc-200 bg-white p-2 shadow-lg">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 max-h-80 overflow-y-auto rounded-md border border-zinc-200 bg-white p-2 shadow-lg">
           {results.length === 0 ? (
             <p className="px-3 py-2 text-sm text-zinc-500">No matches for &ldquo;{debouncedQuery}&rdquo;.</p>
           ) : (
@@ -42,7 +42,7 @@ export function SearchBar() {
                       : `/categories/${item.categorySlug}`
                 }
                 onClick={() => setQuery("")}
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-zinc-50"
+                className="block rounded-md px-3 py-2 text-sm hover:bg-zinc-50"
               >
                 <span className="font-medium text-zinc-900">{item.title}</span>
                 <span className="ml-2 text-xs uppercase tracking-wide text-zinc-400">

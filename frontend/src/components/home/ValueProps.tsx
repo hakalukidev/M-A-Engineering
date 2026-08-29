@@ -20,7 +20,7 @@ export function ValueProps() {
           {items.map(({ icon: Icon, label, detail }) => (
             <div
               key={label}
-              className="flex min-w-0 items-center gap-3 rounded-2xl bg-brand-green/8 px-5 py-4"
+              className="flex min-w-0 items-center gap-3 rounded-md bg-brand-green/8 px-5 py-4"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
                 <Icon size={18} />

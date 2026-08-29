@@ -20,7 +20,8 @@ function makeProduct(
   name: string,
   size: string,
   price: number,
-  image?: string
+  image?: string,
+  images?: string[]
 ): Product {
   return {
     id: slug,
@@ -32,6 +33,11 @@ function makeProduct(
     // of requiring its own duplicate copy on disk. Defaults to the per-slug
     // path for products that do have their own unique placeholder photo.
     image: image ?? `/images/categories/${categorySlug}/${subcategorySlug}/${slug}.jpg`,
+    // Extra angles/in-context shots, once the Client supplies them — see
+    // the `images` field on Product. None of the current placeholder
+    // photos are genuine extra angles of the same item, so this stays
+    // unset for now rather than padding the gallery with lookalikes.
+    images,
     size,
     price,
   };
@@ -42,7 +48,7 @@ function makeSubcategory(
   slug: string,
   name: string,
   shortDescription: string,
-  products: [string, string, string, number, string?][] = []
+  products: [string, string, string, number, string?, string[]?][] = []
 ): Subcategory {
   return {
     id: slug,
@@ -50,8 +56,8 @@ function makeSubcategory(
     name,
     shortDescription,
     coverImage: `/images/categories/${categorySlug}/${slug}/cover.jpg`,
-    products: products.map(([productSlug, productName, size, price, image]) =>
-      makeProduct(categorySlug, slug, productSlug, productName, size, price, image)
+    products: products.map(([productSlug, productName, size, price, image, images]) =>
+      makeProduct(categorySlug, slug, productSlug, productName, size, price, image, images)
     ),
   };
 }

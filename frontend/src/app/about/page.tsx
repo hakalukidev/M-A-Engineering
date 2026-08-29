@@ -46,7 +46,7 @@ export default function AboutPage() {
       {/* Banner — full-bleed photo with the page heading overlaid, matching the homepage Hero composition. */}
       <section className="bg-brand-cream pb-10 pt-10 sm:pb-14 sm:pt-14">
         <Container>
-          <div className="relative min-h-[320px] overflow-hidden rounded-3xl bg-brand-green-dark sm:min-h-[380px]">
+          <div className="relative min-h-[320px] overflow-hidden rounded-md bg-brand-green-dark sm:min-h-[380px]">
             <Image
               src="/images/categories/restaurant-equipment/cover.jpg"
               alt="Fitted-out commercial space with MA Engineering equipment"
@@ -88,7 +88,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-zinc-100">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-zinc-100">
             <Image
               src="/images/categories/commercial-kitchen-equipment/cover.jpg"
               alt="Commercial kitchen equipment ready for delivery"
@@ -106,7 +106,7 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Why choose us" title="What Sets Us Apart" className="mb-8" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map(({ icon: Icon, title, detail }) => (
-              <div key={title} className="rounded-2xl bg-brand-green/8 p-5">
+              <div key={title} className="rounded-md bg-brand-green/8 p-5">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream">
                   <Icon size={18} />
                 </span>
@@ -116,7 +116,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-3 rounded-2xl border border-brand-green/15 px-5 py-4 text-sm text-brand-ink/60 sm:mt-6">
+          <div className="mt-4 flex flex-wrap gap-3 rounded-md border border-brand-green/15 px-5 py-4 text-sm text-brand-ink/60 sm:mt-6">
             <span>
               <strong className="text-brand-ink">{categoryCount}</strong> equipment categories
             </span>

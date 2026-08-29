@@ -16,7 +16,7 @@ export function CategoryHighlight({ category, reverse = false }: { category: Cat
             reverse && "lg:[&>*:first-child]:order-2"
           )}
         >
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-zinc-100">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-zinc-100">
             <Image
               src={category.coverImage}
               alt={category.name}

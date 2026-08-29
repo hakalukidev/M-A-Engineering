@@ -72,7 +72,7 @@ function FieldInput({
       </span>
       <input
         {...props}
-        className="w-full rounded-xl border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
+        className="w-full rounded-md border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
       />
     </div>
   );
@@ -127,7 +127,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl border border-brand-green/20 bg-brand-green/5 p-10 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-md border border-brand-green/20 bg-brand-green/5 p-10 text-center">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-white">
           <Check size={22} strokeWidth={3} />
         </span>
@@ -144,7 +144,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
     <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-start lg:gap-10">
       <form onSubmit={handleSubmit} className="order-2 space-y-5 lg:order-1">
         {/* Product + fixed size/price */}
-        <div className="rounded-2xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
+        <div className="rounded-md border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
           <StepHeader n={1} title="Select a product" />
 
           <div className="relative">
@@ -154,7 +154,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
               required
               value={productId}
               onChange={(e) => setProductId(e.target.value)}
-              className="w-full appearance-none rounded-xl border border-zinc-300 bg-white px-4 py-3 pr-10 text-sm font-medium text-brand-ink outline-none transition-colors focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
+              className="w-full appearance-none rounded-md border border-zinc-300 bg-white px-4 py-3 pr-10 text-sm font-medium text-brand-ink outline-none transition-colors focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
             >
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
@@ -169,8 +169,8 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
           </div>
 
           {selectedProduct && (
-            <div className="mt-3 flex items-center gap-3 rounded-xl border border-brand-green/15 bg-brand-cream/60 p-3">
-              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gradient-to-b from-brand-cream to-brand-ink/10">
+            <div className="mt-3 flex items-center gap-3 rounded-md border border-brand-green/15 bg-brand-cream/60 p-3">
+              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-gradient-to-b from-brand-cream to-brand-ink/10">
                 <Image
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
@@ -193,7 +193,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
         </div>
 
         {/* Payment method */}
-        <div className="rounded-2xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
+        <div className="rounded-md border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
           <StepHeader n={2} title="Choose a payment method" />
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {siteConfig.paymentMethods.map((method) => {
@@ -201,7 +201,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
               return (
                 <label
                   key={method.id}
-                  className={`relative flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 p-2.5 text-center transition-all ${
+                  className={`relative flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 p-2.5 text-center transition-all ${
                     selected
                       ? "border-brand-green bg-brand-green/10 shadow-sm"
                       : "border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50"
@@ -228,7 +228,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
           </div>
 
           {selectedPaymentMethod && (
-            <div className="mt-3 rounded-lg border-l-4 border-brand-green bg-brand-green/5 p-3 text-sm text-brand-ink">
+            <div className="mt-3 rounded-md border-l-4 border-brand-green bg-brand-green/5 p-3 text-sm text-brand-ink">
               <p>
                 <span className="font-semibold">{selectedPaymentMethod.accountLabel}:</span>{" "}
                 {selectedPaymentMethod.accountValue}
@@ -250,11 +250,11 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
         </div>
 
         {/* Payment proof */}
-        <div className="rounded-2xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
+        <div className="rounded-md border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
           <StepHeader n={3} title="Upload payment proof" />
           <label
             htmlFor="order-proof"
-            className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-zinc-300 p-6 text-center transition-colors hover:border-brand-green hover:bg-brand-green/5"
+            className="flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-zinc-300 p-6 text-center transition-colors hover:border-brand-green hover:bg-brand-green/5"
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green/10 text-brand-green">
               <UploadCloud size={20} />
@@ -276,7 +276,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
         </div>
 
         {/* Customer details */}
-        <div className="rounded-2xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
+        <div className="rounded-md border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
           <StepHeader n={4} title="Your details" />
           <div className="space-y-3">
             <FieldInput icon={<User size={16} />} name="name" required placeholder="Full name" />
@@ -290,7 +290,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
                 required
                 rows={2}
                 placeholder="Delivery address"
-                className="w-full rounded-xl border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
+                className="w-full rounded-md border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
               />
             </div>
           </div>
@@ -307,14 +307,14 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
 
       {/* Order summary — sticky on desktop */}
       <aside className="order-1 lg:order-2 lg:sticky lg:top-24">
-        <div className="space-y-4 rounded-2xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm">
+        <div className="space-y-4 rounded-md border border-brand-ink/10 bg-brand-card p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
             Order Summary
           </p>
 
           {selectedProduct && (
             <div className="flex items-center gap-3">
-              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gradient-to-b from-brand-cream to-brand-ink/10">
+              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-gradient-to-b from-brand-cream to-brand-ink/10">
                 <Image
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
@@ -360,7 +360,7 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
             </span>
           </div>
 
-          <div className="flex items-start gap-2 rounded-lg bg-brand-cream/60 p-3 text-xs text-brand-muted">
+          <div className="flex items-start gap-2 rounded-md bg-brand-cream/60 p-3 text-xs text-brand-muted">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-brand-green" />
             <span>
               Your order is manually verified — we&apos;ll confirm by phone or WhatsApp within a

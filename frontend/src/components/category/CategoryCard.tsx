@@ -44,7 +44,7 @@ export function CategoryCard({
     <Link
       href={`/categories/${category.slug}`}
       className={cn(
-        "group relative flex aspect-[4/3] h-full w-full flex-col justify-end overflow-hidden rounded-3xl bg-gradient-to-br from-brand-green to-brand-green-dark shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-green-dark/20 lg:aspect-auto"
+        "group relative flex aspect-[4/3] h-full w-full flex-col justify-end overflow-hidden rounded-md bg-gradient-to-br from-brand-green to-brand-green-dark shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-green-dark/20 lg:aspect-auto"
       )}
     >
       {!imageFailed && (

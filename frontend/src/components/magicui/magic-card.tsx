@@ -48,7 +48,7 @@ export function MagicCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-brand-green/15 bg-brand-card transition-colors duration-300 hover:border-brand-green/30",
+        "group relative overflow-hidden rounded-md border border-brand-green/15 bg-brand-card transition-colors duration-300 hover:border-brand-green/30",
         className
       )}
     >
