@@ -68,7 +68,7 @@ export function Header() {
               </span>
             </Link>
 
-            <nav className="hidden items-center justify-start gap-6 lg:flex">
+            <nav className="hidden items-center justify-start gap-6 lg:ml-[52px] lg:flex">
               {siteConfig.nav.map((item) => (
                 <Link
                   key={item.href}
