@@ -9,7 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteConfig.url}/contact`, changeFrequency: "yearly", priority: 0.7 },
     { url: `${siteConfig.url}/order`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/products`, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteConfig.url}/categories`, changeFrequency: "monthly", priority: 0.9 },
   ];
 
   const categoryRoutes: MetadataRoute.Sitemap = getAllCategories().map((category) => ({

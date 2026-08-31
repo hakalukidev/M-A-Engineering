@@ -31,7 +31,7 @@ export function NewArrival() {
               and the same heavy-gauge stainless steel build our customers rely on every shift.
             </p>
             <Link
-              href="/categories"
+              href="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark"
             >
               Shop now

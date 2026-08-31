@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { getAllCategories } from "@/data/categories";
 
@@ -42,36 +42,33 @@ function ExploreCard({
   subcategorySlug,
   name,
   image,
+  tall,
 }: {
   categorySlug: string;
   subcategorySlug: string;
   name: string;
   image: string;
+  tall: boolean;
 }) {
   return (
     <Link
       href={`/categories/${categorySlug}/${subcategorySlug}`}
       data-card
-      className="group relative block aspect-[3/5] w-[42%] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-60px)/6)]"
+      className={`group relative block w-[calc((100%-12px)/2)] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-60px)/6)] ${
+        tall ? "aspect-[4/6.5]" : "aspect-[4/5]"
+      }`}
     >
       <Image
         src={image}
         alt={name}
         fill
-        sizes="(min-width: 640px) 17vw, 42vw"
+        sizes="(min-width: 640px) 17vw, 50vw"
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-3 p-5">
-        <p className="leading-tight text-white">
-          <span className="block text-sm">Explore</span>
-          <span className="block font-serif text-xl italic">{name}</span>
-        </p>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-cream px-4 py-1.5 text-xs font-semibold text-brand-ink transition-colors group-hover:bg-white">
-          Shop
-          <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-        </span>
-      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent" />
+      <p className="absolute inset-x-0 bottom-0 p-4 font-serif text-base italic leading-tight text-white">
+        {name}
+      </p>
     </Link>
   );
 }
@@ -115,41 +112,47 @@ export function Gallery() {
   return (
     <section className="py-14 sm:py-20">
       <Container>
-        <h2 className="mb-8 max-w-xl text-2xl font-bold leading-snug tracking-tight text-brand-ink sm:text-3xl">
-          Explore our range across every{" "}
-          <span className="text-brand-orange">✦</span> <span className="font-serif italic">Category</span>
-        </h2>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <h2 className="max-w-xl text-xl leading-snug tracking-tight text-brand-ink/70 sm:text-2xl">
+            Explore our range across every category{" "}
+            <span className="text-brand-orange">✦</span>{" "}
+            <span className="font-serif italic text-brand-ink">Gallery</span>
+          </h2>
 
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => scrollByCard(-1)}
-            disabled={!canScrollLeft}
-            aria-label="Previous categories"
-            className="absolute top-1/2 -left-4 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/10 bg-white text-brand-ink shadow-md transition-all duration-300 hover:bg-brand-green-dark hover:text-white disabled:pointer-events-none disabled:opacity-0 sm:flex"
-          >
-            <ChevronLeft size={18} />
-          </button>
-
-          <div
-            ref={scrollerRef}
-            onScroll={updateScrollState}
-            className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {tiles.map((tile) => (
-              <ExploreCard key={`${tile.categorySlug}-${tile.subcategorySlug}`} {...tile} />
-            ))}
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              disabled={!canScrollLeft}
+              aria-label="Previous categories"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-brand-ink transition-colors hover:bg-brand-green-dark hover:text-white disabled:pointer-events-none disabled:opacity-30"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              disabled={!canScrollRight}
+              aria-label="Next categories"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-brand-ink transition-colors hover:bg-brand-green-dark hover:text-white disabled:pointer-events-none disabled:opacity-30"
+            >
+              <ArrowRight size={16} />
+            </button>
           </div>
+        </div>
 
-          <button
-            type="button"
-            onClick={() => scrollByCard(1)}
-            disabled={!canScrollRight}
-            aria-label="Next categories"
-            className="absolute top-1/2 -right-4 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/10 bg-white text-brand-ink shadow-md transition-all duration-300 hover:bg-brand-green-dark hover:text-white disabled:pointer-events-none disabled:opacity-0 sm:flex"
-          >
-            <ChevronRight size={18} />
-          </button>
+        <div
+          ref={scrollerRef}
+          onScroll={updateScrollState}
+          className="flex items-start snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {tiles.map((tile, index) => (
+            <ExploreCard
+              key={`${tile.categorySlug}-${tile.subcategorySlug}`}
+              {...tile}
+              tall={index % 2 === 1}
+            />
+          ))}
         </div>
       </Container>
     </section>

@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Phone } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Phone, Plus } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { telHref, whatsappHref } from "@/lib/utils";
 
@@ -47,26 +48,57 @@ const actions = [
   },
 ];
 
-/** 2-3 fixed floating action buttons, stacked bottom-right (proposal 4.3). */
+/**
+ * Collapsed-by-default "speed dial" FAB, stacked bottom-right (proposal 4.3).
+ * A fixed column of 3 always-expanded buttons collided with page content
+ * (product-card prices, footer links) at every viewport width since the
+ * corner it occupies is never actually empty on a long scrolling page —
+ * shrinking the buttons only shrank the collision, not the overlap itself.
+ * Collapsing to one 48px toggle removes that footprint until the visitor
+ * asks for it.
+ */
 export function FloatingActionStack() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
-      {actions.map((action, i) => (
-        <motion.a
-          key={action.key}
-          href={action.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={action.label}
-          initial={{ opacity: 0, scale: 0.6, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: i * 0.12, type: "spring", stiffness: 260, damping: 20 }}
-          whileHover={{ scale: 1.08 }}
-          className={`flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-colors ${action.className}`}
+    <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2.5">
+      <AnimatePresence>
+        {open &&
+          actions.map((action, i) => (
+            <motion.a
+              key={action.key}
+              href={action.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={action.label}
+              initial={{ opacity: 0, scale: 0.6, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.6, y: 10 }}
+              transition={{ delay: i * 0.06, type: "spring", stiffness: 260, damping: 20 }}
+              whileHover={{ scale: 1.08 }}
+              className={`flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition-colors ${action.className}`}
+            >
+              <action.icon size={20} />
+            </motion.a>
+          ))}
+      </AnimatePresence>
+
+      <motion.button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close contact options" : "Contact us"}
+        aria-expanded={open}
+        whileTap={{ scale: 0.92 }}
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-primary text-white shadow-lg transition-colors hover:bg-brand-primary-dark"
+      >
+        <motion.span
+          animate={{ rotate: open ? 135 : 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          className="flex"
         >
-          <action.icon size={24} />
-        </motion.a>
-      ))}
+          <Plus size={22} />
+        </motion.span>
+      </motion.button>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export function BestSellersBanner() {
               re-order.
             </p>
             <Link
-              href="/categories"
+              href="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark"
             >
               Browse best sellers

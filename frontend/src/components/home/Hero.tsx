@@ -110,7 +110,7 @@ export function Hero() {
               <p className="max-w-md text-lg text-brand-cream/70">{siteConfig.description}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href="/categories"
+                  href="/products"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-cream/30 px-5 py-2.5 text-sm font-semibold text-brand-cream transition-colors hover:bg-brand-cream/10"
                 >
                   Browse categories
@@ -145,7 +145,7 @@ export function Hero() {
               Bestselling <span className="text-brand-orange">✦</span> Products
             </>
           }
-          moreHref="/categories"
+          moreHref="/products"
           moreLabel="More products"
           items={featuredItems}
         />

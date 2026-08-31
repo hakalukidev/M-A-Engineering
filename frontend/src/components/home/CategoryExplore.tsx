@@ -28,13 +28,13 @@ function ExploreCard({ slug, name, image }: { slug: string; name: string; image:
     <Link
       href={`/categories/${slug}`}
       data-card
-      className="group relative block aspect-[3/5] w-[42%] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-48px)/5)]"
+      className="group relative block aspect-[3/5] w-[calc((100%-12px)/2)] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-48px)/5)]"
     >
       <Image
         src={image}
         alt={name}
         fill
-        sizes="(min-width: 640px) 20vw, 42vw"
+        sizes="(min-width: 640px) 20vw, 50vw"
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
