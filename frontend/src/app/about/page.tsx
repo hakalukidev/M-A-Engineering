@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Award, HeartHandshake, ShieldCheck, Truck } from "lucide-react";
-import { CategoryCard } from "@/components/category/CategoryCard";
 import { QuoteCTA } from "@/components/home/QuoteCTA";
+import { TextAnimate } from "@/components/magicui/text-animate";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
@@ -43,36 +43,58 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* Banner — full-bleed photo with the page heading overlaid, matching the homepage Hero composition. */}
+      {/* Banner — heading and copy on the left, a real bakery workspace photo on the right. */}
       <section className="bg-brand-cream pb-10 pt-10 sm:pb-14 sm:pt-14">
-        <Container>
-          <div className="relative min-h-[320px] overflow-hidden rounded-md bg-brand-green-dark sm:min-h-[380px]">
+        <Container className="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
+          <div className="flex max-w-lg flex-col gap-4">
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand-green">
+              About us
+            </p>
+            <h1 className="max-w-xl text-5xl font-bold leading-tight tracking-tight text-brand-ink sm:text-6xl">
+              <TextAnimate
+                segments={[
+                  { text: "MA" },
+                  { text: "Engineering", className: "font-serif italic text-brand-green" },
+                ]}
+              />
+            </h1>
+            <p className="max-w-lg text-lg text-brand-ink/70">{siteConfig.description}</p>
+            <p className="max-w-lg text-base leading-relaxed text-brand-ink/60">
+              From a single replacement piece to a complete floor fit-out, every order is quoted
+              and followed up on directly — equipment sourced to match the pace of a real working
+              kitchen, clinic, or shop.
+            </p>
+            <p className="max-w-lg text-base leading-relaxed text-brand-ink/60">
+              Based in {siteConfig.contact.address}, and reachable by phone or WhatsApp for
+              quotes, bulk orders, and after-sales support.
+            </p>
+          </div>
+          <div className="relative h-[320px] w-full overflow-hidden rounded-md bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[380px] lg:h-[420px] lg:flex-1">
             <Image
-              src="/images/categories/restaurant-equipment/cover.jpg"
-              alt="Fitted-out commercial space with MA Engineering equipment"
+              src="/images/categories/bakery-equipment/cover.jpg"
+              alt="Team at work in a fitted-out bakery equipped by MA Engineering"
               fill
               priority
-              sizes="100vw"
+              sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-green-dark/95 via-brand-green-dark/60 to-brand-green-dark/20" />
-            <div className="relative flex min-h-[320px] flex-col justify-center gap-4 px-6 py-12 sm:min-h-[380px] sm:px-10 lg:w-3/5 lg:px-14">
-              <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
-                About us
-              </p>
-              <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-brand-cream sm:text-5xl">
-                {siteConfig.name}
-              </h1>
-              <p className="max-w-md text-lg text-brand-cream/70">{siteConfig.description}</p>
-            </div>
           </div>
         </Container>
       </section>
 
       {/* Story — company profile. Placeholder narrative; replace with the Client's real company profile (proposal section 9). */}
       <section className="py-6 sm:py-10">
-        <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
+        <Container className="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+          <div className="relative aspect-[15/7] w-full overflow-hidden rounded-md bg-zinc-100 lg:order-1">
+            <Image
+              src="/images/categories/commercial-kitchen-equipment/cover.jpg"
+              alt="Commercial kitchen equipment ready for delivery"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="lg:order-2">
             <SectionHeading eyebrow="Our story" title="Who We Are" className="mb-5" />
             <div className="max-w-xl space-y-4 text-base leading-relaxed text-brand-ink/70">
               {/* TODO: replace with the Client's company profile (proposal section 9) — history, expertise, and what sets the company apart. */}
@@ -88,15 +110,6 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-zinc-100">
-            <Image
-              src="/images/categories/commercial-kitchen-equipment/cover.jpg"
-              alt="Commercial kitchen equipment ready for delivery"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
         </Container>
       </section>
 
@@ -106,8 +119,11 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Why choose us" title="What Sets Us Apart" className="mb-8" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map(({ icon: Icon, title, detail }) => (
-              <div key={title} className="rounded-md bg-brand-green/8 p-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream">
+              <div
+                key={title}
+                className="group rounded-md bg-brand-green/8 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-brand-green/12 hover:shadow-lg hover:shadow-brand-green-dark/10 hover:ring-brand-green/20"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
                   <Icon size={18} />
                 </span>
                 <p className="mt-4 font-semibold text-brand-ink">{title}</p>
@@ -126,18 +142,6 @@ export default function AboutPage() {
             </span>
             <span className="text-brand-ink/25">&middot;</span>
             <span>Based in {siteConfig.contact.address}</span>
-          </div>
-        </Container>
-      </section>
-
-      {/* Category showcase — real data, links out to what we actually supply. */}
-      <section className="py-6 sm:py-10">
-        <Container>
-          <SectionHeading eyebrow="What we supply" title="Browse by Category" className="mb-8" />
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((category) => (
-              <CategoryCard key={category.id} category={category} />
-            ))}
           </div>
         </Container>
       </section>

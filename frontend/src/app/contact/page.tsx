@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, HelpCircle, Mail, MapPin, MessageCircle, Phone, Plus } from "lucide-react";
 import { InquiryForm } from "@/components/forms/InquiryForm";
+import { TextAnimate } from "@/components/magicui/text-animate";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
@@ -12,12 +12,19 @@ export const metadata: Metadata = {
   description: `Get in touch with ${siteConfig.name}.`,
 };
 
-const infoCards = [
+const contactMethods = [
   {
     icon: Phone,
     label: "Call us",
     value: siteConfig.contact.phone,
     href: telHref(siteConfig.contact.phone),
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: siteConfig.contact.whatsapp,
+    href: whatsappHref(siteConfig.contact.whatsapp, "Hi, I'd like to get in touch."),
+    external: true,
   },
   {
     icon: Mail,
@@ -34,102 +41,158 @@ const infoCards = [
   },
 ];
 
+const faqs = [
+  {
+    q: "Do you handle bulk and full fit-out orders?",
+    a: "Yes — from a single replacement piece to a full kitchen, bakery, or clinic fit-out. Send us the list and we'll quote the whole order together.",
+  },
+  {
+    q: "What payment methods do you accept?",
+    a: "bKash, Nagad, Rocket, and direct bank transfer. Details are confirmed with your quote before you pay.",
+  },
+  {
+    q: "Do you deliver outside Dhaka?",
+    a: "Yes, we arrange delivery nationwide. Share your location when you inquire and we'll confirm timing and cost.",
+  },
+  {
+    q: "How fast will I hear back?",
+    a: "Inquiries submitted here or over WhatsApp are usually answered the same business day.",
+  },
+  {
+    q: "Do you offer installation and setup?",
+    a: "Yes, our team can install and set up larger equipment on-site for kitchens, bakeries, and clinics on request.",
+  },
+];
+
 export default function ContactPage() {
   return (
     <>
-      {/* Banner — full-bleed photo with the page heading overlaid, matching the About/homepage composition. */}
-      <section className="bg-brand-cream pb-10 pt-10 sm:pb-14 sm:pt-14">
-        <Container>
-          <div className="relative min-h-[280px] overflow-hidden rounded-md bg-brand-green-dark sm:min-h-[340px]">
-            <Image
-              src="/images/categories/bakery-equipment/cover.jpg"
-              alt="MA Engineering equipment ready for delivery"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-green-dark/95 via-brand-green-dark/60 to-brand-green-dark/20" />
-            <div className="relative flex min-h-[280px] flex-col justify-center gap-4 px-6 py-12 sm:min-h-[340px] sm:px-10 lg:w-3/5 lg:px-14">
-              <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
-                Get in touch
-              </p>
-              <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-brand-cream sm:text-5xl">
-                Contact Us
-              </h1>
-              <p className="max-w-md text-lg text-brand-cream/70">
-                Have a project or a single piece to source? Send us the details and we&apos;ll get
-                back to you with pricing and availability.
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* Hero — heading + quick contact links on the left, the inquiry form floating as an elevated card on the right. */}
+      <section className="bg-brand-cream pb-14 pt-10 sm:pb-20 sm:pt-14">
+        <Container className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="flex max-w-lg flex-col gap-5">
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
+              Get in touch
+            </p>
+            <h1 className="text-5xl font-bold leading-tight tracking-tight text-brand-ink sm:text-6xl">
+              <TextAnimate
+                segments={[
+                  { text: "Let's" },
+                  { text: "talk" },
+                  { text: "about" },
+                  { text: "your" },
+                  { text: "next order", className: "font-serif italic text-brand-green" },
+                ]}
+              />
+            </h1>
+            <p className="text-lg text-brand-ink/70">
+              Whether it&apos;s one replacement piece or a full kitchen fit-out, send us the
+              details and a real person will follow up with pricing and availability.
+            </p>
 
-      {/* Info + form — quick contact channels and map on the left, inquiry form on the right. */}
-      <section className="py-6 sm:py-10">
-        <Container className="grid gap-10 lg:grid-cols-5 lg:gap-12">
-          <div className="lg:col-span-2">
-            <SectionHeading eyebrow="Reach us directly" title="Contact Details" className="mb-6" />
-
-            <ul className="space-y-3">
-              {infoCards.map(({ icon: Icon, label, value, href, external }) => (
+            <ul className="mt-2 grid gap-3 sm:grid-cols-2">
+              {contactMethods.map(({ icon: Icon, label, value, href, external }) => (
                 <li key={label}>
                   <a
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="flex items-start gap-4 rounded-md bg-brand-green/8 p-4 transition-colors hover:bg-brand-green/12"
+                    className="group flex items-center gap-3 rounded-md border border-brand-ink/10 bg-brand-card/60 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-green/30 hover:bg-brand-card hover:shadow-md hover:shadow-brand-green-dark/10"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
-                      <Icon size={18} />
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
+                      <Icon size={17} />
                     </span>
-                    <span>
-                      <span className="block text-xs font-semibold uppercase tracking-wide text-brand-ink/50">
+                    <span className="min-w-0">
+                      <span className="block text-xs font-semibold uppercase tracking-wide text-brand-ink/45">
                         {label}
                       </span>
-                      <span className="mt-0.5 block text-sm font-medium text-brand-ink">
+                      <span className="mt-0.5 block truncate text-sm font-semibold text-brand-ink">
                         {value}
                       </span>
                     </span>
                   </a>
                 </li>
               ))}
-              <li className="flex items-start gap-4 rounded-md border border-brand-green/15 p-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
-                  <Clock size={18} />
-                </span>
-                <span>
-                  <span className="block text-xs font-semibold uppercase tracking-wide text-brand-ink/50">
-                    Business hours
-                  </span>
-                  <span className="mt-0.5 block text-sm font-medium text-brand-ink">
-                    Saturday &ndash; Thursday, 9:00 AM &ndash; 7:00 PM
-                  </span>
-                </span>
-              </li>
             </ul>
 
-            <a
-              href={whatsappHref(siteConfig.contact.whatsapp, "Hi, I'd like to get in touch.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-600"
-            >
-              <MessageCircle size={16} />
-              Chat with us on WhatsApp
-            </a>
+            <div className="mt-2 flex items-center gap-2 text-sm text-brand-ink/60">
+              <Clock size={15} className="shrink-0 text-brand-green" />
+              Saturday &ndash; Thursday, 9:00 AM &ndash; 7:00 PM
+            </div>
           </div>
 
-          <div className="lg:col-span-3">
-            <div className="rounded-md border border-brand-green/15 bg-brand-card p-6 sm:p-8">
+          <div className="relative isolate lg:-translate-x-[50px]">
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-10 hidden translate-x-3 translate-y-3 rounded-md bg-brand-green/15 sm:block"
+            />
+            <div className="rounded-md border border-brand-ink/10 bg-brand-card p-6 shadow-xl shadow-brand-green-dark/10 sm:p-8">
               <SectionHeading
                 eyebrow="Send an inquiry"
                 title="Tell Us What You Need"
-                subtitle="Share a few details about the equipment or order you have in mind — a real person will follow up directly."
+                subtitle="Share a few details about the equipment or order you have in mind."
                 className="mb-6"
               />
               <InquiryForm />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* FAQ — decorative question panel on the left, common pre-order questions on the right. */}
+      <section className="py-14 sm:py-20">
+        <Container className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="relative hidden self-start overflow-hidden rounded-md bg-brand-green-dark p-8 lg:flex lg:flex-col lg:justify-between">
+            <HelpCircle
+              size={140}
+              strokeWidth={1}
+              className="pointer-events-none absolute -bottom-6 -right-6 text-brand-cream/10"
+            />
+            <div className="relative">
+              <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
+                Have questions
+              </p>
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-brand-cream">
+                Frequently Asked
+              </h2>
+              <p className="mt-4 max-w-sm text-base text-brand-cream/70">
+                Common questions before you order — WhatsApp us if yours isn&apos;t here.
+              </p>
+            </div>
+            <a
+              href={whatsappHref(siteConfig.contact.whatsapp, "Hi, I have a question before ordering.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-brand-cream px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-cream/90"
+            >
+              <MessageCircle size={16} />
+              Ask us on WhatsApp
+            </a>
+          </div>
+
+          <div>
+            <SectionHeading
+              eyebrow="Have questions"
+              title="Frequently Asked"
+              subtitle="Common questions before you order — WhatsApp us if yours isn't here."
+              className="mb-6 lg:hidden"
+            />
+            <div className="space-y-3">
+              {faqs.map(({ q, a }) => (
+                <details
+                  key={q}
+                  className="group rounded-md border border-brand-ink/10 bg-brand-card p-4 open:border-brand-green/30 sm:p-5"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-brand-ink [&::-webkit-details-marker]:hidden">
+                    {q}
+                    <Plus
+                      size={16}
+                      className="shrink-0 text-brand-green transition-transform duration-300 group-open:rotate-45"
+                    />
+                  </summary>
+                  <p className="mt-3 text-sm leading-relaxed text-brand-ink/65">{a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </Container>

@@ -1,12 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
 import { CTAButton } from "@/components/cta/CTAButton";
+import { InquiryForm } from "@/components/forms/InquiryForm";
 import { Container } from "@/components/ui/Container";
+import { Modal } from "@/components/ui/Modal";
 import { siteConfig } from "@/config/site";
 import { whatsappHref } from "@/lib/utils";
 
 /** Closing lead-gen banner — dark green card, decorative photo pair, call + WhatsApp CTAs. */
 export function QuoteCTA() {
+  const [open, setOpen] = useState(false);
+
   return (
     <section className="pb-14 sm:pb-20">
       <Container>
@@ -33,9 +40,13 @@ export function QuoteCTA() {
           </div>
 
           <div className="relative max-w-lg">
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="text-sm font-semibold uppercase tracking-wide text-brand-orange transition-colors hover:text-brand-orange/80"
+            >
               Get a Custom Quote
-            </p>
+            </button>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-brand-cream sm:text-4xl">
               Fitting out a kitchen, bakery, clinic, or shop?
             </h2>
@@ -58,6 +69,10 @@ export function QuoteCTA() {
           </div>
         </div>
       </Container>
+
+      <Modal open={open} onClose={() => setOpen(false)} title="Get a Custom Quote">
+        <InquiryForm onSuccess={() => setOpen(false)} />
+      </Modal>
     </section>
   );
 }

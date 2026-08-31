@@ -9,7 +9,6 @@ import { Modal } from "@/components/ui/Modal";
 import { InquiryForm } from "@/components/forms/InquiryForm";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { CategoriesMobileAccordion, CategoriesNavDropdown } from "@/components/layout/CategoriesNavDropdown";
 import { siteConfig } from "@/config/site";
 import { cn, telHref } from "@/lib/utils";
 
@@ -70,23 +69,19 @@ export function Header() {
             </Link>
 
             <nav className="hidden items-center justify-start gap-6 lg:ml-[52px] lg:flex">
-              {siteConfig.nav.map((item) =>
-                item.href === "/categories" ? (
-                  <CategoriesNavDropdown key={item.href} isActive={isActive(item.href)} />
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                    className={cn(
-                      "text-sm font-bold text-white transition-colors hover:text-brand-orange",
-                      isActive(item.href) && "text-brand-orange"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
+              {siteConfig.nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={cn(
+                    "text-sm font-bold text-white transition-colors hover:text-brand-orange",
+                    isActive(item.href) && "text-brand-orange"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
 
             <div className="flex items-center justify-end gap-2 sm:gap-3">
@@ -127,28 +122,20 @@ export function Header() {
               mobileOpen ? "flex" : "hidden"
             )}
           >
-            {siteConfig.nav.map((item) =>
-              item.href === "/categories" ? (
-                <CategoriesMobileAccordion
-                  key={item.href}
-                  isActive={isActive(item.href)}
-                  onNavigate={() => setMobileOpen(false)}
-                />
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={cn(
-                    "rounded-md px-2 py-2 text-sm font-bold text-white hover:bg-brand-cream/10",
-                    isActive(item.href) && "bg-brand-cream/10 text-brand-orange"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-md px-2 py-2 text-sm font-bold text-white hover:bg-brand-cream/10",
+                  isActive(item.href) && "bg-brand-cream/10 text-brand-orange"
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
             <button
               type="button"
               onClick={() => {

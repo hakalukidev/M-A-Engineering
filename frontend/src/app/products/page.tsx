@@ -29,7 +29,7 @@ export default function ProductsPage() {
           <a
             key={category.id}
             href={`#${category.slug}`}
-            className="rounded-full border border-brand-green/20 px-4 py-1.5 text-sm font-medium text-brand-ink/70 transition-colors hover:border-brand-green hover:text-brand-ink"
+            className="rounded-full border border-brand-green/20 px-4 py-1.5 text-sm font-bold text-brand-ink/70 transition-all hover:border-brand-green hover:bg-brand-green/10 hover:text-brand-ink hover:scale-105"
           >
             {category.name}
           </a>
@@ -60,7 +60,7 @@ export default function ProductsPage() {
                   Products for this category are coming soon — check back shortly.
                 </p>
               ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                   {products.map(({ product, subcategorySlug, subcategoryName }) => (
                     <ProductCard
                       key={product.id}
