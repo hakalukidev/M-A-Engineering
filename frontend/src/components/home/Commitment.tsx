@@ -12,30 +12,30 @@ export function Commitment() {
     <section className="py-14 sm:py-20">
       <Container>
         <div className="mx-auto flex max-w-5xl items-center justify-center">
-          <div className="relative z-0 -mr-10 h-[220px] w-[190px] shrink-0 -rotate-12 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:rotate-0 hover:scale-105 sm:h-[360px] sm:w-[320px] sm:-mr-16">
+          <div className="relative z-0 -mr-8 h-[150px] w-[130px] shrink-0 overflow-hidden rounded-md shadow-lg sm:h-[300px] sm:w-[260px] sm:-mr-14">
             <Image
               src="/images/categories/commercial-kitchen-equipment/refrigeration-storage/blast-chiller.jpg"
               alt="Commercial refrigeration units"
               fill
-              sizes="(min-width: 640px) 320px, 190px"
+              sizes="(min-width: 640px) 260px, 130px"
               className="object-cover"
             />
           </div>
-          <div className="relative z-10 h-[280px] w-[240px] shrink-0 overflow-hidden rounded-md shadow-xl sm:h-[460px] sm:w-[420px]">
+          <div className="relative z-10 h-[176px] w-[260px] shrink-0 overflow-hidden rounded-md shadow-xl sm:h-[340px] sm:w-[520px]">
             <Image
               src="/images/categories/restaurant-equipment/dining-furniture/wooden-dining-chair.jpg"
               alt="Wooden dining chairs and table"
               fill
-              sizes="(min-width: 640px) 420px, 240px"
+              sizes="(min-width: 640px) 520px, 260px"
               className="object-cover"
             />
           </div>
-          <div className="relative z-0 -ml-10 h-[220px] w-[190px] shrink-0 rotate-12 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:rotate-0 hover:scale-105 sm:h-[360px] sm:w-[320px] sm:-ml-16">
+          <div className="relative z-0 -ml-8 h-[150px] w-[130px] shrink-0 overflow-hidden rounded-md shadow-lg sm:h-[300px] sm:w-[260px] sm:-ml-14">
             <Image
               src="/images/categories/bakery-equipment/ovens-proofers/deck-oven-2-deck.jpg"
               alt="Commercial deck oven and proofer"
               fill
-              sizes="(min-width: 640px) 320px, 190px"
+              sizes="(min-width: 640px) 260px, 130px"
               className="object-cover"
             />
           </div>

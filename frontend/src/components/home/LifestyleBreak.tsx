@@ -44,17 +44,19 @@ export function LifestyleBreak() {
         </div>
 
         <div className="mt-4 grid gap-3 sm:mt-6 sm:grid-cols-3">
-          {FEATURES.map(({ icon: Icon, eyebrow, label }) => (
+          {FEATURES.map(({ icon: Icon, eyebrow, label }, index) => (
             <div
               key={label}
-              className="flex items-center gap-4 rounded-md bg-brand-green/8 px-6 py-6"
+              className={`flex items-center gap-3 bg-brand-green/15 px-5 py-3.5 ${
+                index === 1 ? "rounded-full" : "rounded-md"
+              }`}
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green/15 text-brand-green-dark">
-                <Icon size={20} />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-cream text-brand-green-dark">
+                <Icon size={16} strokeWidth={1.75} />
               </span>
               <p className="leading-tight">
-                <span className="block font-serif italic text-brand-ink/70">{eyebrow}</span>
-                <span className="block text-lg font-semibold text-brand-ink">{label}</span>
+                <span className="block font-serif italic text-sm text-brand-ink/70">{eyebrow}</span>
+                <span className="block text-base font-semibold text-brand-ink">{label}</span>
               </p>
             </div>
           ))}

@@ -10,55 +10,31 @@ import { getAllCategories } from "@/data/categories";
 const GAP_PX = 12; // matches the gap-3 on the scroller
 
 /**
- * Category explore strip — real subcategory photography, one pick per
- * category, styled as an "Explore <name> / Shop →" carousel per the
- * reference's editorial category-teaser row.
+ * Top-level category explore strip — one card per main category, styled as
+ * an "Explore <name> / Shop →" carousel. Sits below LifestyleBreak's
+ * trust-badge row, using its own photo set (not reused from Gallery's
+ * subcategory-level picks) so the two carousels don't repeat images.
  */
-const PICKS: [string, string][] = [
-  ["restaurant-equipment", "dining-furniture"],
-  ["restaurant-equipment", "cooking-ranges"],
-  ["restaurant-equipment", "refrigeration-units"],
-  ["restaurant-equipment", "serving-counters"],
-  ["commercial-kitchen-equipment", "cooking-equipment"],
-  ["commercial-kitchen-equipment", "food-preparation-equipment"],
-  ["commercial-kitchen-equipment", "refrigeration-storage"],
-  ["commercial-kitchen-equipment", "dishwashing-equipment"],
-  ["bakery-equipment", "ovens-proofers"],
-  ["bakery-equipment", "mixers-dough-equipment"],
-  ["bakery-equipment", "display-showcases"],
-  ["bakery-equipment", "packaging-equipment"],
-  ["medical-equipment", "hospital-furniture"],
-  ["medical-equipment", "diagnostic-equipment"],
-  ["medical-equipment", "surgical-equipment"],
-  ["medical-equipment", "sterilization-equipment"],
-  ["food-shop-equipment", "display-counters"],
-  ["food-shop-equipment", "refrigeration-freezers"],
-  ["food-shop-equipment", "weighing-billing"],
-  ["food-shop-equipment", "storage-shelving"],
-];
+const IMAGES: Record<string, string> = {
+  "restaurant-equipment": "/images/home/explore-categories/restaurant-equipment.jpg",
+  "commercial-kitchen-equipment": "/images/home/explore-categories/commercial-kitchen-equipment.jpg",
+  "bakery-equipment": "/images/home/explore-categories/bakery-equipment.jpg",
+  "medical-equipment": "/images/home/explore-categories/medical-equipment.jpg",
+  "food-shop-equipment": "/images/home/explore-categories/food-shop-equipment.jpg",
+};
 
-function ExploreCard({
-  categorySlug,
-  subcategorySlug,
-  name,
-  image,
-}: {
-  categorySlug: string;
-  subcategorySlug: string;
-  name: string;
-  image: string;
-}) {
+function ExploreCard({ slug, name, image }: { slug: string; name: string; image: string }) {
   return (
     <Link
-      href={`/categories/${categorySlug}/${subcategorySlug}`}
+      href={`/categories/${slug}`}
       data-card
-      className="group relative block aspect-[3/5] w-[42%] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-60px)/6)]"
+      className="group relative block aspect-[3/5] w-[42%] shrink-0 snap-start overflow-hidden rounded-md bg-zinc-100 sm:w-[calc((100%-48px)/5)]"
     >
       <Image
         src={image}
         alt={name}
         fill
-        sizes="(min-width: 640px) 17vw, 42vw"
+        sizes="(min-width: 640px) 20vw, 42vw"
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
@@ -76,18 +52,15 @@ function ExploreCard({
   );
 }
 
-export function Gallery() {
+export function CategoryExplore() {
   const categories = getAllCategories();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const tiles = PICKS.map(([categorySlug, subcategorySlug]) => {
-    const category = categories.find((c) => c.slug === categorySlug);
-    const subcategory = category?.subcategories.find((s) => s.slug === subcategorySlug);
-    if (!category || !subcategory) return null;
-    return { categorySlug, subcategorySlug, name: subcategory.name, image: subcategory.coverImage };
-  }).filter((t) => t !== null);
+  const tiles = categories
+    .filter((category) => IMAGES[category.slug])
+    .map((category) => ({ slug: category.slug, name: category.name, image: IMAGES[category.slug] }));
 
   function updateScrollState() {
     const el = scrollerRef.current;
@@ -110,14 +83,14 @@ export function Gallery() {
     el.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
-  if (tiles.length < 5) return null;
+  if (tiles.length < 3) return null;
 
   return (
     <section className="py-14 sm:py-20">
       <Container>
         <h2 className="mb-8 max-w-xl text-2xl font-bold leading-snug tracking-tight text-brand-ink sm:text-3xl">
-          Explore our range across every{" "}
-          <span className="text-brand-orange">✦</span> <span className="font-serif italic">Category</span>
+          Explore our built-to-last{" "}
+          <span className="text-brand-orange">✦</span> <span className="font-serif italic">Categories</span>
         </h2>
 
         <div className="relative">
@@ -137,7 +110,7 @@ export function Gallery() {
             className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {tiles.map((tile) => (
-              <ExploreCard key={`${tile.categorySlug}-${tile.subcategorySlug}`} {...tile} />
+              <ExploreCard key={tile.slug} {...tile} />
             ))}
           </div>
 

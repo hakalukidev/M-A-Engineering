@@ -132,7 +132,7 @@ export default async function ProductPage({
           </div>
 
           {/* Size / spec "chip" — single fixed value, shown selected */}
-          <div className="mt-6">
+          <div className="mt-6 border-t border-brand-ink/10 pt-6">
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
               Size / Spec
             </p>
@@ -144,7 +144,8 @@ export default async function ProductPage({
             </div>
           </div>
 
-          {/* Primary CTAs */}
+          {/* Primary CTAs — Order Now carries the visual weight, WhatsApp Us
+              sits alongside as a compact secondary action */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href={`/order?product=${product.id}`}
@@ -160,7 +161,7 @@ export default async function ProductPage({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className={buttonVariants("accent", "flex-1 py-3.5 text-base")}
+              className={buttonVariants("outline", "py-3.5 text-base sm:w-auto sm:px-8")}
             >
               <MessageCircle size={18} />
               WhatsApp Us
