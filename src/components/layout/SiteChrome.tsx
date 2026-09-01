@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { FloatingActionStack } from "@/components/cta/FloatingActionStack";
+import { VisitTracker } from "@/components/analytics/VisitTracker";
 
 /**
  * The public site's nav/footer/WhatsApp-FAB only make sense around the
@@ -27,6 +28,7 @@ export function SiteChrome({ children, footer }: { children: ReactNode; footer: 
 
   return (
     <>
+      <VisitTracker />
       <Header />
       <main className="flex-1">{children}</main>
       {footer}

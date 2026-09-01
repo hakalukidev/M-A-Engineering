@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { FolderTree, Layers, Package, ShoppingCart, MessageSquare } from "lucide-react";
+import { FolderTree, Layers, Package, ShoppingCart, MessageSquare, Users } from "lucide-react";
 import { adminDb } from "@/lib/firebase/admin";
 import { formatPrice } from "@/lib/utils";
+import { getVisitStats, getSubmissionStats } from "@/lib/analytics";
+import { VisitorsChart } from "@/components/admin/charts/VisitorsChart";
+import { OrdersInquiriesChart } from "@/components/admin/charts/OrdersInquiriesChart";
 import type { Timestamp } from "firebase-admin/firestore";
 
 async function getCounts() {
@@ -47,10 +50,12 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminDashboardPage() {
-  const [counts, recentOrders, recentInquiries] = await Promise.all([
+  const [counts, recentOrders, recentInquiries, visitStats, submissionStats] = await Promise.all([
     getCounts(),
     getRecentOrders(),
     getRecentInquiries(),
+    getVisitStats(),
+    getSubmissionStats(),
   ]);
 
   const stats = [
@@ -59,25 +64,60 @@ export default async function AdminDashboardPage() {
     { label: "Products", value: counts.products, icon: Package, href: "/admin/categories" },
     { label: "New Orders", value: counts.newOrders, icon: ShoppingCart, href: "/admin/orders" },
     { label: "New Inquiries", value: counts.newInquiries, icon: MessageSquare, href: "/admin/inquiries" },
+    { label: "Total Visitors", value: visitStats.total, icon: Users, href: undefined },
   ];
+
+  // Last 30 days, zero-filled so the chart never shows a gap for a quiet day.
+  const last30Days = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (29 - i));
+    return d.toISOString().slice(0, 10);
+  });
+  const visitsByDate = new Map(visitStats.daily.map((d) => [d.date, d.count]));
+  const visitorSeries = last30Days.map((date) => visitsByDate.get(date) ?? 0);
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-brand-ink">Dashboard</h1>
       <p className="mt-1 text-sm text-brand-muted">An overview of the catalog and recent activity.</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        {stats.map(({ label, value, icon: Icon, href }) => (
-          <Link
-            key={label}
-            href={href}
-            className="rounded-md border border-brand-ink/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
-          >
-            <Icon size={18} className="text-brand-green" strokeWidth={1.9} />
-            <p className="mt-3 text-2xl font-bold text-brand-ink">{value}</p>
-            <p className="text-xs font-medium text-brand-muted">{label}</p>
-          </Link>
-        ))}
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        {stats.map(({ label, value, icon: Icon, href }) => {
+          const cardClass =
+            "rounded-md border border-brand-ink/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md";
+          const content = (
+            <>
+              <Icon size={18} className="text-brand-green" strokeWidth={1.9} />
+              <p className="mt-3 text-2xl font-bold text-brand-ink">{value}</p>
+              <p className="text-xs font-medium text-brand-muted">{label}</p>
+            </>
+          );
+          return href ? (
+            <Link key={label} href={href} className={cardClass}>
+              {content}
+            </Link>
+          ) : (
+            <div key={label} className={cardClass}>
+              {content}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <section className="rounded-md border border-brand-ink/10 bg-white p-5 shadow-sm">
+          <h2 className="font-semibold text-brand-ink">Visitors (last 30 days)</h2>
+          <div className="mt-4">
+            <VisitorsChart categories={last30Days} values={visitorSeries} />
+          </div>
+        </section>
+
+        <section className="rounded-md border border-brand-ink/10 bg-white p-5 shadow-sm">
+          <h2 className="font-semibold text-brand-ink">Orders &amp; Inquiries</h2>
+          <div className="mt-4">
+            <OrdersInquiriesChart data={submissionStats} />
+          </div>
+        </section>
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
