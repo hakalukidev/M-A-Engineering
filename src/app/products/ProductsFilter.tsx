@@ -8,6 +8,14 @@ export function ProductsFilter({ categories }: { categories: Category[] }) {
   const [activeSlug, setActiveSlug] = useState(categories[0]?.slug);
   const activeCategory = categories.find((category) => category.slug === activeSlug) ?? categories[0];
 
+  if (!activeCategory) {
+    return (
+      <p className="rounded-md border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500">
+        No products yet — check back shortly.
+      </p>
+    );
+  }
+
   const products = activeCategory.subcategories.flatMap((subcategory) =>
     subcategory.products.map((product) => ({
       product,

@@ -139,6 +139,27 @@ export default function ContactPage() {
         </Container>
       </section>
 
+      {/* Map — factory location, full-width embed. */}
+      <section className="py-14 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Find us"
+            title="Visit the Factory"
+            subtitle={siteConfig.contact.address}
+            className="mb-8"
+          />
+          <div className="overflow-hidden rounded-md border border-brand-ink/10 shadow-sm">
+            <iframe
+              src={siteConfig.contact.mapEmbedUrl}
+              title="Our location on Google Maps"
+              className="h-80 w-full border-0 sm:h-[420px]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </Container>
+      </section>
+
       {/* FAQ — decorative question panel on the left, common pre-order questions on the right. */}
       <section className="py-14 sm:py-20">
         <Container className="grid gap-10 lg:grid-cols-2 lg:gap-16">

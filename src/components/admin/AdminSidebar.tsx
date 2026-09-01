@@ -7,6 +7,7 @@ import {
   FolderTree,
   ShoppingCart,
   MessageSquare,
+  Settings,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ const NAV_ITEMS = [
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
+  { href: "/admin/settings", label: "Footer Settings", icon: Settings },
 ] as const;
 
 export function AdminSidebar({ email }: { email: string }) {
