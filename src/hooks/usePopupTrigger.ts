@@ -5,11 +5,19 @@ import type { PopupTrigger } from "@/types";
 
 /** Fires `true` once when a popup's configured trigger condition is met. */
 export function usePopupTrigger(trigger: PopupTrigger, triggerValue?: number) {
-  const [shouldShow, setShouldShow] = useState(trigger === "manual" ? false : false);
+  const [shouldShow, setShouldShow] = useState(false);
+  // Latches true the first time the trigger fires and never resets — lets a
+  // consumer (InquiryPopup) defer mounting its Modal until actually needed,
+  // while still keeping it mounted through a later dismiss so its close
+  // animation can play.
+  const [everTriggered, setEverTriggered] = useState(false);
 
   useEffect(() => {
     if (trigger === "delay") {
-      const timer = setTimeout(() => setShouldShow(true), triggerValue ?? 8000);
+      const timer = setTimeout(() => {
+        setShouldShow(true);
+        setEverTriggered(true);
+      }, triggerValue ?? 8000);
       return () => clearTimeout(timer);
     }
 
@@ -20,6 +28,7 @@ export function usePopupTrigger(trigger: PopupTrigger, triggerValue?: number) {
           (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
         if (scrolled >= threshold) {
           setShouldShow(true);
+          setEverTriggered(true);
           window.removeEventListener("scroll", onScroll);
         }
       };
@@ -29,12 +38,15 @@ export function usePopupTrigger(trigger: PopupTrigger, triggerValue?: number) {
 
     if (trigger === "exit-intent") {
       const onLeave = (e: MouseEvent) => {
-        if (e.clientY <= 0) setShouldShow(true);
+        if (e.clientY <= 0) {
+          setShouldShow(true);
+          setEverTriggered(true);
+        }
       };
       document.addEventListener("mouseleave", onLeave);
       return () => document.removeEventListener("mouseleave", onLeave);
     }
   }, [trigger, triggerValue]);
 
-  return { shouldShow, dismiss: () => setShouldShow(false) };
+  return { shouldShow, everTriggered, dismiss: () => setShouldShow(false) };
 }

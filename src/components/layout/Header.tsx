@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Menu, Phone, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
 import { InquiryForm } from "@/components/forms/InquiryForm";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { siteConfig } from "@/config/site";
 import { cn, telHref } from "@/lib/utils";
+
+/** Code-split — framer-motion (Modal's only dependency) loads only once the quote button is actually clicked. */
+const Modal = dynamic(() => import("@/components/ui/Modal").then((m) => m.Modal), { ssr: false });
 
 /**
  * Site nav — a dark forest-green bar (brand palette, reference:
@@ -19,7 +22,7 @@ import { cn, telHref } from "@/lib/utils";
  * on a lighter strip underneath.
  *
  * On the homepage it starts transparent (frosted via backdrop-blur) and
- * floats on top of the Hero's photo, inset 20px on the sides and top —
+ * floats on top of the Hero's photo, inset 10px on mobile / 20px from sm —
  * matching the photo card's own inset directly beneath it. It solidifies
  * to the normal edge-to-edge green bar (inset gone, square corners) once
  * the page scrolls past the hero, or whenever the mobile menu is open, so
@@ -30,7 +33,16 @@ import { cn, telHref } from "@/lib/utils";
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  // Once true, stays true — keeps Modal mounted so its close animation can
+  // still play, while its (dynamically imported) chunk only loads on the
+  // first actual open rather than on every page load.
+  const [quoteEverOpened, setQuoteEverOpened] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  function openQuote() {
+    setQuoteEverOpened(true);
+    setQuoteOpen(true);
+  }
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -54,7 +66,7 @@ export function Header() {
           className={cn(
             "transition-[colors,margin,border-radius] duration-300",
             overlay
-              ? "mx-[20px] mt-[20px] rounded-md bg-brand-green-dark/25 backdrop-blur-md"
+              ? "mx-[10px] mt-[10px] rounded-md bg-brand-green-dark/25 backdrop-blur-md sm:mx-[20px] sm:mt-[20px]"
               : "bg-brand-green-dark"
           )}
         >
@@ -96,11 +108,7 @@ export function Header() {
               </a>
 
               <div className="hidden sm:block">
-                <button
-                  type="button"
-                  onClick={() => setQuoteOpen(true)}
-                  className={buttonVariants("primary")}
-                >
+                <button type="button" onClick={openQuote} className={buttonVariants("primary")}>
                   Get a Quote
                 </button>
               </div>
@@ -140,7 +148,7 @@ export function Header() {
               type="button"
               onClick={() => {
                 setMobileOpen(false);
-                setQuoteOpen(true);
+                openQuote();
               }}
               className={cn(buttonVariants("primary"), "mt-2 w-full")}
             >
@@ -152,13 +160,15 @@ export function Header() {
         <Breadcrumbs />
       </header>
 
-      <Modal open={quoteOpen} onClose={() => setQuoteOpen(false)} title="Get a Quote">
-        <p className="mb-4 text-sm text-zinc-600">
-          Share a few details about the equipment or order you have in mind — a real person will
-          follow up directly.
-        </p>
-        <InquiryForm onSuccess={() => setQuoteOpen(false)} />
-      </Modal>
+      {quoteEverOpened && (
+        <Modal open={quoteOpen} onClose={() => setQuoteOpen(false)} title="Get a Quote">
+          <p className="mb-4 text-sm text-zinc-600">
+            Share a few details about the equipment or order you have in mind — a real person
+            will follow up directly.
+          </p>
+          <InquiryForm onSuccess={() => setQuoteOpen(false)} />
+        </Modal>
+      )}
     </div>
   );
 }

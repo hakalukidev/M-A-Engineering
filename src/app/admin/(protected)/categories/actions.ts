@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { adminDb } from "@/lib/firebase/admin";
 import { requireAdmin } from "@/lib/auth/session";
@@ -19,6 +19,7 @@ async function nextOrder(query: FirebaseFirestore.Query) {
 }
 
 function revalidateCatalog() {
+  updateTag("catalog"); // busts the unstable_cache in src/data/categories.ts immediately, read-your-own-writes
   revalidatePath("/");
   revalidatePath("/categories");
   revalidatePath("/products");

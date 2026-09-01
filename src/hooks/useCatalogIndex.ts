@@ -1,46 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import type { SearchableItem } from "@/types";
 
-/** Module-level singleton so SearchBar and Breadcrumbs (mounted together in Header) share one fetch. */
-let indexPromise: Promise<SearchableItem[]> | null = null;
-
-function fetchCatalogIndex(): Promise<SearchableItem[]> {
-  if (!indexPromise) {
-    indexPromise = fetch("/api/catalog/index")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load catalog index");
-        return res.json() as Promise<SearchableItem[]>;
-      })
-      .catch((error) => {
-        indexPromise = null; // allow retry on next mount
-        throw error;
-      });
-  }
-  return indexPromise;
+async function fetchCatalogIndex(): Promise<SearchableItem[]> {
+  const res = await fetch("/api/catalog/index");
+  if (!res.ok) throw new Error("Failed to load catalog index");
+  return res.json() as Promise<SearchableItem[]>;
 }
 
+/**
+ * TanStack Query dedupes this across every mounted consumer (SearchBar +
+ * Breadcrumbs, both in Header) the same way the old hand-rolled singleton
+ * promise did, but also adds proper cache reuse across navigations
+ * (staleTime, set in QueryProvider) and retry-on-failure for free.
+ */
 export function useCatalogIndex(): { index: SearchableItem[]; loading: boolean } {
-  const [index, setIndex] = useState<SearchableItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = useQuery({
+    queryKey: ["catalog-index"],
+    queryFn: fetchCatalogIndex,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
-    fetchCatalogIndex()
-      .then((data) => {
-        if (!cancelled) setIndex(data);
-      })
-      .catch(() => {
-        // Breadcrumbs/SearchBar both have their own fallbacks for an empty index.
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  return { index, loading };
+  return { index: data ?? [], loading: isLoading };
 }

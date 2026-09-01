@@ -1,5 +1,6 @@
 import "server-only";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { adminDb } from "@/lib/firebase/admin";
 import type { Category, Product, Subcategory } from "@/types";
 
@@ -10,66 +11,79 @@ import type { Category, Product, Subcategory } from "@/types";
  * writer side and src/app/admin/(protected)/categories/actions.ts for admin
  * CRUD mutations.
  *
- * getAllCategories is wrapped in React's cache() so every other function in
- * this file funnels through one deduped Firestore round trip per request —
- * callers that look up a single category/subcategory/product (e.g. the
- * product detail page's three chained lookups) don't pay for three reads.
+ * getAllCategories is wrapped in two layers of caching:
+ *  - unstable_cache persists the result *across requests* (tag "catalog",
+ *    5 min safety-net revalidate) — without this, every single page load
+ *    re-read all ~125 catalog docs from Firestore with no reuse between
+ *    visitors, which is what burned through the Spark plan's free daily
+ *    read quota during development. Admin mutations call
+ *    revalidateTag("catalog") so edits still show up immediately instead
+ *    of waiting out the 5 min window.
+ *  - React's cache() on top dedupes *within* a single request, so a page
+ *    that calls getCategoryBySlug/getSubcategoryBySlug/getProductBySlug
+ *    (each built on this) only resolves the outer promise once.
  */
-export const getAllCategories = cache(async (): Promise<Category[]> => {
-  const [categoriesSnap, subcategoriesSnap, productsSnap] = await Promise.all([
-    adminDb.collection("categories").orderBy("order").get(),
-    adminDb.collection("subcategories").orderBy("order").get(),
-    adminDb.collection("products").orderBy("order").get(),
-  ]);
+const fetchAllCategoriesFromFirestore = unstable_cache(
+  async (): Promise<Category[]> => {
+    const [categoriesSnap, subcategoriesSnap, productsSnap] = await Promise.all([
+      adminDb.collection("categories").orderBy("order").get(),
+      adminDb.collection("subcategories").orderBy("order").get(),
+      adminDb.collection("products").orderBy("order").get(),
+    ]);
 
-  const productsBySubcategory = new Map<string, Product[]>();
-  for (const doc of productsSnap.docs) {
-    const data = doc.data();
-    const key = `${data.categorySlug}__${data.subcategorySlug}`;
-    const product: Product = {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      image: data.image,
-      images: data.images ?? undefined,
-      size: data.size,
-      price: data.price,
-      specs: data.specs ?? undefined,
-    };
-    const list = productsBySubcategory.get(key) ?? [];
-    list.push(product);
-    productsBySubcategory.set(key, list);
-  }
+    const productsBySubcategory = new Map<string, Product[]>();
+    for (const doc of productsSnap.docs) {
+      const data = doc.data();
+      const key = `${data.categorySlug}__${data.subcategorySlug}`;
+      const product: Product = {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        images: data.images ?? undefined,
+        size: data.size,
+        price: data.price,
+        specs: data.specs ?? undefined,
+      };
+      const list = productsBySubcategory.get(key) ?? [];
+      list.push(product);
+      productsBySubcategory.set(key, list);
+    }
 
-  const subcategoriesByCategory = new Map<string, Subcategory[]>();
-  for (const doc of subcategoriesSnap.docs) {
-    const data = doc.data();
-    const subcategory: Subcategory = {
-      id: data.slug,
-      slug: data.slug,
-      name: data.name,
-      shortDescription: data.shortDescription,
-      coverImage: data.coverImage,
-      products: productsBySubcategory.get(`${data.categorySlug}__${data.slug}`) ?? [],
-    };
-    const list = subcategoriesByCategory.get(data.categorySlug) ?? [];
-    list.push(subcategory);
-    subcategoriesByCategory.set(data.categorySlug, list);
-  }
+    const subcategoriesByCategory = new Map<string, Subcategory[]>();
+    for (const doc of subcategoriesSnap.docs) {
+      const data = doc.data();
+      const subcategory: Subcategory = {
+        id: data.slug,
+        slug: data.slug,
+        name: data.name,
+        shortDescription: data.shortDescription,
+        coverImage: data.coverImage,
+        products: productsBySubcategory.get(`${data.categorySlug}__${data.slug}`) ?? [],
+      };
+      const list = subcategoriesByCategory.get(data.categorySlug) ?? [];
+      list.push(subcategory);
+      subcategoriesByCategory.set(data.categorySlug, list);
+    }
 
-  return categoriesSnap.docs.map((doc) => {
-    const data = doc.data();
-    const category: Category = {
-      id: data.slug,
-      slug: data.slug,
-      name: data.name,
-      shortDescription: data.shortDescription,
-      coverImage: data.coverImage,
-      subcategories: subcategoriesByCategory.get(data.slug) ?? [],
-    };
-    return category;
-  });
-});
+    return categoriesSnap.docs.map((doc) => {
+      const data = doc.data();
+      const category: Category = {
+        id: data.slug,
+        slug: data.slug,
+        name: data.name,
+        shortDescription: data.shortDescription,
+        coverImage: data.coverImage,
+        subcategories: subcategoriesByCategory.get(data.slug) ?? [],
+      };
+      return category;
+    });
+  },
+  ["catalog-all-categories"],
+  { revalidate: 300, tags: ["catalog"] }
+);
+
+export const getAllCategories = cache(fetchAllCategoriesFromFirestore);
 
 export async function getCategoryBySlug(slug: string): Promise<Category | undefined> {
   return (await getAllCategories()).find((category) => category.slug === slug);

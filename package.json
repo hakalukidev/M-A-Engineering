@@ -10,6 +10,7 @@
     "seed": "tsx --env-file=.env.local scripts/seed-firestore.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.102.8",
     "cloudinary": "^2.11.0",
     "clsx": "^2.1.1",
     "firebase": "^12.18.0",
@@ -19,8 +20,7 @@
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "server-only": "^0.0.1",
-    "yet-another-react-lightbox": "^3.32.2"
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

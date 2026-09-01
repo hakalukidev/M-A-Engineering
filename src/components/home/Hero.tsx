@@ -86,7 +86,7 @@ export async function Hero() {
 
   return (
     <section className="bg-brand-cream pb-4 sm:pb-6">
-      <div className="px-[20px] pt-[20px]">
+      <div className="px-[10px] pt-[10px] sm:px-[20px] sm:pt-[20px]">
         <div className="relative h-[80vh] w-full overflow-hidden rounded-md bg-brand-green-dark">
           <Image
             src="/images/hero/hero_image.png"

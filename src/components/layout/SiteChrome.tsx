@@ -1,10 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
-import { FloatingActionStack } from "@/components/cta/FloatingActionStack";
 import { VisitTracker } from "@/components/analytics/VisitTracker";
+import { QueryProvider } from "@/components/providers/QueryProvider";
+
+/** Code-split — framer-motion (its only dependency) loads in its own chunk instead of the main bundle. */
+const FloatingActionStack = dynamic(
+  () => import("@/components/cta/FloatingActionStack").then((m) => m.FloatingActionStack),
+  { ssr: false }
+);
 
 /**
  * The public site's nav/footer/WhatsApp-FAB only make sense around the
@@ -27,12 +34,12 @@ export function SiteChrome({ children, footer }: { children: ReactNode; footer: 
   if (isAdmin) return <>{children}</>;
 
   return (
-    <>
+    <QueryProvider>
       <VisitTracker />
       <Header />
       <main className="flex-1">{children}</main>
       {footer}
       <FloatingActionStack />
-    </>
+    </QueryProvider>
   );
 }
