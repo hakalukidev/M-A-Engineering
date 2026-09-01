@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { getAllCategories } from "@/data/categories";
+import type { Category } from "@/types";
 
 const GAP_PX = 12; // matches the gap-3 on the scroller
 
@@ -52,8 +52,7 @@ function ExploreCard({ slug, name, image }: { slug: string; name: string; image:
   );
 }
 
-export function CategoryExplore() {
-  const categories = getAllCategories();
+export function CategoryExplore({ categories }: { categories: Category[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);

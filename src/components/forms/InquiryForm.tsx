@@ -28,12 +28,13 @@ export function InquiryForm({
       message: String(form.get("message") ?? ""),
       interestedIn,
     };
+    const company = String(form.get("company") ?? ""); // honeypot — real visitors never fill this
 
     try {
       const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, company }),
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");
@@ -77,6 +78,15 @@ export function InquiryForm({
         rows={3}
         placeholder="What equipment are you interested in?"
         className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-ink"
+      />
+      {/* Honeypot — real visitors never see or fill this; a submission with it filled in is a bot. */}
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
       />
       <Button variant="secondary" type="submit" disabled={status === "submitting"} className="w-full">
         {status === "submitting" ? "Sending..." : "Send Inquiry"}

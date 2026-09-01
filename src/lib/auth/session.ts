@@ -2,8 +2,9 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { adminAuth } from "@/lib/firebase/admin";
+import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 
-export const SESSION_COOKIE_NAME = "ma_admin_session";
+export { SESSION_COOKIE_NAME };
 const SESSION_EXPIRES_IN_MS = 5 * 24 * 60 * 60 * 1000; // 5 days
 
 /** Verifies a Firebase ID token and mints a session cookie value + its maxAge. */
@@ -28,7 +29,7 @@ export async function verifySession(): Promise<{ uid: string; email: string } | 
 
   try {
     const decoded = await adminAuth.verifySessionCookie(sessionCookie, true);
-    if (decoded.email !== process.env.ADMIN_EMAIL) return null;
+    if (!decoded.email || decoded.email !== process.env.ADMIN_EMAIL) return null;
     return { uid: decoded.uid, email: decoded.email };
   } catch {
     return null;

@@ -36,10 +36,10 @@ const pillars = [
   },
 ];
 
-export default function AboutPage() {
-  const categories = getAllCategories();
+export default async function AboutPage() {
+  const [categories, products] = await Promise.all([getAllCategories(), getAllProducts()]);
   const categoryCount = categories.length;
-  const productCount = getAllProducts().length;
+  const productCount = products.length;
 
   return (
     <>

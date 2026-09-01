@@ -33,13 +33,18 @@ const FEATURED_PICKS: [string, string, string][] = [
   ["food-shop-equipment", "storage-shelving", "gondola-shelving"],
 ];
 
-function getFeaturedItems(): ProductCarouselItem[] {
-  return FEATURED_PICKS.map(([categorySlug, subcategorySlug, productSlug]) => {
-    const product = getProductBySlug(categorySlug, subcategorySlug, productSlug);
-    const subcategory = getSubcategoryBySlug(categorySlug, subcategorySlug);
-    if (!product || !subcategory) return null;
-    return { product, categorySlug, subcategorySlug, subcategoryName: subcategory.name };
-  }).filter((item) => item !== null);
+async function getFeaturedItems(): Promise<ProductCarouselItem[]> {
+  const items = await Promise.all(
+    FEATURED_PICKS.map(async ([categorySlug, subcategorySlug, productSlug]) => {
+      const [product, subcategory] = await Promise.all([
+        getProductBySlug(categorySlug, subcategorySlug, productSlug),
+        getSubcategoryBySlug(categorySlug, subcategorySlug),
+      ]);
+      if (!product || !subcategory) return null;
+      return { product, categorySlug, subcategorySlug, subcategoryName: subcategory.name };
+    })
+  );
+  return items.filter((item) => item !== null);
 }
 
 function StatCard({
@@ -70,10 +75,14 @@ function StatCard({
  * riding on top of the photo, no gap between them. Stacked above a
  * "Bestselling Products" carousel, both sharing the first fold.
  */
-export function Hero() {
-  const categoryCount = getAllCategories().length;
-  const productCount = getAllProducts().length;
-  const featuredItems = getFeaturedItems();
+export async function Hero() {
+  const [categories, products, featuredItems] = await Promise.all([
+    getAllCategories(),
+    getAllProducts(),
+    getFeaturedItems(),
+  ]);
+  const categoryCount = categories.length;
+  const productCount = products.length;
 
   return (
     <section className="bg-brand-cream pb-4 sm:pb-6">

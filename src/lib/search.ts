@@ -1,8 +1,7 @@
-import { categories } from "@/data/categories";
-import type { SearchableItem } from "@/types";
+import type { Category, SearchableItem } from "@/types";
 
 /** Flattens categories + products into one searchable list for the top search bar. */
-export function buildSearchIndex(): SearchableItem[] {
+export function buildSearchIndex(categories: Category[]): SearchableItem[] {
   const items: SearchableItem[] = [];
 
   for (const category of categories) {
@@ -43,7 +42,7 @@ export function buildSearchIndex(): SearchableItem[] {
   return items;
 }
 
-export function searchIndex(query: string, index: SearchableItem[] = buildSearchIndex()) {
+export function searchIndex(query: string, index: SearchableItem[]) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 

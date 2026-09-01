@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { OrderForm } from "@/components/forms/OrderForm";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getAllProducts } from "@/data/categories";
 
 export const metadata: Metadata = {
   title: "Order",
@@ -14,6 +15,7 @@ export default async function OrderPage({
   searchParams: Promise<{ product?: string }>;
 }) {
   const { product } = await searchParams;
+  const products = await getAllProducts();
 
   return (
     <Container className="max-w-5xl py-16">
@@ -23,7 +25,7 @@ export default async function OrderPage({
         subtitle="Pick a product, pay by bKash/Nagad/Rocket/Bank, and upload your payment proof — no online payment gateway needed."
         className="mb-10 max-w-2xl"
       />
-      <OrderForm defaultProductId={product} />
+      <OrderForm defaultProductId={product} products={products} />
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
+import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
 import Image from "next/image";
 import {
   Check,
@@ -13,9 +13,9 @@ import {
   User,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { getAllProducts } from "@/data/categories";
 import { siteConfig } from "@/config/site";
 import { formatPrice } from "@/lib/utils";
+import type { Product } from "@/types";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -84,8 +84,13 @@ function FieldInput({
  * Right (sticky on desktop): a live order summary so the total stays
  * visible while the customer fills the rest in.
  */
-export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
-  const products = useMemo(() => getAllProducts(), []);
+export function OrderForm({
+  defaultProductId,
+  products,
+}: {
+  defaultProductId?: string;
+  products: Array<Product & { categorySlug: string; subcategorySlug: string }>;
+}) {
   const [productId, setProductId] = useState<string>(defaultProductId ?? products[0]?.id ?? "");
   const [paymentMethodId, setPaymentMethodId] = useState<string>(
     siteConfig.paymentMethods[0]?.id ?? ""
@@ -295,6 +300,16 @@ export function OrderForm({ defaultProductId }: { defaultProductId?: string }) {
             </div>
           </div>
         </div>
+
+        {/* Honeypot — real visitors never see or fill this; a submission with it filled in is a bot. */}
+        <input
+          type="text"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute -left-[9999px] h-0 w-0 opacity-0"
+        />
 
         <Button type="submit" disabled={status === "submitting"} className="w-full py-3.5 text-base">
           {status === "submitting" ? "Submitting..." : "Submit Order"}

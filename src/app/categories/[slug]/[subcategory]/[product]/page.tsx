@@ -15,8 +15,8 @@ import {
 import { siteConfig } from "@/config/site";
 import { formatPrice, whatsappHref } from "@/lib/utils";
 
-export function generateStaticParams() {
-  return getAllCategories().flatMap((category) =>
+export async function generateStaticParams() {
+  return (await getAllCategories()).flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.products.map((product) => ({
         slug: category.slug,
@@ -31,7 +31,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/categories/[slug]/[subcategory]/[product]">): Promise<Metadata> {
   const { slug, subcategory: subcategorySlug, product: productSlug } = await params;
-  const product = getProductBySlug(slug, subcategorySlug, productSlug);
+  const product = await getProductBySlug(slug, subcategorySlug, productSlug);
 
   if (!product) return {};
 
@@ -66,9 +66,11 @@ export default async function ProductPage({
   params,
 }: PageProps<"/categories/[slug]/[subcategory]/[product]">) {
   const { slug, subcategory: subcategorySlug, product: productSlug } = await params;
-  const category = getCategoryBySlug(slug);
-  const subcategory = getSubcategoryBySlug(slug, subcategorySlug);
-  const product = getProductBySlug(slug, subcategorySlug, productSlug);
+  const [category, subcategory, product] = await Promise.all([
+    getCategoryBySlug(slug),
+    getSubcategoryBySlug(slug, subcategorySlug),
+    getProductBySlug(slug, subcategorySlug, productSlug),
+  ]);
 
   if (!category || !subcategory || !product) notFound();
 

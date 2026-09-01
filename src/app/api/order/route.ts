@@ -1,8 +1,8 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
+import { adminDb } from "@/lib/firebase/admin";
+import { uploadImageToCloudinary } from "@/lib/cloudinary";
+import { getAllProducts } from "@/data/categories";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "order-proofs");
 const MAX_PROOF_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -10,11 +10,6 @@ const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/g
  * Receives fixed-price order submissions (proposal 4.5): product, payment
  * method, transaction reference, customer details, and a payment-proof
  * image — no payment gateway, this is a manual-payment order form.
- *
- * TODO: wire up an actual email/WhatsApp notification and/or persist the
- * order once the lightweight backend/admin panel (proposal 5.1) is in
- * place. For now this validates the payload, stores the proof image under
- * /public/uploads/order-proofs, and logs the order server-side.
  */
 export async function POST(request: Request) {
   let formData: FormData;
@@ -22,6 +17,11 @@ export async function POST(request: Request) {
     formData = await request.formData();
   } catch {
     return NextResponse.json({ error: "Invalid form submission" }, { status: 400 });
+  }
+
+  // Honeypot — a real visitor never fills this hidden field.
+  if (String(formData.get("company") ?? "").trim() !== "") {
+    return NextResponse.json({ ok: true });
   }
 
   const productId = String(formData.get("productId") ?? "");
@@ -46,23 +46,33 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Payment proof image is too large (max 5MB)" }, { status: 400 });
   }
 
-  await mkdir(UPLOAD_DIR, { recursive: true });
-  const ext = proof.type.split("/")[1] ?? "jpg";
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const bytes = Buffer.from(await proof.arrayBuffer());
-  await writeFile(path.join(UPLOAD_DIR, filename), bytes);
+  // productId alone identifies the product across the whole flattened catalog
+  // (see getAllProducts), so scan every category/subcategory for it.
+  const products = await getAllProducts();
+  const product = products.find((p) => p.id === productId);
+  if (!product) {
+    return NextResponse.json({ error: "Unknown product" }, { status: 400 });
+  }
 
-  const order = {
+  const buffer = Buffer.from(await proof.arrayBuffer());
+  const { url: proofImageUrl } = await uploadImageToCloudinary(buffer, {
+    folder: "ma-engineering/order-proofs",
+  });
+
+  await adminDb.collection("orders").add({
     productId,
+    productName: product.name,
+    productSize: product.size,
+    productPrice: product.price,
     name,
     phone,
     address,
     paymentMethodId,
     transactionRef,
-    proofFile: `/uploads/order-proofs/${filename}`,
-  };
-
-  console.info("[order] new submission:", order);
+    proofImageUrl,
+    status: "new",
+    createdAt: new Date(),
+  });
 
   return NextResponse.json({ ok: true });
 }

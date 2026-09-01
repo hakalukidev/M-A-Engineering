@@ -6,15 +6,15 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getAllCategories, getCategoryBySlug } from "@/data/categories";
 
-export function generateStaticParams() {
-  return getAllCategories().map((category) => ({ slug: category.slug }));
+export async function generateStaticParams() {
+  return (await getAllCategories()).map((category) => ({ slug: category.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps<"/categories/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
   if (!category) return {};
 
@@ -26,7 +26,7 @@ export async function generateMetadata({
 
 export default async function CategoryPage({ params }: PageProps<"/categories/[slug]">) {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
   if (!category) notFound();
 

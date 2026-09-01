@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   description: `Browse every product ${siteConfig.name} supplies, in one place.`,
 };
 
-export default function ProductsPage() {
-  const categories = getAllCategories();
-  const productCount = getAllProducts().length;
+export default async function ProductsPage() {
+  const [categories, products] = await Promise.all([getAllCategories(), getAllProducts()]);
+  const productCount = products.length;
 
   return (
     <Container className="py-16">

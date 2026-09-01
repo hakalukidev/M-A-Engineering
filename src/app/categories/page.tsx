@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   description: `Browse every equipment category ${siteConfig.name} supplies.`,
 };
 
-export default function CategoriesPage() {
-  const categories = getAllCategories();
+export default async function CategoriesPage() {
+  const categories = await getAllCategories();
 
   return (
     <Container className="py-16">

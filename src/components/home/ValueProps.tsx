@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 import { getAllCategories } from "@/data/categories";
 
 /** Three honest, data-backed value props — pale-green pill row, per the brand's "AI" reference style. */
-export function ValueProps() {
-  const categoryCount = getAllCategories().length;
+export async function ValueProps() {
+  const categoryCount = (await getAllCategories()).length;
 
   const items = [
     { icon: LayoutGrid, label: `${categoryCount} Equipment Categories`, detail: "Restaurant to medical, under one roof" },

@@ -4,13 +4,14 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { buildSearchIndex, searchIndex } from "@/lib/search";
+import { useCatalogIndex } from "@/hooks/useCatalogIndex";
+import { searchIndex } from "@/lib/search";
 
 /** Always-visible pill search in the sticky header — top search bar per proposal 4.1. */
 export function SearchBar() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 200);
-  const index = useMemo(() => buildSearchIndex(), []);
+  const { index } = useCatalogIndex();
   const results = useMemo(() => searchIndex(debouncedQuery, index), [debouncedQuery, index]);
 
   return (

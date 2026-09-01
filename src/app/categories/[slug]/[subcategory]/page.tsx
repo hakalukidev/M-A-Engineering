@@ -6,8 +6,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getAllCategories, getSubcategoryBySlug } from "@/data/categories";
 
-export function generateStaticParams() {
-  return getAllCategories().flatMap((category) =>
+export async function generateStaticParams() {
+  return (await getAllCategories()).flatMap((category) =>
     category.subcategories.map((subcategory) => ({
       slug: category.slug,
       subcategory: subcategory.slug,
@@ -19,7 +19,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/categories/[slug]/[subcategory]">): Promise<Metadata> {
   const { slug, subcategory: subcategorySlug } = await params;
-  const subcategory = getSubcategoryBySlug(slug, subcategorySlug);
+  const subcategory = await getSubcategoryBySlug(slug, subcategorySlug);
 
   if (!subcategory) return {};
 
@@ -33,7 +33,7 @@ export default async function SubcategoryPage({
   params,
 }: PageProps<"/categories/[slug]/[subcategory]">) {
   const { slug, subcategory: subcategorySlug } = await params;
-  const subcategory = getSubcategoryBySlug(slug, subcategorySlug);
+  const subcategory = await getSubcategoryBySlug(slug, subcategorySlug);
 
   if (!subcategory) notFound();
 

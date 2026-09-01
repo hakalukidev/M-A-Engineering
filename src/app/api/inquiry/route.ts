@@ -1,16 +1,10 @@
 import { NextResponse } from "next/server";
+import { adminDb } from "@/lib/firebase/admin";
 import type { InquiryFormValues } from "@/types";
 
-/**
- * Receives inquiry/contact-form submissions (proposal 4.3: "Contact/inquiry
- * form with email notification to the company").
- *
- * TODO: wire up an actual email notification (e.g. Resend/Nodemailer) and/or
- * persist the inquiry once the lightweight backend/admin panel (proposal 5.1)
- * is in place. For now this validates the payload and logs it server-side.
- */
+/** Receives inquiry/contact-form submissions (proposal 4.3) and persists them for the admin inbox. */
 export async function POST(request: Request) {
-  let body: Partial<InquiryFormValues>;
+  let body: Partial<InquiryFormValues> & { company?: string };
 
   try {
     body = await request.json();
@@ -18,7 +12,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { name, phone, message } = body;
+  // Honeypot — a real visitor never fills this hidden field.
+  if (String(body.company ?? "").trim() !== "") {
+    return NextResponse.json({ ok: true });
+  }
+
+  const { name, phone, email, message, interestedIn } = body;
   if (!name || !phone || !message) {
     return NextResponse.json(
       { error: "name, phone, and message are required" },
@@ -26,7 +25,15 @@ export async function POST(request: Request) {
     );
   }
 
-  console.info("[inquiry] new submission:", body);
+  await adminDb.collection("inquiries").add({
+    name,
+    phone,
+    email: email ?? null,
+    message,
+    interestedIn: interestedIn ?? null,
+    status: "new",
+    createdAt: new Date(),
+  });
 
   return NextResponse.json({ ok: true });
 }

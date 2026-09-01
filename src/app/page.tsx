@@ -6,14 +6,17 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { Commitment } from "@/components/home/Commitment";
 import { QuoteCTA } from "@/components/home/QuoteCTA";
 import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer";
+import { getAllCategories } from "@/data/categories";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const categories = await getAllCategories();
+
   return (
     <>
       <Hero />
       <LifestyleBreak />
-      <CategoryExplore />
-      <Gallery />
+      <CategoryExplore categories={categories} />
+      <Gallery categories={categories} />
       <Testimonials />
       <Commitment />
       <QuoteCTA />

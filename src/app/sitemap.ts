@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllCategories } from "@/data/categories";
 import { siteConfig } from "@/config/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteConfig.url, changeFrequency: "monthly", priority: 1 },
     { url: `${siteConfig.url}/about`, changeFrequency: "yearly", priority: 0.5 },
@@ -11,13 +11,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteConfig.url}/products`, changeFrequency: "monthly", priority: 0.9 },
   ];
 
-  const categoryRoutes: MetadataRoute.Sitemap = getAllCategories().map((category) => ({
+  const categories = await getAllCategories();
+
+  const categoryRoutes: MetadataRoute.Sitemap = categories.map((category) => ({
     url: `${siteConfig.url}/categories/${category.slug}`,
     changeFrequency: "weekly",
     priority: 0.8,
   }));
 
-  const subcategoryRoutes: MetadataRoute.Sitemap = getAllCategories().flatMap((category) =>
+  const subcategoryRoutes: MetadataRoute.Sitemap = categories.flatMap((category) =>
     category.subcategories.map((subcategory) => ({
       url: `${siteConfig.url}/categories/${category.slug}/${subcategory.slug}`,
       changeFrequency: "weekly" as const,
@@ -25,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  const productRoutes: MetadataRoute.Sitemap = getAllCategories().flatMap((category) =>
+  const productRoutes: MetadataRoute.Sitemap = categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.products.map((product) => ({
         url: `${siteConfig.url}/categories/${category.slug}/${subcategory.slug}/${product.id}`,

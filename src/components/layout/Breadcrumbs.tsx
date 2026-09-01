@@ -3,15 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { getCategoryBySlug, getProductBySlug, getSubcategoryBySlug } from "@/data/categories";
+import { useCatalogIndex } from "@/hooks/useCatalogIndex";
 
 function titleCase(segment: string) {
   return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-/** Derives Home / Section / Page crumbs from the current route. Hidden on "/". */
+/**
+ * Derives Home / Section / Page crumbs from the current route. Hidden on "/".
+ * Category/subcategory/product names come from the shared catalog index
+ * (see useCatalogIndex) — while it's loading, crumbs fall back to a
+ * humanized slug rather than blanking out.
+ */
 export function Breadcrumbs() {
   const pathname = usePathname();
+  const { index } = useCatalogIndex();
+
   if (!pathname || pathname === "/") return null;
 
   const segments = pathname.split("/").filter(Boolean);
@@ -20,14 +27,25 @@ export function Breadcrumbs() {
     const isCategorySlug = segments[0] === "categories" && i === 1;
     const isSubcategorySlug = segments[0] === "categories" && i === 2;
     const isProductSlug = segments[0] === "categories" && i === 3;
-    const label = isCategorySlug
-      ? getCategoryBySlug(segment)?.name ?? titleCase(segment)
-      : isSubcategorySlug
-        ? getSubcategoryBySlug(segments[1], segment)?.name ?? titleCase(segment)
-        : isProductSlug
-          ? getProductBySlug(segments[1], segments[2], segment)?.name ?? titleCase(segment)
-          : titleCase(segment);
-    return { label, href, isLast: i === segments.length - 1 };
+
+    let name: string | undefined;
+    if (isCategorySlug) {
+      name = index.find((item) => item.type === "category" && item.slug === segment)?.title;
+    } else if (isSubcategorySlug) {
+      name = index.find(
+        (item) => item.type === "subcategory" && item.categorySlug === segments[1] && item.slug === segment
+      )?.title;
+    } else if (isProductSlug) {
+      name = index.find(
+        (item) =>
+          item.type === "product" &&
+          item.categorySlug === segments[1] &&
+          item.subcategorySlug === segments[2] &&
+          item.slug === segment
+      )?.title;
+    }
+
+    return { label: name ?? titleCase(segment), href, isLast: i === segments.length - 1 };
   });
 
   return (
