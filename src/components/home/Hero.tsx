@@ -87,7 +87,7 @@ export async function Hero() {
   return (
     <section className="bg-brand-cream pb-4 sm:pb-6">
       <div className="px-[10px] pt-[10px] sm:px-[20px] sm:pt-[20px]">
-        <div className="relative h-[80vh] w-full overflow-hidden rounded-md bg-brand-green-dark">
+        <div className="relative min-h-[80vh] w-full overflow-hidden rounded-md bg-brand-green-dark">
           <Image
             src="/images/hero/hero_image.png"
             alt="Warm, professionally equipped kitchen interior"
@@ -100,7 +100,7 @@ export async function Hero() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
           <Container className="relative h-full">
-            <div className="flex h-full flex-col justify-center gap-2.5 py-4 sm:py-5">
+            <div className="flex h-full flex-col justify-center gap-2.5 pb-4 pt-16 sm:pb-5 sm:pt-20 lg:pt-8">
               <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
                 Restaurant &middot; Commercial Kitchen &middot; Bakery &middot; Medical &middot; Food Shop
               </p>

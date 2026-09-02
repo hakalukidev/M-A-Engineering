@@ -70,7 +70,7 @@ export function Header() {
               : "bg-brand-green-dark"
           )}
         >
-          <div className="grid min-h-20 w-full grid-cols-[auto_1fr] items-center gap-4 px-[20px] py-3 lg:grid-cols-[auto_1fr_auto]">
+          <div className="grid min-h-14 w-full grid-cols-[auto_1fr] items-center gap-4 px-[20px] py-2 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:py-3">
             <Link href="/" className="flex min-w-0 flex-col justify-self-start leading-tight lg:min-w-fit">
               <span className="truncate font-serif text-lg font-semibold italic tracking-tight text-brand-cream sm:text-xl">
                 {siteConfig.tagline}
@@ -117,9 +117,9 @@ export function Header() {
                 type="button"
                 aria-label="Toggle menu"
                 onClick={() => setMobileOpen((v) => !v)}
-                className="rounded-full bg-brand-cream/10 p-2.5 text-brand-cream transition-colors hover:bg-brand-cream/20 lg:hidden"
+                className="rounded-full bg-brand-cream/10 p-2 text-brand-cream transition-colors hover:bg-brand-cream/20 lg:hidden"
               >
-                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
           </div>
