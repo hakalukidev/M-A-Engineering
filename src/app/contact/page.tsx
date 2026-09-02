@@ -5,41 +5,13 @@ import { TextAnimate } from "@/components/magicui/text-animate";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
+import { getFooterSettings } from "@/lib/settings";
 import { telHref, whatsappHref } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: `Get in touch with ${siteConfig.name}.`,
 };
-
-const contactMethods = [
-  {
-    icon: Phone,
-    label: "Call us",
-    value: siteConfig.contact.phone,
-    href: telHref(siteConfig.contact.phone),
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    value: siteConfig.contact.whatsapp,
-    href: whatsappHref(siteConfig.contact.whatsapp, "Hi, I'd like to get in touch."),
-    external: true,
-  },
-  {
-    icon: Mail,
-    label: "Email us",
-    value: siteConfig.contact.email,
-    href: `mailto:${siteConfig.contact.email}`,
-  },
-  {
-    icon: MapPin,
-    label: "Visit us",
-    value: siteConfig.contact.address,
-    href: siteConfig.contact.mapUrl,
-    external: true,
-  },
-];
 
 const faqs = [
   {
@@ -64,13 +36,44 @@ const faqs = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getFooterSettings();
+
+  const contactMethods = [
+    {
+      icon: Phone,
+      label: "Call us",
+      value: settings.phone,
+      href: telHref(settings.phone),
+    },
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      value: settings.whatsapp,
+      href: whatsappHref(settings.whatsapp, "Hi, I'd like to get in touch."),
+      external: true,
+    },
+    {
+      icon: Mail,
+      label: "Email us",
+      value: settings.email,
+      href: `mailto:${settings.email}`,
+    },
+    {
+      icon: MapPin,
+      label: "Visit us",
+      value: settings.address,
+      href: siteConfig.contact.mapUrl,
+      external: true,
+    },
+  ];
+
   return (
     <>
       {/* Hero — heading + quick contact links on the left, the inquiry form floating as an elevated card on the right. */}
       <section className="bg-brand-cream pb-14 pt-10 sm:pb-20 sm:pt-14">
         <Container className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="flex max-w-lg flex-col gap-5">
+          <div className="flex min-w-0 max-w-lg flex-col gap-5">
             <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
               Get in touch
             </p>
@@ -90,14 +93,14 @@ export default function ContactPage() {
               details and a real person will follow up with pricing and availability.
             </p>
 
-            <ul className="mt-2 grid gap-3 sm:grid-cols-2">
+            <ul className="mt-2 grid min-w-0 gap-3 sm:grid-cols-2">
               {contactMethods.map(({ icon: Icon, label, value, href, external }) => (
-                <li key={label}>
+                <li key={label} className="min-w-0">
                   <a
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="group flex items-center gap-3 rounded-md border border-brand-ink/10 bg-brand-card/60 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-green/30 hover:bg-brand-card hover:shadow-md hover:shadow-brand-green-dark/10"
+                    className="group flex min-w-0 items-center gap-3 rounded-md border border-brand-ink/10 bg-brand-card/60 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-green/30 hover:bg-brand-card hover:shadow-md hover:shadow-brand-green-dark/10"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
                       <Icon size={17} />
@@ -121,7 +124,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="relative isolate lg:-translate-x-[50px]">
+          <div className="relative min-w-0 isolate lg:-translate-x-[50px]">
             <div
               aria-hidden
               className="absolute inset-0 -z-10 hidden translate-x-3 translate-y-3 rounded-md bg-brand-green/15 sm:block"
@@ -145,7 +148,7 @@ export default function ContactPage() {
           <SectionHeading
             eyebrow="Find us"
             title="Visit the Factory"
-            subtitle={siteConfig.contact.address}
+            subtitle={settings.address}
             className="mb-8"
           />
           <div className="overflow-hidden rounded-md border border-brand-ink/10 shadow-sm">
@@ -181,7 +184,7 @@ export default function ContactPage() {
               </p>
             </div>
             <a
-              href={whatsappHref(siteConfig.contact.whatsapp, "Hi, I have a question before ordering.")}
+              href={whatsappHref(settings.whatsapp, "Hi, I have a question before ordering.")}
               target="_blank"
               rel="noopener noreferrer"
               className="relative mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-brand-cream px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-cream/90"

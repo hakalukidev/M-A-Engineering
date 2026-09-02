@@ -25,9 +25,19 @@ const FloatingActionStack = dynamic(
  * layout, a Server Component) rather than imported directly here, because
  * Footer is now async and reads Firestore (via getFooterSettings) —
  * a "use client" module can't import a Server Component that touches
- * server-only data like that.
+ * server-only data like that. `contact` (phone/whatsapp/messenger) is
+ * plain data from the same admin-editable settings, fetched once in the
+ * root layout and threaded down to the FAB.
  */
-export function SiteChrome({ children, footer }: { children: ReactNode; footer: ReactNode }) {
+export function SiteChrome({
+  children,
+  footer,
+  contact,
+}: {
+  children: ReactNode;
+  footer: ReactNode;
+  contact: { phone: string; whatsapp: string; messenger: string };
+}) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
@@ -36,10 +46,10 @@ export function SiteChrome({ children, footer }: { children: ReactNode; footer: 
   return (
     <QueryProvider>
       <VisitTracker />
-      <Header />
+      <Header phone={contact.phone} />
       <main className="flex-1">{children}</main>
       {footer}
-      <FloatingActionStack />
+      <FloatingActionStack {...contact} />
     </QueryProvider>
   );
 }

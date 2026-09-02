@@ -30,7 +30,7 @@ const Modal = dynamic(() => import("@/components/ui/Modal").then((m) => m.Modal)
  * route keeps the bar solid and in-flow (sticky) since there's no photo
  * behind it for contrast.
  */
-export function Header() {
+export function Header({ phone }: { phone: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   // Once true, stays true — keeps Modal mounted so its close animation can
@@ -100,7 +100,7 @@ export function Header() {
               <SearchBar />
 
               <a
-                href={telHref(siteConfig.contact.phone)}
+                href={telHref(phone)}
                 aria-label="Call us"
                 className="hidden rounded-full bg-brand-cream/10 p-2.5 text-brand-cream transition-colors hover:bg-brand-cream/20 sm:inline-flex"
               >

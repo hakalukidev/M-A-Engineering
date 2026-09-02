@@ -7,9 +7,10 @@ import { Commitment } from "@/components/home/Commitment";
 import { QuoteCTA } from "@/components/home/QuoteCTA";
 import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer";
 import { getAllCategories } from "@/data/categories";
+import { getFooterSettings } from "@/lib/settings";
 
 export default async function HomePage() {
-  const categories = await getAllCategories();
+  const [categories, settings] = await Promise.all([getAllCategories(), getFooterSettings()]);
 
   return (
     <>
@@ -19,7 +20,7 @@ export default async function HomePage() {
       <Gallery categories={categories} />
       <Testimonials />
       <Commitment />
-      <QuoteCTA />
+      <QuoteCTA phone={settings.phone} whatsapp={settings.whatsapp} />
       <BackgroundAudioPlayer />
     </>
   );

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Phone, Plus } from "lucide-react";
-import { siteConfig } from "@/config/site";
 import { telHref, whatsappHref } from "@/lib/utils";
 
 /** Official WhatsApp glyph (Font Awesome Free, CC BY 4.0) — real brand mark instead of a generic chat bubble. */
@@ -24,30 +23,6 @@ function MessengerIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-const actions = [
-  {
-    key: "whatsapp",
-    label: "Chat on WhatsApp",
-    href: whatsappHref(siteConfig.contact.whatsapp, "Hi, I'm interested in your equipment."),
-    icon: WhatsAppIcon,
-    className: "bg-brand-primary hover:bg-brand-primary-dark",
-  },
-  {
-    key: "call",
-    label: "Call us",
-    href: telHref(siteConfig.contact.phone),
-    icon: Phone,
-    className: "bg-brand-primary hover:bg-brand-primary-dark",
-  },
-  {
-    key: "messenger",
-    label: "Message us on Facebook",
-    href: `https://m.me/${siteConfig.social.messenger}`,
-    icon: MessengerIcon,
-    className: "bg-brand-primary hover:bg-brand-primary-dark",
-  },
-];
-
 /**
  * Collapsed-by-default "speed dial" FAB, stacked bottom-right (proposal 4.3).
  * A fixed column of 3 always-expanded buttons collided with page content
@@ -56,9 +31,46 @@ const actions = [
  * shrinking the buttons only shrank the collision, not the overlap itself.
  * Collapsing to one 48px toggle removes that footprint until the visitor
  * asks for it.
+ *
+ * `phone`/`whatsapp`/`messenger` come from admin-editable settings (see
+ * src/lib/settings.ts, /admin/settings) — passed down from the root layout
+ * (a Server Component) rather than read from siteConfig directly here, so
+ * an admin's saved changes actually take effect on this button.
  */
-export function FloatingActionStack() {
+export function FloatingActionStack({
+  phone,
+  whatsapp,
+  messenger,
+}: {
+  phone: string;
+  whatsapp: string;
+  messenger: string;
+}) {
   const [open, setOpen] = useState(false);
+
+  const actions = [
+    {
+      key: "whatsapp",
+      label: "Chat on WhatsApp",
+      href: whatsappHref(whatsapp, "Hi, I'm interested in your equipment."),
+      icon: WhatsAppIcon,
+      className: "bg-brand-primary hover:bg-brand-primary-dark",
+    },
+    {
+      key: "call",
+      label: "Call us",
+      href: telHref(phone),
+      icon: Phone,
+      className: "bg-brand-primary hover:bg-brand-primary-dark",
+    },
+    {
+      key: "messenger",
+      label: "Message us on Facebook",
+      href: `https://m.me/${messenger}`,
+      icon: MessengerIcon,
+      className: "bg-brand-primary hover:bg-brand-primary-dark",
+    },
+  ];
 
   return (
     <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2.5">

@@ -7,11 +7,10 @@ import { CTAButton } from "@/components/cta/CTAButton";
 import { InquiryForm } from "@/components/forms/InquiryForm";
 import { Container } from "@/components/ui/Container";
 import { Modal } from "@/components/ui/Modal";
-import { siteConfig } from "@/config/site";
-import { whatsappHref } from "@/lib/utils";
+import { telHref, whatsappHref } from "@/lib/utils";
 
 /** Closing lead-gen banner — dark green card, decorative photo pair, call + WhatsApp CTAs. */
-export function QuoteCTA() {
+export function QuoteCTA({ phone, whatsapp }: { phone: string; whatsapp: string }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -55,9 +54,9 @@ export function QuoteCTA() {
               single pieces or a complete fit-out.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <CTAButton />
+              <CTAButton cta={{ label: "Call Now", action: "call", href: telHref(phone) }} />
               <a
-                href={whatsappHref(siteConfig.contact.whatsapp, "Hi, I'd like a quote for equipment.")}
+                href={whatsappHref(whatsapp, "Hi, I'd like a quote for equipment.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-cream/30 px-5 py-2.5 text-sm font-semibold text-brand-cream transition-colors hover:bg-brand-cream/10"

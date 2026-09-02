@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
+import { getFooterSettings } from "@/lib/settings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,9 @@ const organizationJsonLd = {
   sameAs: Object.values(siteConfig.social).filter((url) => url.startsWith("http")),
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getFooterSettings();
+
   return (
     <html
       lang={siteConfig.locale}
@@ -65,7 +68,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <SiteChrome footer={<Footer />}>{children}</SiteChrome>
+        <SiteChrome
+          footer={<Footer />}
+          contact={{ phone: settings.phone, whatsapp: settings.whatsapp, messenger: settings.messenger }}
+        >
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

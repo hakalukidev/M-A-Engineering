@@ -76,6 +76,18 @@ export function FooterSettingsForm({ initial }: { initial: FooterSettings }) {
             />
           </div>
           <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">
+              WhatsApp (used by the floating chat button and Contact page)
+            </label>
+            <input
+              value={values.whatsapp}
+              onChange={(e) => field("whatsapp", e.target.value)}
+              required
+              placeholder="+8801XXXXXXXXX"
+              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
+            />
+          </div>
+          <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">Email</label>
             <input
               type="email"
@@ -114,6 +126,17 @@ export function FooterSettingsForm({ initial }: { initial: FooterSettings }) {
               />
             </div>
           ))}
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">
+              Messenger (Facebook page id — used by the floating Messenger button)
+            </label>
+            <input
+              value={values.messenger}
+              onChange={(e) => field("messenger", e.target.value)}
+              placeholder="your-page-id"
+              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
+            />
+          </div>
         </div>
       </div>
 

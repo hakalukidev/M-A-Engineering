@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
 import { getAllCategories, getAllProducts } from "@/data/categories";
+import { getFooterSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
   title: "About",
@@ -37,7 +38,11 @@ const pillars = [
 ];
 
 export default async function AboutPage() {
-  const [categories, products] = await Promise.all([getAllCategories(), getAllProducts()]);
+  const [categories, products, settings] = await Promise.all([
+    getAllCategories(),
+    getAllProducts(),
+    getFooterSettings(),
+  ]);
   const categoryCount = categories.length;
   const productCount = products.length;
 
@@ -146,7 +151,7 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      <QuoteCTA />
+      <QuoteCTA phone={settings.phone} whatsapp={settings.whatsapp} />
     </>
   );
 }

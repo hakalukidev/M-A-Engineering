@@ -13,6 +13,7 @@ import {
   getSubcategoryBySlug,
 } from "@/data/categories";
 import { siteConfig } from "@/config/site";
+import { getFooterSettings } from "@/lib/settings";
 import { formatPrice, whatsappHref } from "@/lib/utils";
 
 export async function generateStaticParams() {
@@ -66,10 +67,11 @@ export default async function ProductPage({
   params,
 }: PageProps<"/categories/[slug]/[subcategory]/[product]">) {
   const { slug, subcategory: subcategorySlug, product: productSlug } = await params;
-  const [category, subcategory, product] = await Promise.all([
+  const [category, subcategory, product, settings] = await Promise.all([
     getCategoryBySlug(slug),
     getSubcategoryBySlug(slug, subcategorySlug),
     getProductBySlug(slug, subcategorySlug, productSlug),
+    getFooterSettings(),
   ]);
 
   if (!category || !subcategory || !product) notFound();
@@ -158,7 +160,7 @@ export default async function ProductPage({
             </Link>
             <a
               href={whatsappHref(
-                siteConfig.contact.whatsapp,
+                settings.whatsapp,
                 `Hi, I'm interested in ${product.name} (${product.size}).`
               )}
               target="_blank"

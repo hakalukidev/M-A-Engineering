@@ -8,12 +8,14 @@ export type FooterSettings = {
   shortName: string;
   description: string;
   phone: string;
+  whatsapp: string;
   email: string;
   address: string;
   facebook: string;
   youtube: string;
   instagram: string;
   linkedin: string;
+  messenger: string;
 };
 
 /** Falls back to the hardcoded siteConfig values until an admin saves real footer settings. */
@@ -21,12 +23,14 @@ const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
   shortName: siteConfig.shortName,
   description: siteConfig.description,
   phone: siteConfig.contact.phone,
+  whatsapp: siteConfig.contact.whatsapp,
   email: siteConfig.contact.email,
   address: siteConfig.contact.address,
   facebook: siteConfig.social.facebook,
   youtube: siteConfig.social.youtube,
   instagram: siteConfig.social.instagram,
   linkedin: siteConfig.social.linkedin,
+  messenger: siteConfig.social.messenger,
 };
 
 /**

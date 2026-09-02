@@ -105,8 +105,21 @@ export async function Footer() {
         </div>
       </Container>
 
-      <div className="border-t border-white/10 py-4 text-center text-xs text-zinc-500">
-        &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+      <div className="flex flex-col items-center gap-1.5 border-t border-white/10 py-4 text-center text-xs text-zinc-500 sm:flex-row sm:justify-between sm:px-6">
+        <p>
+          &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+        </p>
+        <p>
+          Developed by{" "}
+          <a
+            href="https://hakaluki.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-zinc-400 hover:text-white"
+          >
+            hakaluki.dev
+          </a>
+        </p>
       </div>
     </footer>
   );

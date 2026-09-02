@@ -7,7 +7,8 @@ import { Container } from "@/components/ui/Container";
 import { ProductCarousel, type ProductCarouselItem } from "@/components/home/ProductCarousel";
 import { siteConfig } from "@/config/site";
 import { getAllCategories, getAllProducts, getProductBySlug, getSubcategoryBySlug } from "@/data/categories";
-import { cn } from "@/lib/utils";
+import { getFooterSettings } from "@/lib/settings";
+import { cn, telHref } from "@/lib/utils";
 
 /** One pick from every subcategory across all 5 categories, so a wide, mostly-full carousel row reads as "one of everything" rather than one line's whole catalog. */
 const FEATURED_PICKS: [string, string, string][] = [
@@ -76,10 +77,11 @@ function StatCard({
  * "Bestselling Products" carousel, both sharing the first fold.
  */
 export async function Hero() {
-  const [categories, products, featuredItems] = await Promise.all([
+  const [categories, products, featuredItems, settings] = await Promise.all([
     getAllCategories(),
     getAllProducts(),
     getFeaturedItems(),
+    getFooterSettings(),
   ]);
   const categoryCount = categories.length;
   const productCount = products.length;
@@ -125,7 +127,7 @@ export async function Hero() {
                   Browse categories
                   <ArrowRight size={16} />
                 </Link>
-                <CTAButton />
+                <CTAButton cta={{ label: "Call Now", action: "call", href: telHref(settings.phone) }} />
               </div>
 
               {/* Frosted stat card, mobile: inline below the CTAs so it can never overlap them.
