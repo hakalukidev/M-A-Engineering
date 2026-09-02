@@ -12,6 +12,7 @@ export type FooterSettings = {
   address: string;
   facebook: string;
   youtube: string;
+  instagram: string;
   linkedin: string;
 };
 
@@ -24,6 +25,7 @@ const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
   address: siteConfig.contact.address,
   facebook: siteConfig.social.facebook,
   youtube: siteConfig.social.youtube,
+  instagram: siteConfig.social.instagram,
   linkedin: siteConfig.social.linkedin,
 };
 

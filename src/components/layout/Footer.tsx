@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, YoutubeIcon } from "@/components/icons/SocialIcons";
 import { siteConfig } from "@/config/site";
 import { getFooterSettings } from "@/lib/settings";
 import { telHref } from "@/lib/utils";
@@ -60,7 +61,7 @@ export async function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-white"
                 >
-                  <ExternalLink size={14} /> Facebook
+                  <FacebookIcon size={14} /> Facebook
                 </a>
               </li>
             )}
@@ -72,7 +73,19 @@ export async function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-white"
                 >
-                  <ExternalLink size={14} /> YouTube
+                  <YoutubeIcon size={14} /> YouTube
+                </a>
+              </li>
+            )}
+            {settings.instagram && (
+              <li>
+                <a
+                  href={settings.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white"
+                >
+                  <InstagramIcon size={14} /> Instagram
                 </a>
               </li>
             )}
@@ -84,7 +97,7 @@ export async function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-white"
                 >
-                  <ExternalLink size={14} /> LinkedIn
+                  <LinkedinIcon size={14} /> LinkedIn
                 </a>
               </li>
             )}

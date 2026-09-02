@@ -25,6 +25,7 @@ export const siteConfig = {
   social: {
     facebook: "https://facebook.com/maengineering", // TODO: client Facebook page URL
     youtube: "https://youtube.com/@maengineering", // TODO: client YouTube channel URL
+    instagram: "https://instagram.com/maengineering", // TODO: client Instagram profile URL
     linkedin: "https://linkedin.com/company/maengineering", // TODO: client LinkedIn page URL
     /** Facebook page id/username used to build the m.me Messenger deep link. */
     messenger: "maengineering", // TODO: client Facebook page id

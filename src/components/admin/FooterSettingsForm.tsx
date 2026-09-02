@@ -101,7 +101,7 @@ export function FooterSettingsForm({ initial }: { initial: FooterSettings }) {
       <div className="border-t border-zinc-100 pt-5">
         <h2 className="text-sm font-semibold text-brand-ink">Social links (optional)</h2>
         <div className="mt-3 space-y-3">
-          {(["facebook", "youtube", "linkedin"] as const).map((key) => (
+          {(["facebook", "youtube", "instagram", "linkedin"] as const).map((key) => (
             <div key={key}>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted capitalize">
                 {key}

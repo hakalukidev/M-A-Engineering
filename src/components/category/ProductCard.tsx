@@ -56,13 +56,16 @@ export function ProductCard({
         </Link>
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-          <p className="text-base font-bold text-brand-ink">{formatPrice(product.price)}</p>
+          <p className="min-w-0 truncate text-sm font-bold text-brand-ink sm:text-base">
+            {formatPrice(product.price)}
+          </p>
           <Link
             href={`/order?product=${product.id}`}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-green-dark px-3.5 py-2 text-xs font-semibold text-brand-cream transition-colors hover:bg-brand-green"
+            aria-label="Add to cart"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-green-dark p-2 text-xs font-semibold text-brand-cream transition-colors hover:bg-brand-green sm:px-3.5 sm:py-2"
           >
             <Plus size={13} strokeWidth={2.75} />
-            Cart
+            <span className="hidden sm:inline">Cart</span>
           </Link>
         </div>
       </div>
