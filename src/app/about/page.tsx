@@ -8,40 +8,21 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
 import { getAllCategories, getAllProducts } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
+import { getAboutSettings } from "@/lib/aboutSettings";
 
 export const metadata: Metadata = {
   title: "About",
   description: `Learn more about ${siteConfig.name}.`,
 };
 
-const pillars = [
-  {
-    icon: Award,
-    title: "Wide Equipment Range",
-    detail: "Restaurant, kitchen, bakery, medical, and food shop gear — under one roof.",
-  },
-  {
-    icon: Truck,
-    title: "Bulk & Custom Orders",
-    detail: "Fitting out a full floor or sourcing a single piece, handled the same way.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Built for Daily Use",
-    detail: "Equipment specified for the pace of a real kitchen, clinic, or shop floor.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Direct Support",
-    detail: "Reach us by phone or WhatsApp — a real person quotes and follows up on every order.",
-  },
-];
+const pillarIcons = [Award, Truck, ShieldCheck, HeartHandshake];
 
 export default async function AboutPage() {
-  const [categories, products, settings] = await Promise.all([
+  const [categories, products, settings, about] = await Promise.all([
     getAllCategories(),
     getAllProducts(),
     getFooterSettings(),
+    getAboutSettings(),
   ]);
   const categoryCount = categories.length;
   const productCount = products.length;
@@ -65,18 +46,15 @@ export default async function AboutPage() {
             </h1>
             <p className="max-w-lg text-lg text-brand-ink/70">{siteConfig.description}</p>
             <p className="max-w-lg text-base leading-relaxed text-brand-ink/60">
-              From a single replacement piece to a complete floor fit-out, every order is quoted
-              and followed up on directly — equipment sourced to match the pace of a real working
-              kitchen, clinic, or shop.
+              {about.bannerParagraph1}
             </p>
             <p className="max-w-lg text-base leading-relaxed text-brand-ink/60">
-              Based in {siteConfig.contact.address}, and reachable by phone or WhatsApp for
-              quotes, bulk orders, and after-sales support.
+              {about.bannerParagraph2}
             </p>
           </div>
           <div className="relative h-[320px] w-full overflow-hidden rounded-md bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[380px] lg:h-[420px] lg:flex-1">
             <Image
-              src="/images/categories/bakery-equipment/cover.jpg"
+              src={about.bannerImage}
               alt="Team at work in a fitted-out bakery equipped by MA Engineering"
               fill
               priority
@@ -87,12 +65,12 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      {/* Story — company profile. Placeholder narrative; replace with the Client's real company profile (proposal section 9). */}
+      {/* Story — company profile, admin-editable (see /admin/settings). */}
       <section className="py-6 sm:py-10">
         <Container className="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
           <div className="relative aspect-[15/7] w-full overflow-hidden rounded-md bg-zinc-100 lg:order-1">
             <Image
-              src="/images/categories/commercial-kitchen-equipment/cover.jpg"
+              src={about.storyImage}
               alt="Commercial kitchen equipment ready for delivery"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -100,19 +78,10 @@ export default async function AboutPage() {
             />
           </div>
           <div className="lg:order-2">
-            <SectionHeading eyebrow="Our story" title="Who We Are" className="mb-5" />
+            <SectionHeading eyebrow={about.storyEyebrow} title={about.storyTitle} className="mb-5" />
             <div className="max-w-xl space-y-4 text-base leading-relaxed text-brand-ink/70">
-              {/* TODO: replace with the Client's company profile (proposal section 9) — history, expertise, and what sets the company apart. */}
-              <p>
-                {siteConfig.name} supplies equipment across the restaurant, commercial kitchen,
-                bakery, medical, and food shop trades — helping businesses in and around Dhaka
-                fit out their space with gear built for daily commercial use.
-              </p>
-              <p>
-                Whether it&apos;s a single replacement piece or a complete floor fit-out, orders
-                are quoted and followed up on directly, with equipment sourced to match the
-                pace of a real working kitchen, clinic, or shop.
-              </p>
+              <p>{about.storyParagraph1}</p>
+              <p>{about.storyParagraph2}</p>
             </div>
           </div>
         </Container>
@@ -123,18 +92,21 @@ export default async function AboutPage() {
         <Container>
           <SectionHeading eyebrow="Why choose us" title="What Sets Us Apart" className="mb-8" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {pillars.map(({ icon: Icon, title, detail }) => (
-              <div
-                key={title}
-                className="group rounded-md bg-brand-green/8 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-brand-green/12 hover:shadow-lg hover:shadow-brand-green-dark/10 hover:ring-brand-green/20"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
-                  <Icon size={18} />
-                </span>
-                <p className="mt-4 font-semibold text-brand-ink">{title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-brand-ink/60">{detail}</p>
-              </div>
-            ))}
+            {about.pillars.map(({ title, detail }, i) => {
+              const Icon = pillarIcons[i];
+              return (
+                <div
+                  key={title}
+                  className="group rounded-md bg-brand-green/8 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-brand-green/12 hover:shadow-lg hover:shadow-brand-green-dark/10 hover:ring-brand-green/20"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
+                    <Icon size={18} />
+                  </span>
+                  <p className="mt-4 font-semibold text-brand-ink">{title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-brand-ink/60">{detail}</p>
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3 rounded-md border border-brand-green/15 px-5 py-4 text-sm text-brand-ink/60 sm:mt-6">
@@ -146,7 +118,7 @@ export default async function AboutPage() {
               <strong className="text-brand-ink">{productCount}+</strong> products listed
             </span>
             <span className="text-brand-ink/25">&middot;</span>
-            <span>Based in {siteConfig.contact.address}</span>
+            <span>Based in {settings.address}</span>
           </div>
         </Container>
       </section>
