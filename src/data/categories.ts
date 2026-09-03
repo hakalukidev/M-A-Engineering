@@ -13,12 +13,15 @@ import type { Category, Product, Subcategory } from "@/types";
  *
  * getAllCategories is wrapped in two layers of caching:
  *  - unstable_cache persists the result *across requests* (tag "catalog",
- *    5 min safety-net revalidate) — without this, every single page load
- *    re-read all ~125 catalog docs from Firestore with no reuse between
- *    visitors, which is what burned through the Spark plan's free daily
- *    read quota during development. Admin mutations call
- *    revalidateTag("catalog") so edits still show up immediately instead
- *    of waiting out the 5 min window.
+ *    24h safety-net revalidate) — without this, every single page load
+ *    re-reads all ~125 catalog docs from Firestore (1 Firestore read per
+ *    document returned) with no reuse between visitors. A 5 min window
+ *    (the original setting) meant ~125 reads every 5 minutes in the
+ *    background alone — ~36k/day, which is what actually burned through
+ *    the Spark plan's free daily read quota, not visitor traffic. Admin
+ *    mutations call revalidateTag("catalog") so edits still show up
+ *    immediately — the 24h window is only a safety net for the rare edit
+ *    path that doesn't go through that action.
  *  - React's cache() on top dedupes *within* a single request, so a page
  *    that calls getCategoryBySlug/getSubcategoryBySlug/getProductBySlug
  *    (each built on this) only resolves the outer promise once.
@@ -80,7 +83,7 @@ const fetchAllCategoriesFromFirestore = unstable_cache(
     });
   },
   ["catalog-all-categories"],
-  { revalidate: 300, tags: ["catalog"] }
+  { revalidate: 86400, tags: ["catalog"] }
 );
 
 export const getAllCategories = cache(fetchAllCategoriesFromFirestore);

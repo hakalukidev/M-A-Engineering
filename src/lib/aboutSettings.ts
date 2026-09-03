@@ -66,7 +66,7 @@ const fetchAboutSettingsFromFirestore = unstable_cache(
     }
   },
   ["about-settings"],
-  { revalidate: 300, tags: ["about-settings"] }
+  { revalidate: 86400, tags: ["about-settings"] }
 );
 
 export const getAboutSettings = cache(fetchAboutSettingsFromFirestore);

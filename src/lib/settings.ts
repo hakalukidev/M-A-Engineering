@@ -35,9 +35,13 @@ const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
 
 /**
  * Same two-layer caching as getAllCategories in src/data/categories.ts —
- * unstable_cache across requests (tag "footer-settings", 5 min safety net;
- * updateFooterSettings revalidates the tag on save), React's cache() within
- * one request.
+ * unstable_cache across requests (tag "footer-settings", 24h safety-net
+ * revalidate; updateFooterSettings revalidates the tag immediately on
+ * save, so this window is only a fallback), React's cache() within one
+ * request. This is a single-document read so the old 5 min window wasn't
+ * the main quota drain (see categories.ts), but it's called from the root
+ * layout on every page, so there's no reason to re-check it any more often
+ * than the safety net requires.
  */
 const fetchFooterSettingsFromFirestore = unstable_cache(
   async (): Promise<FooterSettings> => {
@@ -56,7 +60,7 @@ const fetchFooterSettingsFromFirestore = unstable_cache(
     }
   },
   ["footer-settings"],
-  { revalidate: 300, tags: ["footer-settings"] }
+  { revalidate: 86400, tags: ["footer-settings"] }
 );
 
 export const getFooterSettings = cache(fetchFooterSettingsFromFirestore);
