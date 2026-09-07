@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
-import { formatPrice } from "@/lib/utils";
+import { cn, formatPrice, formatPriceRange } from "@/lib/utils";
 import type { Product } from "@/types";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -86,12 +86,21 @@ function FieldInput({
  */
 export function OrderForm({
   defaultProductId,
+  defaultSize,
   products,
 }: {
   defaultProductId?: string;
+  /** Pre-selected size label, e.g. carried over from the product page's picker. */
+  defaultSize?: string;
   products: Array<Product & { categorySlug: string; subcategorySlug: string }>;
 }) {
   const [productId, setProductId] = useState<string>(defaultProductId ?? products[0]?.id ?? "");
+  const initialProduct = products.find((product) => product.id === productId);
+  const [sizeLabel, setSizeLabel] = useState<string>(
+    (defaultSize && initialProduct?.sizes.some((option) => option.size === defaultSize)
+      ? defaultSize
+      : initialProduct?.sizes[0]?.size) ?? ""
+  );
   const [paymentMethodId, setPaymentMethodId] = useState<string>(
     siteConfig.paymentMethods[0]?.id ?? ""
   );
@@ -101,9 +110,17 @@ export function OrderForm({
   const [error, setError] = useState<string | null>(null);
 
   const selectedProduct = products.find((product) => product.id === productId);
+  const selectedSize =
+    selectedProduct?.sizes.find((option) => option.size === sizeLabel) ?? selectedProduct?.sizes[0];
   const selectedPaymentMethod = siteConfig.paymentMethods.find(
     (method) => method.id === paymentMethodId
   );
+
+  function handleProductChange(nextId: string) {
+    setProductId(nextId);
+    const nextProduct = products.find((product) => product.id === nextId);
+    setSizeLabel(nextProduct?.sizes[0]?.size ?? "");
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -158,12 +175,12 @@ export function OrderForm({
               name="productId"
               required
               value={productId}
-              onChange={(e) => setProductId(e.target.value)}
+              onChange={(e) => handleProductChange(e.target.value)}
               className="w-full appearance-none rounded-md border border-zinc-300 bg-white px-4 py-3 pr-10 text-sm font-medium text-brand-ink outline-none transition-colors focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
             >
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
-                  {product.name} — {product.size}
+                  {product.name} — {formatPriceRange(product.sizes)}
                 </option>
               ))}
             </select>
@@ -172,6 +189,32 @@ export function OrderForm({
               className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-muted"
             />
           </div>
+
+          {selectedProduct && selectedProduct.sizes.length > 1 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {selectedProduct.sizes.map((option) => {
+                const isSelected = option.size === selectedSize?.size;
+                return (
+                  <button
+                    key={option.size}
+                    type="button"
+                    onClick={() => setSizeLabel(option.size)}
+                    aria-pressed={isSelected}
+                    className={cn(
+                      "rounded-md border-2 px-3 py-1.5 text-xs font-semibold transition-colors",
+                      isSelected
+                        ? "border-brand-green bg-brand-green/10 text-brand-ink"
+                        : "border-zinc-200 text-brand-ink/70 hover:border-zinc-300"
+                    )}
+                  >
+                    {option.size}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <input type="hidden" name="size" value={selectedSize?.size ?? ""} />
 
           {selectedProduct && (
             <div className="mt-3 flex items-center gap-3 rounded-md border border-brand-green/15 bg-brand-cream/60 p-3">
@@ -188,10 +231,10 @@ export function OrderForm({
                 <p className="truncate text-sm font-semibold text-brand-ink">
                   {selectedProduct.name}
                 </p>
-                <p className="text-xs text-brand-muted">{selectedProduct.size}</p>
+                <p className="text-xs text-brand-muted">{selectedSize?.size}</p>
               </div>
               <p className="shrink-0 text-lg font-bold text-brand-orange">
-                {formatPrice(selectedProduct.price)}
+                {selectedSize ? formatPrice(selectedSize.price) : "—"}
               </p>
             </div>
           )}
@@ -342,7 +385,7 @@ export function OrderForm({
                 <p className="truncate text-sm font-semibold text-brand-ink">
                   {selectedProduct.name}
                 </p>
-                <p className="text-xs text-brand-muted">{selectedProduct.size}</p>
+                <p className="text-xs text-brand-muted">{selectedSize?.size}</p>
               </div>
             </div>
           )}
@@ -351,7 +394,7 @@ export function OrderForm({
             <div className="flex items-center justify-between">
               <span className="text-brand-muted">Price</span>
               <span className="font-medium text-brand-ink">
-                {selectedProduct ? formatPrice(selectedProduct.price) : "—"}
+                {selectedSize ? formatPrice(selectedSize.price) : "—"}
               </span>
             </div>
             {selectedPaymentMethod && (
@@ -371,7 +414,7 @@ export function OrderForm({
           <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
             <span className="text-sm font-semibold text-brand-ink">Total</span>
             <span className="text-xl font-bold text-brand-orange">
-              {selectedProduct ? formatPrice(selectedProduct.price) : "—"}
+              {selectedSize ? formatPrice(selectedSize.price) : "—"}
             </span>
           </div>
 

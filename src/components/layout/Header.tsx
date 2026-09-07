@@ -72,7 +72,7 @@ export function Header({ phone }: { phone: string }) {
         >
           <div className="grid min-h-14 w-full grid-cols-[auto_1fr] items-center gap-4 px-[20px] py-2 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:py-3">
             <Link href="/" className="flex min-w-0 flex-col justify-self-start leading-tight lg:min-w-fit">
-              <span className="truncate font-serif text-lg font-semibold italic tracking-tight text-brand-cream sm:text-xl">
+              <span className="truncate text-lg font-semibold tracking-tight text-brand-cream sm:text-xl">
                 {siteConfig.tagline}
               </span>
               <span className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-[0.2em] text-brand-cream/60">

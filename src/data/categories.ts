@@ -44,8 +44,12 @@ const fetchAllCategoriesFromFirestore = unstable_cache(
         description: data.description,
         image: data.image,
         images: data.images ?? undefined,
-        size: data.size,
-        price: data.price,
+        // Legacy docs (seeded before multi-size support) only have a single
+        // `size`/`price` pair — read those into a one-entry list so old data
+        // keeps working without a migration.
+        sizes: Array.isArray(data.sizes) && data.sizes.length > 0
+          ? data.sizes
+          : [{ size: data.size, price: data.price }],
         specs: data.specs ?? undefined,
       };
       const list = productsBySubcategory.get(key) ?? [];

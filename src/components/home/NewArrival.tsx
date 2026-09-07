@@ -24,7 +24,7 @@ export function NewArrival() {
               Just landed
             </p>
             <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
-              New <span className="font-serif italic">Arrival</span>
+              New Arrival
             </h2>
             <p className="mt-4 max-w-md text-base text-brand-ink/70">
               The latest addition to our catalog — engineered for even heat, faster recovery,

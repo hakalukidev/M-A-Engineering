@@ -1,65 +1,65 @@
 import Image from "next/image";
-import { Award, ShieldCheck, Wrench } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
-const FEATURES = [
-  { icon: ShieldCheck, eyebrow: "Heavy-Gauge", label: "Stainless Steel" },
-  { icon: Wrench, eyebrow: "Precision", label: "Engineering" },
-  { icon: Award, eyebrow: "Built To", label: "Last" },
+// Real handover photos with clients, supplied 2026-09-07, resized to 800x800
+// and re-compressed (jpeg q78) from the originals to keep page weight down.
+// All four are square, shown together in one row — object-contain so none
+// of them get cropped.
+const CLIENT_PHOTOS = [
+  { src: "/images/home/clients/client-1.jpg", alt: "MA Engineering handing over an order to Food Fantasy with Arafat" },
+  { src: "/images/home/clients/client-2.jpg", alt: "MA Engineering handover with Bastu Properties Ltd." },
+  { src: "/images/home/clients/client-3.jpg", alt: "MA Engineering handover with Shawarma Damasco" },
+  { src: "/images/home/clients/client-4.jpg", alt: "A happy MA Engineering client, 5-star rating" },
 ];
 
+// TODO: point this at the real "See Our Clients" page/link once it's sent
+// over — using a plain anchor since it isn't decided yet whether it's an
+// internal page or an external link.
+const SEE_CLIENTS_HREF = "#";
+
 /**
- * Full-bleed photo card with an italic overlay statement, paired with a row
- * of icon feature cards beneath — visual breathing room after the product
- * carousel, and a chance to sell the build quality behind the catalog.
- * Rounded card + inset margin matches the Hero's photo treatment; the
- * feature row reuses ValueProps' pale-green pill styling.
+ * Client handover-photo row (all four shown together, one row, nothing
+ * cropped) followed by the statement + CTA — visual breathing room after
+ * the product carousel.
  */
 export function LifestyleBreak() {
   return (
     <section className="bg-brand-cream py-14 sm:py-20">
       <Container>
-        <div className="relative min-h-[360px] w-full overflow-hidden rounded-md bg-brand-green-dark sm:min-h-[440px] sm:rounded-md">
-          <Image
-            src="/images/categories/commercial-kitchen-equipment/cover.jpg"
-            alt="Stainless steel commercial kitchen equipment"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-green-dark/90 via-brand-green-dark/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 px-6 pb-8 sm:px-12 sm:pb-12">
-            <p className="max-w-2xl text-xl leading-snug text-brand-cream sm:text-2xl">
-              We build{" "}
-              <span className="font-serif italic text-brand-orange">equipment</span> that
-              holds up for years to come — through daily service and{" "}
-              <span className="font-serif italic text-brand-orange">demanding shifts</span>.
-              Every piece leaves our factory in{" "}
-              <span className="font-serif italic text-brand-orange">
-                heavy-gauge stainless steel
-              </span>
-              .
-            </p>
-          </div>
-        </div>
+        <a
+          href={SEE_CLIENTS_HREF}
+          className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-green-dark px-5 py-2.5 text-sm font-semibold text-brand-cream transition-colors hover:bg-brand-green"
+        >
+          See Our Clients
+          <ArrowRight size={16} />
+        </a>
 
-        <div className="mt-4 grid gap-3 sm:mt-6 sm:grid-cols-3">
-          {FEATURES.map(({ icon: Icon, eyebrow, label }, index) => (
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
+          {CLIENT_PHOTOS.map((photo) => (
             <div
-              key={label}
-              className={`flex items-center gap-3 bg-brand-green/15 px-5 py-3.5 ${
-                index === 1 ? "rounded-full" : "rounded-md"
-              }`}
+              key={photo.src}
+              className="relative aspect-square overflow-hidden rounded-md bg-brand-green-dark sm:rounded-lg"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-cream text-brand-green-dark">
-                <Icon size={16} strokeWidth={1.75} />
-              </span>
-              <p className="leading-tight">
-                <span className="block font-serif italic text-sm text-brand-ink/70">{eyebrow}</span>
-                <span className="block text-base font-semibold text-brand-ink">{label}</span>
-              </p>
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(min-width: 640px) 25vw, 50vw"
+                className="object-contain"
+              />
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 sm:mt-10">
+          <p className="max-w-2xl text-xl leading-snug text-brand-ink sm:text-2xl">
+            We build <span className="font-semibold text-brand-orange">equipment</span> that
+            holds up for years to come — through daily service and{" "}
+            <span className="font-semibold text-brand-orange">demanding shifts</span>.
+            Every piece leaves our factory in{" "}
+            <span className="font-semibold text-brand-orange">heavy-gauge stainless steel</span>.
+          </p>
         </div>
       </Container>
     </section>

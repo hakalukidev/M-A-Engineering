@@ -66,7 +66,7 @@ function ExploreCard({
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent" />
-      <p className="absolute inset-x-0 bottom-0 p-4 font-serif text-base italic leading-tight text-white">
+      <p className="absolute inset-x-0 bottom-0 p-4 text-base font-medium leading-tight text-white">
         {name}
       </p>
     </Link>
@@ -115,7 +115,7 @@ export function Gallery({ categories }: { categories: Category[] }) {
           <h2 className="max-w-xl text-xl leading-snug tracking-tight text-brand-ink/70 sm:text-2xl">
             Explore our range across every category{" "}
             <span className="text-brand-orange">✦</span>{" "}
-            <span className="font-serif italic text-brand-ink">Gallery</span>
+            <span className="text-brand-ink">Gallery</span>
           </h2>
 
           <div className="flex shrink-0 items-center gap-2">

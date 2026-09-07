@@ -11,6 +11,7 @@ import {
 } from "@/app/admin/(protected)/categories/actions";
 
 type SpecRow = { key: string; value: string };
+type SizeRow = { size: string; price: string };
 
 export function ProductForm({
   categorySlug,
@@ -26,8 +27,11 @@ export function ProductForm({
   const [slug, setSlug] = useState(initial?.slug ?? "");
   const [name, setName] = useState(initial?.name ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
-  const [size, setSize] = useState(initial?.size ?? "");
-  const [price, setPrice] = useState(initial?.price?.toString() ?? "");
+  const [sizes, setSizes] = useState<SizeRow[]>(
+    initial?.sizes && initial.sizes.length > 0
+      ? initial.sizes.map((option) => ({ size: option.size, price: option.price.toString() }))
+      : [{ size: "", price: "" }]
+  );
   const [image, setImage] = useState(initial?.image ?? "");
   const [images, setImages] = useState<string[]>(initial?.images ?? []);
   const [specs, setSpecs] = useState<SpecRow[]>(
@@ -40,6 +44,10 @@ export function ProductForm({
     setSpecs((rows) => rows.map((row, i) => (i === index ? { ...row, [field]: value } : row)));
   }
 
+  function updateSize(index: number, field: "size" | "price", value: string) {
+    setSizes((rows) => rows.map((row, i) => (i === index ? { ...row, [field]: value } : row)));
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
@@ -48,6 +56,15 @@ export function ProductForm({
     const specsObject = Object.fromEntries(
       specs.filter((row) => row.key.trim() !== "").map((row) => [row.key.trim(), row.value])
     );
+    const sizesPayload = sizes
+      .filter((row) => row.size.trim() !== "")
+      .map((row) => ({ size: row.size.trim(), price: Number(row.price) }));
+
+    if (sizesPayload.length === 0) {
+      setError("Add at least one size/spec option");
+      setSubmitting(false);
+      return;
+    }
 
     try {
       if (isEdit && initial) {
@@ -56,8 +73,7 @@ export function ProductForm({
           description,
           image,
           images,
-          size,
-          price: Number(price),
+          sizes: sizesPayload,
           specs: specsObject,
         });
         router.push(`/admin/categories/${categorySlug}/subcategories/${subcategorySlug}`);
@@ -71,8 +87,7 @@ export function ProductForm({
           description,
           image,
           images,
-          size,
-          price: Number(price),
+          sizes: sizesPayload,
           specs: specsObject,
         });
       }
@@ -118,32 +133,54 @@ export function ProductForm({
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">
-            Size / spec
-          </label>
-          <input
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            required
-            placeholder="48 x 30 in"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
-          />
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
+            Size / spec options
+          </p>
+          <button
+            type="button"
+            onClick={() => setSizes((rows) => [...rows, { size: "", price: "" }])}
+            className="flex items-center gap-1 text-xs font-semibold text-brand-green hover:underline"
+          >
+            <Plus size={12} />
+            Add size
+          </button>
         </div>
-        <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">
-            Price (BDT)
-          </label>
-          <input
-            type="number"
-            min={0}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
-          />
+        <div className="space-y-2">
+          {sizes.map((row, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input
+                value={row.size}
+                onChange={(e) => updateSize(i, "size", e.target.value)}
+                required
+                placeholder="48 x 30 in"
+                className="w-1/2 rounded-md border border-zinc-300 px-3 py-1.5 text-sm outline-none focus:border-brand-green"
+              />
+              <input
+                type="number"
+                min={0}
+                value={row.price}
+                onChange={(e) => updateSize(i, "price", e.target.value)}
+                required
+                placeholder="Price (BDT)"
+                className="flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm outline-none focus:border-brand-green"
+              />
+              <button
+                type="button"
+                onClick={() => setSizes((rows) => (rows.length > 1 ? rows.filter((_, idx) => idx !== i) : rows))}
+                disabled={sizes.length === 1}
+                className="text-zinc-400 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label="Remove size option"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ))}
         </div>
+        <p className="mt-1.5 text-xs text-brand-muted">
+          Add more rows for products offered in several sizes — each can carry its own price.
+        </p>
       </div>
 
       <ImageUploadField label="Main image" value={image} onChange={setImage} />

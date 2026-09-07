@@ -84,7 +84,7 @@ export default async function ContactPage() {
                   { text: "talk" },
                   { text: "about" },
                   { text: "your" },
-                  { text: "next order", className: "font-serif italic text-brand-green" },
+                  { text: "next order", className: "text-brand-green" },
                 ]}
               />
             </h1>

@@ -3,9 +3,9 @@ import { Leaf } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 /**
- * "Our commitment" break — a staggered three-photo collage over a centered,
- * serif-italic statement. Sits between the catalog sections as a quieter,
- * editorial beat (mirrors the reference: overlapping photos, no eyebrow/title).
+ * "Our commitment" break — a staggered three-photo collage over a centered
+ * statement. Sits between the catalog sections as a quieter, editorial beat
+ * (mirrors the reference: overlapping photos, no eyebrow/title).
  */
 export function Commitment() {
   return (
@@ -41,15 +41,15 @@ export function Commitment() {
           </div>
         </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center font-serif text-xl leading-relaxed text-zinc-500 sm:mt-14 sm:text-2xl">
+        <p className="mx-auto mt-10 max-w-2xl text-center text-xl leading-relaxed text-zinc-500 sm:mt-14 sm:text-2xl">
           Discover our commitment to{" "}
           <Leaf className="mb-1 inline-block h-5 w-5 text-brand-green sm:h-6 sm:w-6" />{" "}
-          <span className="italic">durable, responsibly sourced materials</span>,
+          <span className="font-medium text-zinc-700">durable, responsibly sourced materials</span>,
           energy-efficient engineering, and{" "}
-          <span className="italic">ethical manufacturing</span> partnerships — all
+          <span className="font-medium text-zinc-700">ethical manufacturing</span> partnerships — all
           built to support a harder-working operation and a{" "}
           <Leaf className="mb-1 inline-block h-5 w-5 text-brand-green sm:h-6 sm:w-6" />{" "}
-          <span className="italic">greener commercial kitchen.</span>
+          <span className="font-medium text-zinc-700">greener commercial kitchen.</span>
         </p>
       </Container>
     </section>

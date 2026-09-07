@@ -39,7 +39,6 @@
   --color-brand-primary-dark: var(--brand-primary-dark);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-playfair);
 
   /* Magic UI marquee (src/components/magicui/marquee.tsx) — CSS-driven, Tailwind v4 native. */
   --animate-marquee: marquee var(--duration, 30s) linear infinite;

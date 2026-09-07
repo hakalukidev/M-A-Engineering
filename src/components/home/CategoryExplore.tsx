@@ -41,7 +41,7 @@ function ExploreCard({ slug, name, image }: { slug: string; name: string; image:
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-3 p-5">
         <p className="leading-tight text-white">
           <span className="block text-sm">Explore</span>
-          <span className="block font-serif text-xl italic">{name}</span>
+          <span className="block text-xl font-semibold">{name}</span>
         </p>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-cream px-4 py-1.5 text-xs font-semibold text-brand-ink transition-colors group-hover:bg-white">
           Shop
@@ -89,7 +89,7 @@ export function CategoryExplore({ categories }: { categories: Category[] }) {
       <Container>
         <h2 className="mb-8 max-w-xl text-2xl font-bold leading-snug tracking-tight text-brand-ink sm:text-3xl">
           Explore our built-to-last{" "}
-          <span className="text-brand-orange">✦</span> <span className="font-serif italic">Categories</span>
+          <span className="text-brand-orange">✦</span> Categories
         </h2>
 
         <div className="relative">

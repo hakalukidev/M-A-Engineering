@@ -81,8 +81,8 @@ export function Testimonials() {
     <section className="bg-brand-cream py-14 sm:py-20">
       <Container>
         <div className="mb-10 flex flex-wrap items-start gap-x-10 gap-y-4">
-          <p className="font-serif text-5xl italic text-brand-ink">
-            4.9<span className="text-2xl not-italic text-brand-ink/60">/5</span>
+          <p className="text-5xl font-bold text-brand-ink">
+            4.9<span className="text-2xl font-normal text-brand-ink/60">/5</span>
           </p>
           <p className="max-w-xs text-sm leading-relaxed text-brand-ink/70">
             More than <span className="font-semibold text-brand-ink">25,000</span>{" "}
@@ -103,7 +103,7 @@ export function Testimonials() {
                   {t.quote}
                 </p>
                 <p className="mt-8 text-sm font-semibold text-brand-ink">
-                  {t.name} <span className="font-serif italic">{t.lastName}</span>
+                  {t.name} {t.lastName}
                 </p>
                 <p className="text-xs text-brand-ink/50">{t.detail}</p>
               </div>
@@ -112,7 +112,7 @@ export function Testimonials() {
                 <Quote className="h-6 w-6 shrink-0 fill-brand-orange-dark/70 text-brand-orange-dark/70" strokeWidth={0} />
                 <p className="mt-4 flex-1 text-sm leading-relaxed text-brand-ink/70">{t.quote}</p>
                 <p className="mt-8 text-sm font-semibold text-brand-ink">
-                  {t.name} <span className="font-serif italic">{t.lastName}</span>
+                  {t.name} {t.lastName}
                 </p>
                 <p className="text-xs text-brand-ink/40">{t.detail}</p>
               </div>

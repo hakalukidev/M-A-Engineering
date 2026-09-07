@@ -50,7 +50,7 @@ export function ProductTabs({
       <div className="pt-8">
         {active === "description" && (
           <div>
-            <h2 className="font-serif text-2xl font-semibold text-brand-ink">About This Piece</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">About This Piece</h2>
             <p className="mt-4 max-w-prose text-base leading-relaxed text-brand-ink/70">
               {description}
             </p>

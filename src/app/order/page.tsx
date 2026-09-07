@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 export default async function OrderPage({
   searchParams,
 }: {
-  searchParams: Promise<{ product?: string }>;
+  searchParams: Promise<{ product?: string; size?: string }>;
 }) {
-  const { product } = await searchParams;
+  const { product, size } = await searchParams;
   const products = await getAllProducts();
 
   return (
@@ -25,7 +25,7 @@ export default async function OrderPage({
         subtitle="Pick a product, pay by bKash/Nagad/Rocket/Bank, and upload your payment proof — no online payment gateway needed."
         className="mb-10 max-w-2xl"
       />
-      <OrderForm defaultProductId={product} products={products} />
+      <OrderForm defaultProductId={product} defaultSize={size} products={products} />
     </Container>
   );
 }

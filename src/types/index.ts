@@ -5,6 +5,14 @@
  * inquiry-form shapes.
  */
 
+/** One selectable size/spec option for a product, each with its own fixed price. */
+export interface ProductSizeOption {
+  /** e.g. "48 x 30 in" or "Standard / 4-seat". */
+  size: string;
+  /** Fixed price in BDT for this size — see formatPrice in lib/utils. */
+  price: number;
+}
+
 export interface Product {
   id: string;
   /** Slug-safe name, used for alt text, search matching, and the product's own URL segment. */
@@ -20,10 +28,13 @@ export interface Product {
    * subcategory's cover shot, which isn't actually a photo of this product).
    */
   images?: string[];
-  /** Fixed size/spec shown next to the price (e.g. "Standard / 4-seat"). */
-  size: string;
-  /** Fixed order price in BDT — see formatPrice in lib/utils. */
-  price: number;
+  /**
+   * One or more size/spec options, each with its own fixed price. Most
+   * products have just the one entry; the admin panel lets a product carry
+   * several (e.g. multiple table dimensions) so shoppers can pick between
+   * them. Always has at least one entry.
+   */
+  sizes: ProductSizeOption[];
   /** Optional extra specs shown on hover / lightbox caption. */
   specs?: Record<string, string>;
 }

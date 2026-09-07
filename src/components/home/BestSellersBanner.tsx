@@ -14,7 +14,7 @@ export function BestSellersBanner() {
               Customer favorites
             </p>
             <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
-              Best <span className="font-serif italic">sellers</span>
+              Best sellers
             </h2>
             <p className="mt-4 max-w-md text-base text-brand-ink/70">
               Heavy-gauge stainless steel cookware and cooking equipment, built to hold up

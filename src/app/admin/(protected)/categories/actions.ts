@@ -150,14 +150,24 @@ export type ProductInput = {
   description: string;
   image: string;
   images: string[];
-  size: string;
-  price: number;
+  sizes: { size: string; price: number }[];
   specs: Record<string, string>;
 };
+
+function assertSizes(sizes: { size: string; price: number }[]) {
+  if (sizes.length === 0) throw new Error("At least one size/spec option is required");
+  for (const option of sizes) {
+    if (!option.size.trim()) throw new Error("Every size option needs a label");
+    if (!Number.isFinite(option.price) || option.price < 0) {
+      throw new Error(`Size "${option.size}" needs a valid price`);
+    }
+  }
+}
 
 export async function createProduct(input: ProductInput) {
   await requireAdmin();
   assertSlug(input.slug);
+  assertSizes(input.sizes);
 
   const id = `${input.categorySlug}__${input.subcategorySlug}__${input.slug}`;
   const ref = adminDb.collection("products").doc(id);
@@ -172,8 +182,7 @@ export async function createProduct(input: ProductInput) {
     description: input.description,
     image: input.image,
     images: input.images.length > 0 ? input.images : null,
-    size: input.size,
-    price: input.price,
+    sizes: input.sizes,
     specs: Object.keys(input.specs).length > 0 ? input.specs : null,
     order: await nextOrder(
       adminDb
@@ -196,6 +205,7 @@ export async function updateProduct(
   input: Omit<ProductInput, "categorySlug" | "subcategorySlug" | "slug">
 ) {
   await requireAdmin();
+  assertSizes(input.sizes);
   const id = `${categorySlug}__${subcategorySlug}__${slug}`;
   await adminDb
     .collection("products")
@@ -205,8 +215,7 @@ export async function updateProduct(
       description: input.description,
       image: input.image,
       images: input.images.length > 0 ? input.images : null,
-      size: input.size,
-      price: input.price,
+      sizes: input.sizes,
       specs: Object.keys(input.specs).length > 0 ? input.specs : null,
       updatedAt: new Date(),
     });

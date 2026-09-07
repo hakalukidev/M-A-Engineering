@@ -12,7 +12,6 @@ export interface ProductCarouselItem {
   product: Product;
   categorySlug: string;
   subcategorySlug: string;
-  subcategoryName?: string;
 }
 
 /**
@@ -93,7 +92,7 @@ export function ProductCarousel({
           onScroll={updateScrollState}
           className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {items.map(({ product, categorySlug, subcategorySlug, subcategoryName }) => (
+          {items.map(({ product, categorySlug, subcategorySlug }) => (
             <div
               key={product.id}
               data-card
@@ -103,7 +102,6 @@ export function ProductCarousel({
                 product={product}
                 categorySlug={categorySlug}
                 subcategorySlug={subcategorySlug}
-                subcategoryName={subcategoryName}
               />
             </div>
           ))}

@@ -34,8 +34,7 @@ function makeProduct(
     // photos are genuine extra angles of the same item, so this stays
     // unset for now rather than padding the gallery with lookalikes.
     images,
-    size,
-    price,
+    sizes: [{ size, price }],
   };
 }
 

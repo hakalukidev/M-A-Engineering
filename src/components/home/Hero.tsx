@@ -1,14 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, LayoutGrid } from "lucide-react";
+import {
+  ArrowRight,
+  ChefHat,
+  CookingPot,
+  Croissant,
+  HeartPulse,
+  LayoutGrid,
+  ShieldCheck,
+  Store,
+  Truck,
+} from "lucide-react";
 import { CTAButton } from "@/components/cta/CTAButton";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Container } from "@/components/ui/Container";
 import { ProductCarousel, type ProductCarouselItem } from "@/components/home/ProductCarousel";
-import { siteConfig } from "@/config/site";
 import { getAllCategories, getAllProducts, getProductBySlug, getSubcategoryBySlug } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
 import { cn, telHref } from "@/lib/utils";
+import type { Category } from "@/types";
+
+/** Icon per top-level category, keyed by slug — same 5 categories as CategoryExplore's IMAGES map. */
+const CATEGORY_ICONS: Record<string, typeof ChefHat> = {
+  "restaurant-equipment": ChefHat,
+  "commercial-kitchen-equipment": CookingPot,
+  "bakery-equipment": Croissant,
+  "medical-equipment": HeartPulse,
+  "food-shop-equipment": Store,
+};
 
 /** One pick from every subcategory across all 5 categories, so a wide, mostly-full carousel row reads as "one of everything" rather than one line's whole catalog. */
 const FEATURED_PICKS: [string, string, string][] = [
@@ -42,7 +61,7 @@ async function getFeaturedItems(): Promise<ProductCarouselItem[]> {
         getSubcategoryBySlug(categorySlug, subcategorySlug),
       ]);
       if (!product || !subcategory) return null;
-      return { product, categorySlug, subcategorySlug, subcategoryName: subcategory.name };
+      return { product, categorySlug, subcategorySlug };
     })
   );
   return items.filter((item) => item !== null);
@@ -68,13 +87,30 @@ function StatCard({
   );
 }
 
+/** Compact icon+name pill — sits in the hero photo itself, in place of the old plain-text category line. */
+function CategoryChip({ category }: { category: Category }) {
+  const Icon = CATEGORY_ICONS[category.slug] ?? LayoutGrid;
+  return (
+    <Link
+      href={`/categories/${category.slug}`}
+      className="group flex items-center justify-center gap-2 rounded-full border border-brand-cream/25 bg-brand-cream/10 py-1.5 pr-3.5 pl-1.5 backdrop-blur-sm transition-colors hover:bg-brand-cream/20"
+    >
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-cream/15 text-brand-cream transition-colors group-hover:bg-brand-orange group-hover:text-white">
+        <Icon size={13} />
+      </span>
+      <span className="text-xs font-semibold text-brand-cream">{category.name}</span>
+    </Link>
+  );
+}
+
 /**
  * Homepage hero — rounded photo card (headline + CTA overlaid, frosted stat
  * badge floating bottom-right) inset with a slim margin from the left,
  * right, and top edges — matching the transparent navbar's own inset in
  * Header.tsx so the two read as one continuous rounded card with the nav
  * riding on top of the photo, no gap between them. Stacked above a
- * "Bestselling Products" carousel, both sharing the first fold.
+ * "Shop by category" showcase and a "Bestselling Products" carousel, all
+ * three sharing the first fold.
  */
 export async function Hero() {
   const [categories, products, featuredItems, settings] = await Promise.all([
@@ -96,16 +132,43 @@ export async function Hero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover lg:object-contain"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
           <Container className="relative h-full">
-            <div className="flex h-full flex-col justify-center gap-2.5 pb-4 pt-16 sm:pb-5 sm:pt-20 lg:pt-8">
-              <p className="text-sm font-semibold uppercase tracking-wide text-brand-orange">
-                Restaurant &middot; Commercial Kitchen &middot; Bakery &middot; Medical &middot; Food Shop
-              </p>
+            <div className="flex h-full flex-col justify-center gap-2.5 pb-4 pt-24 sm:pb-5 sm:pt-28 lg:pt-32">
+              <div className="grid max-w-lg grid-cols-3 gap-2">
+                {categories
+                  .filter((category) => CATEGORY_ICONS[category.slug])
+                  .map((category) => (
+                    <CategoryChip key={category.slug} category={category} />
+                  ))}
+              </div>
+
+              {/* Safe Delivery / Reliable Service — sits right below the category boxes above. */}
+              <div className="flex max-w-lg flex-col gap-3 rounded-md border border-brand-cream/15 bg-brand-cream/10 p-4 backdrop-blur-sm sm:flex-row sm:gap-5">
+                <div className="flex items-start gap-2.5">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
+                    <Truck size={15} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-brand-cream">1. Safe Delivery</p>
+                    <p className="mt-0.5 text-xs text-brand-cream/60">Carefully packed, delivered to your site.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
+                    <ShieldCheck size={15} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-brand-cream">2. Reliable Service</p>
+                    <p className="mt-0.5 text-xs text-brand-cream/60">Real support before and after every order.</p>
+                  </div>
+                </div>
+              </div>
+
               <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-brand-cream sm:text-5xl">
                 <TextAnimate
                   segments={[
@@ -113,12 +176,11 @@ export async function Hero() {
                     { text: "That" },
                     { text: "Keeps" },
                     { text: "Your" },
-                    { text: "Business", className: "font-serif italic text-brand-orange" },
+                    { text: "Business", className: "text-brand-orange" },
                     { text: "Running" },
                   ]}
                 />
               </h1>
-              <p className="max-w-md text-lg text-brand-cream/70">{siteConfig.description}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/products"

@@ -5,7 +5,7 @@ import { Plus, Pencil } from "lucide-react";
 import { getSubcategoryBySlug } from "@/data/categories";
 import { SubcategoryForm } from "@/components/admin/SubcategoryForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
-import { formatPrice } from "@/lib/utils";
+import { formatPriceRange } from "@/lib/utils";
 import { deleteProduct } from "../../../actions";
 
 export default async function AdminSubcategoryDetailPage({
@@ -63,7 +63,10 @@ export default async function AdminSubcategoryDetailPage({
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-brand-ink">{product.name}</p>
                   <p className="truncate text-xs text-brand-muted">
-                    {product.size} &middot; {formatPrice(product.price)}
+                    {product.sizes.length > 1
+                      ? `${product.sizes.length} sizes`
+                      : product.sizes[0]?.size}{" "}
+                    &middot; {formatPriceRange(product.sizes)}
                   </p>
                 </div>
                 <Link

@@ -40,7 +40,7 @@ export default async function AboutPage() {
               <TextAnimate
                 segments={[
                   { text: "MA" },
-                  { text: "Engineering", className: "font-serif italic text-brand-green" },
+                  { text: "Engineering", className: "text-brand-green" },
                 ]}
               />
             </h1>

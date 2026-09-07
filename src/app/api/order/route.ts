@@ -25,6 +25,7 @@ export async function POST(request: Request) {
   }
 
   const productId = String(formData.get("productId") ?? "");
+  const sizeLabel = String(formData.get("size") ?? "");
   const name = String(formData.get("name") ?? "");
   const phone = String(formData.get("phone") ?? "");
   const address = String(formData.get("address") ?? "");
@@ -53,6 +54,9 @@ export async function POST(request: Request) {
   if (!product) {
     return NextResponse.json({ error: "Unknown product" }, { status: 400 });
   }
+  // Trust the price for the *matched* size, never a client-supplied price —
+  // falls back to the product's first size if the label is missing/stale.
+  const sizeOption = product.sizes.find((option) => option.size === sizeLabel) ?? product.sizes[0];
 
   const buffer = Buffer.from(await proof.arrayBuffer());
   const { url: proofImageUrl } = await uploadImageToCloudinary(buffer, {
@@ -62,8 +66,8 @@ export async function POST(request: Request) {
   await adminDb.collection("orders").add({
     productId,
     productName: product.name,
-    productSize: product.size,
-    productPrice: product.price,
+    productSize: sizeOption.size,
+    productPrice: sizeOption.price,
     name,
     phone,
     address,

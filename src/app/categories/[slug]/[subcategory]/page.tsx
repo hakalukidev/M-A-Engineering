@@ -49,7 +49,6 @@ export default async function SubcategoryPage({
         products={subcategory.products}
         categorySlug={slug}
         subcategorySlug={subcategory.slug}
-        subcategoryName={subcategory.name}
       />
       <InquiryPopup
         config={{
