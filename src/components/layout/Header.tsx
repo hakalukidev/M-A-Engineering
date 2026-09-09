@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -71,12 +72,22 @@ export function Header({ phone }: { phone: string }) {
           )}
         >
           <div className="grid min-h-14 w-full grid-cols-[auto_1fr] items-center gap-4 px-[20px] py-2 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:py-3">
-            <Link href="/" className="flex min-w-0 flex-col justify-self-start leading-tight lg:min-w-fit">
-              <span className="truncate text-lg font-semibold tracking-tight text-brand-cream sm:text-xl">
-                {siteConfig.tagline}
-              </span>
-              <span className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-[0.2em] text-brand-cream/60">
-                {siteConfig.shortName}
+            <Link href="/" className="flex min-w-0 items-center gap-2.5 justify-self-start lg:min-w-fit">
+              <Image
+                src="/images/logo/homelogo.svg"
+                alt={siteConfig.name}
+                width={40}
+                height={40}
+                className="h-9 w-9 shrink-0 lg:h-11 lg:w-11"
+                priority
+              />
+              <span className="flex min-w-0 flex-col leading-tight">
+                <span className="truncate text-lg font-semibold tracking-tight text-brand-cream sm:text-xl">
+                  {siteConfig.tagline}
+                </span>
+                <span className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-[0.2em] text-brand-cream/60">
+                  {siteConfig.shortName}
+                </span>
               </span>
             </Link>
 

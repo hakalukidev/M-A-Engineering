@@ -17,6 +17,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductCarousel, type ProductCarouselItem } from "@/components/home/ProductCarousel";
 import { getAllCategories, getAllProducts, getProductBySlug, getSubcategoryBySlug } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
+import { getBestsellersSettings } from "@/lib/bestsellersSettings";
 import { cn, telHref } from "@/lib/utils";
 import type { Category } from "@/types";
 
@@ -29,33 +30,11 @@ const CATEGORY_ICONS: Record<string, typeof ChefHat> = {
   "food-shop-equipment": Store,
 };
 
-/** One pick from every subcategory across all 5 categories, so a wide, mostly-full carousel row reads as "one of everything" rather than one line's whole catalog. */
-const FEATURED_PICKS: [string, string, string][] = [
-  ["restaurant-equipment", "dining-furniture", "cushioned-booth-straight"],
-  ["restaurant-equipment", "cooking-ranges", "electric-griddle-range"],
-  ["restaurant-equipment", "refrigeration-units", "back-bar-cooler"],
-  ["restaurant-equipment", "serving-counters", "salad-bar-counter"],
-  ["commercial-kitchen-equipment", "cooking-equipment", "deep-fryer-single-basket"],
-  ["commercial-kitchen-equipment", "food-preparation-equipment", "planetary-mixer-10l"],
-  ["commercial-kitchen-equipment", "refrigeration-storage", "blast-chiller"],
-  ["commercial-kitchen-equipment", "dishwashing-equipment", "hood-type-dishwasher"],
-  ["bakery-equipment", "ovens-proofers", "deck-oven-2-deck"],
-  ["bakery-equipment", "mixers-dough-equipment", "spiral-dough-mixer-25kg"],
-  ["bakery-equipment", "display-showcases", "cake-display-showcase-curved"],
-  ["bakery-equipment", "packaging-equipment", "tray-sealer"],
-  ["medical-equipment", "hospital-furniture", "electric-hospital-bed"],
-  ["medical-equipment", "diagnostic-equipment", "digital-blood-pressure-monitor"],
-  ["medical-equipment", "surgical-equipment", "operating-table"],
-  ["medical-equipment", "sterilization-equipment", "autoclave-50l"],
-  ["food-shop-equipment", "display-counters", "meat-display-counter"],
-  ["food-shop-equipment", "refrigeration-freezers", "multi-deck-open-chiller"],
-  ["food-shop-equipment", "weighing-billing", "pos-billing-machine"],
-  ["food-shop-equipment", "storage-shelving", "gondola-shelving"],
-];
-
+/** Admin-curated via /admin/settings (src/lib/bestsellersSettings.ts) — falls back to one pick per subcategory until an admin saves a real list. */
 async function getFeaturedItems(): Promise<ProductCarouselItem[]> {
+  const { picks } = await getBestsellersSettings();
   const items = await Promise.all(
-    FEATURED_PICKS.map(async ([categorySlug, subcategorySlug, productSlug]) => {
+    picks.map(async ({ categorySlug, subcategorySlug, productSlug }) => {
       const [product, subcategory] = await Promise.all([
         getProductBySlug(categorySlug, subcategorySlug, productSlug),
         getSubcategoryBySlug(categorySlug, subcategorySlug),

@@ -8,14 +8,19 @@ import { QuoteCTA } from "@/components/home/QuoteCTA";
 import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer";
 import { getAllCategories } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
+import { getClientsSettings } from "@/lib/clientsSettings";
 
 export default async function HomePage() {
-  const [categories, settings] = await Promise.all([getAllCategories(), getFooterSettings()]);
+  const [categories, settings, clientsSettings] = await Promise.all([
+    getAllCategories(),
+    getFooterSettings(),
+    getClientsSettings(),
+  ]);
 
   return (
     <>
       <Hero />
-      <LifestyleBreak />
+      <LifestyleBreak photos={clientsSettings.photos} seeClientsHref={clientsSettings.seeClientsHref} />
       <CategoryExplore categories={categories} />
       <Gallery categories={categories} />
       <Testimonials />
