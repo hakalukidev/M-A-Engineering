@@ -2,18 +2,21 @@ import { getFooterSettings } from "@/lib/settings";
 import { getAboutSettings } from "@/lib/aboutSettings";
 import { getClientsSettings } from "@/lib/clientsSettings";
 import { getBestsellersSettings } from "@/lib/bestsellersSettings";
+import { getCategoriesExploreSettings } from "@/lib/categoriesExploreSettings";
 import { getAllCategories, getAllProducts } from "@/data/categories";
 import { FooterSettingsForm } from "@/components/admin/FooterSettingsForm";
 import { AboutSettingsForm } from "@/components/admin/AboutSettingsForm";
 import { ClientsSettingsForm } from "@/components/admin/ClientsSettingsForm";
 import { BestsellersSettingsForm, type CatalogProductOption } from "@/components/admin/BestsellersSettingsForm";
+import { CategoriesExploreSettingsForm } from "@/components/admin/CategoriesExploreSettingsForm";
 
 export default async function AdminSettingsPage() {
-  const [footerSettings, aboutSettings, clientsSettings, bestsellersSettings, categories, products] = await Promise.all([
+  const [footerSettings, aboutSettings, clientsSettings, bestsellersSettings, categoriesExploreSettings, categories, products] = await Promise.all([
     getFooterSettings(),
     getAboutSettings(),
     getClientsSettings(),
     getBestsellersSettings(),
+    getCategoriesExploreSettings(),
     getAllCategories(),
     getAllProducts(),
   ]);
@@ -74,6 +77,22 @@ export default async function AdminSettingsPage() {
         </p>
         <div className="mt-6">
           <BestsellersSettingsForm initial={bestsellersSettings} catalogProducts={catalogProducts} />
+        </div>
+      </div>
+
+      <div>
+        <h1 className="text-2xl font-bold text-brand-ink">Explore Categories</h1>
+        <p className="mt-1 text-sm text-brand-muted">
+          Controls which categories appear in the &quot;Explore our built-to-last Categories&quot;
+          carousel on the homepage, their order, and the photo shown for each. A category needs an
+          uploaded photo here to show up in the carousel — to change a category&apos;s name or
+          catalog page, edit it under Categories instead.
+        </p>
+        <div className="mt-6">
+          <CategoriesExploreSettingsForm
+            initial={categoriesExploreSettings}
+            categoryOptions={categories.map((c) => ({ slug: c.slug, name: c.name }))}
+          />
         </div>
       </div>
     </div>

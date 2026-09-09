@@ -9,19 +9,21 @@ import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer"
 import { getAllCategories } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
 import { getClientsSettings } from "@/lib/clientsSettings";
+import { getCategoriesExploreSettings } from "@/lib/categoriesExploreSettings";
 
 export default async function HomePage() {
-  const [categories, settings, clientsSettings] = await Promise.all([
+  const [categories, settings, clientsSettings, categoriesExploreSettings] = await Promise.all([
     getAllCategories(),
     getFooterSettings(),
     getClientsSettings(),
+    getCategoriesExploreSettings(),
   ]);
 
   return (
     <>
       <Hero />
       <LifestyleBreak photos={clientsSettings.photos} seeClientsHref={clientsSettings.seeClientsHref} />
-      <CategoryExplore categories={categories} />
+      <CategoryExplore categories={categories} picks={categoriesExploreSettings.picks} />
       <Gallery categories={categories} />
       <Testimonials />
       <Commitment />

@@ -6,22 +6,17 @@ import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import type { Category } from "@/types";
+import type { CategoryExplorePick } from "@/lib/categoriesExploreSettings";
 
 const GAP_PX = 12; // matches the gap-3 on the scroller
 
 /**
  * Top-level category explore strip — one card per main category, styled as
  * an "Explore <name> / Shop →" carousel. Sits below LifestyleBreak's
- * trust-badge row, using its own photo set (not reused from Gallery's
- * subcategory-level picks) so the two carousels don't repeat images.
+ * trust-badge row, using its own admin-curated photo set (see
+ * CategoriesExploreSettingsForm in the admin panel, not reused from
+ * Gallery's subcategory-level picks) so the two carousels don't repeat images.
  */
-const IMAGES: Record<string, string> = {
-  "restaurant-equipment": "/images/home/explore-categories/restaurant-equipment.jpg",
-  "commercial-kitchen-equipment": "/images/home/explore-categories/commercial-kitchen-equipment.jpg",
-  "bakery-equipment": "/images/home/explore-categories/bakery-equipment.jpg",
-  "medical-equipment": "/images/home/explore-categories/medical-equipment.jpg",
-  "food-shop-equipment": "/images/home/explore-categories/food-shop-equipment.jpg",
-};
 
 function ExploreCard({ slug, name, image }: { slug: string; name: string; image: string }) {
   return (
@@ -52,14 +47,15 @@ function ExploreCard({ slug, name, image }: { slug: string; name: string; image:
   );
 }
 
-export function CategoryExplore({ categories }: { categories: Category[] }) {
+export function CategoryExplore({ categories, picks }: { categories: Category[]; picks: CategoryExplorePick[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const tiles = categories
-    .filter((category) => IMAGES[category.slug])
-    .map((category) => ({ slug: category.slug, name: category.name, image: IMAGES[category.slug] }));
+  const namesBySlug = new Map(categories.map((category) => [category.slug, category.name]));
+  const tiles = picks
+    .filter((pick) => pick.image && namesBySlug.has(pick.categorySlug))
+    .map((pick) => ({ slug: pick.categorySlug, name: namesBySlug.get(pick.categorySlug)!, image: pick.image }));
 
   function updateScrollState() {
     const el = scrollerRef.current;

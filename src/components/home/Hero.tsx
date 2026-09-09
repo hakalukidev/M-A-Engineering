@@ -21,7 +21,7 @@ import { getBestsellersSettings } from "@/lib/bestsellersSettings";
 import { cn, telHref } from "@/lib/utils";
 import type { Category } from "@/types";
 
-/** Icon per top-level category, keyed by slug — same 5 categories as CategoryExplore's IMAGES map. */
+/** Icon per top-level category, keyed by slug. */
 const CATEGORY_ICONS: Record<string, typeof ChefHat> = {
   "restaurant-equipment": ChefHat,
   "commercial-kitchen-equipment": CookingPot,
