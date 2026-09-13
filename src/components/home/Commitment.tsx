@@ -12,7 +12,7 @@ export function Commitment() {
     <section className="py-14 sm:py-20">
       <Container>
         <div className="mx-auto flex max-w-5xl items-center justify-center">
-          <div className="relative z-0 -mr-[6%] w-[26%] shrink-0 aspect-[13/15] overflow-hidden rounded-md shadow-lg">
+          <div className="relative z-0 -mr-[6%] w-[26%] shrink-0 aspect-[13/15] overflow-hidden rounded-xl shadow-lg">
             <Image
               src="/images/categories/commercial-kitchen-equipment/refrigeration-storage/blast-chiller.jpg"
               alt="Commercial refrigeration units"
@@ -21,7 +21,7 @@ export function Commitment() {
               className="object-cover"
             />
           </div>
-          <div className="relative z-10 w-[48%] shrink-0 aspect-[65/44] overflow-hidden rounded-md shadow-xl">
+          <div className="relative z-10 w-[48%] shrink-0 aspect-[65/44] overflow-hidden rounded-xl shadow-xl">
             <Image
               src="/images/categories/restaurant-equipment/dining-furniture/wooden-dining-chair.jpg"
               alt="Wooden dining chairs and table"
@@ -30,7 +30,7 @@ export function Commitment() {
               className="object-cover"
             />
           </div>
-          <div className="relative z-0 -ml-[6%] w-[26%] shrink-0 aspect-[13/15] overflow-hidden rounded-md shadow-lg">
+          <div className="relative z-0 -ml-[6%] w-[26%] shrink-0 aspect-[13/15] overflow-hidden rounded-xl shadow-lg">
             <Image
               src="/images/categories/bakery-equipment/ovens-proofers/deck-oven-2-deck.jpg"
               alt="Commercial deck oven and proofer"

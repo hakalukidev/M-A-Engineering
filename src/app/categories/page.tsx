@@ -39,7 +39,7 @@ export default async function CategoriesPage() {
             >
               <div
                 className={cn(
-                  "relative h-[300px] w-full overflow-hidden rounded-md bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[420px] lg:h-[520px] lg:flex-[1.2]",
+                  "relative h-[300px] w-full overflow-hidden rounded-xl bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[420px] lg:h-[520px] lg:flex-[1.2]",
                   imageOnRight ? "lg:order-2" : "lg:order-1"
                 )}
               >
@@ -73,7 +73,7 @@ export default async function CategoriesPage() {
                 </p>
                 <Link
                   href={`/categories/${category.slug}`}
-                  className="group mt-2 inline-flex w-fit items-center gap-2 rounded-md bg-brand-green px-5 py-2.5 text-sm font-semibold text-brand-cream shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-orange hover:shadow-lg"
+                  className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-brand-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark hover:shadow-lg"
                 >
                   Explore {category.name}
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />

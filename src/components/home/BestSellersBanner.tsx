@@ -30,7 +30,7 @@ export function BestSellersBanner() {
             </Link>
           </div>
 
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-zinc-100">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-zinc-100">
             <Image
               src="/images/home/best-sellers-banner.jpg"
               alt="Polished stainless steel cookware in a commercial kitchen"

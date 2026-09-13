@@ -23,9 +23,9 @@ export function ProductCard({
   const href = `/categories/${categorySlug}/${subcategorySlug}/${product.id}`;
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-md border border-brand-ink/10 bg-brand-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-green/30 hover:shadow-lg hover:shadow-brand-green-dark/10">
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-brand-ink/10 bg-brand-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-green/30 hover:shadow-lg hover:shadow-brand-green-dark/10">
       <Link href={href} className="block p-2.5 pb-0">
-        <div className="relative aspect-square w-full overflow-hidden rounded-md bg-gradient-to-b from-brand-cream to-brand-ink/10">
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gradient-to-b from-brand-cream to-brand-ink/10">
           <Image
             src={product.image}
             alt={product.name}

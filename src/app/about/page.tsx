@@ -52,7 +52,7 @@ export default async function AboutPage() {
               {about.bannerParagraph2}
             </p>
           </div>
-          <div className="relative h-[320px] w-full overflow-hidden rounded-md bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[380px] lg:h-[420px] lg:flex-1">
+          <div className="relative h-[320px] w-full overflow-hidden rounded-xl bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[380px] lg:h-[420px] lg:flex-1">
             <Image
               src={about.bannerImage}
               alt="Team at work in a fitted-out bakery equipped by MA Engineering"
@@ -68,7 +68,7 @@ export default async function AboutPage() {
       {/* Story — company profile, admin-editable (see /admin/settings). */}
       <section className="py-6 sm:py-10">
         <Container className="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
-          <div className="relative aspect-[15/7] w-full overflow-hidden rounded-md bg-zinc-100 lg:order-1">
+          <div className="relative aspect-[15/7] w-full overflow-hidden rounded-xl bg-zinc-100 lg:order-1">
             <Image
               src={about.storyImage}
               alt="Commercial kitchen equipment ready for delivery"
@@ -97,7 +97,7 @@ export default async function AboutPage() {
               return (
                 <div
                   key={title}
-                  className="group rounded-md bg-brand-green/8 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-brand-green/12 hover:shadow-lg hover:shadow-brand-green-dark/10 hover:ring-brand-green/20"
+                  className="group rounded-xl bg-brand-green/8 p-5 shadow-sm ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-brand-green/12 hover:shadow-lg hover:shadow-brand-green-dark/10 hover:ring-brand-green/20"
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
                     <Icon size={18} />
@@ -109,7 +109,7 @@ export default async function AboutPage() {
             })}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-3 rounded-md border border-brand-green/15 px-5 py-4 text-sm text-brand-ink/60 sm:mt-6">
+          <div className="mt-4 flex flex-wrap gap-3 rounded-xl border border-brand-green/15 px-5 py-4 text-sm text-brand-ink/60 sm:mt-6">
             <span>
               <strong className="text-brand-ink">{categoryCount}</strong> equipment categories
             </span>

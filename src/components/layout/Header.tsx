@@ -67,11 +67,11 @@ export function Header({ phone }: { phone: string }) {
           className={cn(
             "transition-[colors,margin,border-radius] duration-300",
             overlay
-              ? "mx-[10px] mt-[10px] rounded-md bg-brand-green-dark/25 backdrop-blur-md sm:mx-[20px] sm:mt-[20px]"
+              ? "mx-[10px] mt-[10px] rounded-xl bg-brand-green-dark/25 backdrop-blur-md sm:mx-[20px] sm:mt-[20px]"
               : "bg-brand-green-dark"
           )}
         >
-          <div className="grid min-h-14 w-full grid-cols-[auto_1fr] items-center gap-4 px-[20px] py-2 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:py-3">
+          <div className="mx-auto grid min-h-14 w-full max-w-7xl grid-cols-[auto_1fr] items-center gap-4 px-5 py-2 sm:px-6 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:px-8 lg:py-3">
             <Link href="/" className="flex min-w-0 items-center gap-2.5 justify-self-start lg:min-w-fit">
               <Image
                 src="/images/logo/homelogo.svg"
@@ -98,8 +98,8 @@ export function Header({ phone }: { phone: string }) {
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "text-sm font-bold text-white transition-colors hover:text-brand-orange",
-                    isActive(item.href) && "text-brand-orange"
+                    "text-sm font-medium text-white/75 transition-colors hover:text-white",
+                    isActive(item.href) && "font-semibold text-white"
                   )}
                 >
                   {item.label}
@@ -119,7 +119,7 @@ export function Header({ phone }: { phone: string }) {
               </a>
 
               <div className="hidden sm:block">
-                <button type="button" onClick={openQuote} className={buttonVariants("primary")}>
+                <button type="button" onClick={openQuote} className={buttonVariants("inverted")}>
                   Get a Quote
                 </button>
               </div>
@@ -137,7 +137,7 @@ export function Header({ phone }: { phone: string }) {
 
           <nav
             className={cn(
-              "w-full flex-col gap-1 border-t border-brand-cream/15 px-[20px] py-3 lg:hidden",
+              "w-full flex-col gap-1 border-t border-brand-cream/15 px-5 py-3 sm:px-6 lg:hidden",
               mobileOpen ? "flex" : "hidden"
             )}
           >
@@ -148,8 +148,8 @@ export function Header({ phone }: { phone: string }) {
                 onClick={() => setMobileOpen(false)}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "rounded-md px-2 py-2 text-sm font-bold text-white hover:bg-brand-cream/10",
-                  isActive(item.href) && "bg-brand-cream/10 text-brand-orange"
+                  "rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-brand-cream/10 hover:text-white",
+                  isActive(item.href) && "bg-brand-cream/10 font-semibold text-white"
                 )}
               >
                 {item.label}
@@ -161,7 +161,7 @@ export function Header({ phone }: { phone: string }) {
                 setMobileOpen(false);
                 openQuote();
               }}
-              className={cn(buttonVariants("primary"), "mt-2 w-full")}
+              className={cn(buttonVariants("inverted"), "mt-2 w-full")}
             >
               Get a Quote
             </button>

@@ -16,9 +16,9 @@ export function QuoteCTA({ phone, whatsapp }: { phone: string; whatsapp: string 
   return (
     <section className="pb-14 sm:pb-20">
       <Container>
-        <div className="relative overflow-hidden rounded-md bg-brand-green-dark px-6 py-14 sm:px-12 sm:py-16">
+        <div className="relative overflow-hidden rounded-xl bg-brand-green-dark px-6 py-14 sm:px-12 sm:py-16">
           <div className="pointer-events-none absolute -right-10 top-1/2 hidden -translate-y-1/2 gap-4 opacity-90 lg:flex">
-            <div className="relative mt-8 h-40 w-32 overflow-hidden rounded-md ring-4 ring-brand-green-dark">
+            <div className="relative mt-8 h-40 w-32 overflow-hidden rounded-xl ring-4 ring-brand-green-dark">
               <Image
                 src="/images/categories/medical-equipment/cover.jpg"
                 alt=""
@@ -27,7 +27,7 @@ export function QuoteCTA({ phone, whatsapp }: { phone: string; whatsapp: string 
                 className="object-cover"
               />
             </div>
-            <div className="relative h-52 w-36 overflow-hidden rounded-md ring-4 ring-brand-green-dark">
+            <div className="relative h-52 w-36 overflow-hidden rounded-xl ring-4 ring-brand-green-dark">
               <Image
                 src="/images/categories/food-shop-equipment/cover.jpg"
                 alt=""

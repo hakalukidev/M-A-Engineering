@@ -42,7 +42,7 @@ export function ProductOrderPanel({ product, whatsapp }: { product: Product; wha
                 onClick={() => setSelectedSize(option.size)}
                 aria-pressed={isSelected}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md border-2 px-4 py-2 text-sm font-semibold transition-colors",
+                  "inline-flex items-center gap-1.5 rounded-xl border-2 px-4 py-2 text-sm font-semibold transition-colors",
                   isSelected
                     ? "border-brand-green bg-brand-green/10 text-brand-ink"
                     : "border-brand-ink/15 text-brand-ink/70 hover:border-brand-ink/30"

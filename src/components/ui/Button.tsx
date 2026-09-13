@@ -1,13 +1,15 @@
 import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export type ButtonVariant = "primary" | "secondary" | "outline" | "accent";
+export type ButtonVariant = "primary" | "secondary" | "outline" | "accent" | "inverted";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-brand-primary text-white hover:bg-brand-primary-dark",
+  primary: "bg-brand-primary text-white shadow-sm shadow-brand-primary/20 hover:bg-brand-primary-dark",
   secondary: "bg-brand-ink text-brand-cream hover:bg-brand-ink/85",
-  outline: "border border-zinc-300 text-zinc-900 hover:bg-zinc-100",
-  accent: "bg-brand-green text-white hover:bg-brand-green-dark",
+  outline: "border border-zinc-300 text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50",
+  accent: "bg-brand-orange text-white hover:bg-brand-orange-dark",
+  /** White pill for use on dark/photo surfaces (header, hero) where the green primary would blend in. */
+  inverted: "bg-white text-brand-green-dark shadow-sm hover:bg-brand-cream",
 };
 
 /** Shared class string so links styled as buttons (e.g. CTAButton) stay in sync. */

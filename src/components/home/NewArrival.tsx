@@ -9,7 +9,7 @@ export function NewArrival() {
     <section className="py-14 sm:py-20">
       <Container>
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-zinc-100">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-zinc-100">
             <Image
               src="/images/home/new-arrival-banner.jpg"
               alt="Newly installed stainless steel commercial oven"

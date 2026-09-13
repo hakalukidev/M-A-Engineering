@@ -31,7 +31,7 @@ export function LifestyleBreak({
           {photos.map((photo) => (
             <div
               key={photo.src}
-              className="relative aspect-square overflow-hidden rounded-md bg-brand-green-dark sm:rounded-lg"
+              className="relative aspect-square overflow-hidden rounded-xl bg-brand-green-dark sm:rounded-lg"
             >
               <Image
                 src={photo.src}
@@ -46,10 +46,8 @@ export function LifestyleBreak({
 
         <div className="mt-8 sm:mt-10">
           <p className="max-w-2xl text-xl leading-snug text-brand-ink sm:text-2xl">
-            We build <span className="font-semibold text-brand-orange">equipment</span> that
-            holds up for years to come — through daily service and{" "}
-            <span className="font-semibold text-brand-orange">demanding shifts</span>.
-            Every piece leaves our factory in{" "}
+            We build <span className="font-semibold text-brand-orange">equipment</span> built
+            to last, in{" "}
             <span className="font-semibold text-brand-orange">heavy-gauge stainless steel</span>.
           </p>
         </div>

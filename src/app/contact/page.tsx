@@ -100,7 +100,7 @@ export default async function ContactPage() {
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="group flex min-w-0 items-center gap-3 rounded-md border border-brand-ink/10 bg-brand-card/60 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-green/30 hover:bg-brand-card hover:shadow-md hover:shadow-brand-green-dark/10"
+                    className="group flex min-w-0 items-center gap-3 rounded-xl border border-brand-ink/10 bg-brand-card/60 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-green/30 hover:bg-brand-card hover:shadow-md hover:shadow-brand-green-dark/10"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream transition-colors duration-300 group-hover:bg-brand-orange">
                       <Icon size={17} />
@@ -127,9 +127,9 @@ export default async function ContactPage() {
           <div className="relative min-w-0 isolate lg:-translate-x-[50px]">
             <div
               aria-hidden
-              className="absolute inset-0 -z-10 hidden translate-x-3 translate-y-3 rounded-md bg-brand-green/15 sm:block"
+              className="absolute inset-0 -z-10 hidden translate-x-3 translate-y-3 rounded-xl bg-brand-green/15 sm:block"
             />
-            <div className="rounded-md border border-brand-ink/10 bg-brand-card p-6 shadow-xl shadow-brand-green-dark/10 sm:p-8">
+            <div className="rounded-xl border border-brand-ink/10 bg-brand-card p-6 shadow-xl shadow-brand-green-dark/10 sm:p-8">
               <SectionHeading
                 eyebrow="Send an inquiry"
                 title="Tell Us What You Need"
@@ -151,7 +151,7 @@ export default async function ContactPage() {
             subtitle={settings.address}
             className="mb-8"
           />
-          <div className="overflow-hidden rounded-md border border-brand-ink/10 shadow-sm">
+          <div className="overflow-hidden rounded-xl border border-brand-ink/10 shadow-sm">
             <iframe
               src={siteConfig.contact.mapEmbedUrl}
               title="Our location on Google Maps"
@@ -166,7 +166,7 @@ export default async function ContactPage() {
       {/* FAQ — decorative question panel on the left, common pre-order questions on the right. */}
       <section className="py-14 sm:py-20">
         <Container className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative hidden self-start overflow-hidden rounded-md bg-brand-green-dark p-8 lg:flex lg:flex-col lg:justify-between">
+          <div className="relative hidden self-start overflow-hidden rounded-xl bg-brand-green-dark p-8 lg:flex lg:flex-col lg:justify-between">
             <HelpCircle
               size={140}
               strokeWidth={1}
@@ -205,7 +205,7 @@ export default async function ContactPage() {
               {faqs.map(({ q, a }) => (
                 <details
                   key={q}
-                  className="group rounded-md border border-brand-ink/10 bg-brand-card p-4 open:border-brand-green/30 sm:p-5"
+                  className="group rounded-xl border border-brand-ink/10 bg-brand-card p-4 open:border-brand-green/30 sm:p-5"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-brand-ink [&::-webkit-details-marker]:hidden">
                     {q}

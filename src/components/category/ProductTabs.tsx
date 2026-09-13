@@ -58,7 +58,7 @@ export function ProductTabs({
         )}
 
         {active === "specifications" && hasSpecs && (
-          <div className="max-w-2xl divide-y divide-brand-ink/10 overflow-hidden rounded-md border border-brand-ink/10">
+          <div className="max-w-2xl divide-y divide-brand-ink/10 overflow-hidden rounded-xl border border-brand-ink/10">
             {Object.entries(specs!).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between gap-4 bg-brand-card px-5 py-3.5">
                 <span className="text-sm font-medium text-brand-muted">{key}</span>

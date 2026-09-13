@@ -49,8 +49,8 @@ export function Breadcrumbs() {
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="border-t border-brand-cream bg-brand-card">
-      <ol className="flex w-full flex-wrap items-center gap-1.5 px-[20px] py-2.5 text-xs text-brand-muted">
+    <nav aria-label="Breadcrumb" className="border-t border-black/5 bg-brand-card">
+      <ol className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-1.5 px-5 py-2.5 text-xs text-brand-muted sm:px-6 lg:px-8">
         <li>
           <Link href="/" className="hover:text-brand-ink">
             Home

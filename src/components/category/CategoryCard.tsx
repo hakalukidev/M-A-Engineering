@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -16,7 +12,7 @@ import {
 import type { Category } from "@/types";
 import { cn } from "@/lib/utils";
 
-/** Per-category glyph, shown as a badge and as a watermark when the cover image is missing. Also reused wherever a category needs a matching icon (e.g. the categories directory page). */
+/** Per-category glyph, shown as a badge and as a large watermark on the card. Also reused wherever a category needs a matching icon (e.g. the categories directory page). */
 export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "restaurant-equipment": UtensilsCrossed,
   "commercial-kitchen-equipment": Flame,
@@ -27,6 +23,9 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
 
 /**
  * Prominent homepage category button linking into its category page (proposal 4.1).
+ * Photo-free by design: a flat brand-color tile with an icon watermark reads as
+ * more consistent and professional across categories than mismatched cover
+ * photos, and sidesteps relying on admin-uploaded images being clean/on-brand.
  * `featured` renders a larger tile for the lead position in a bento-style grid.
  */
 export function CategoryCard({
@@ -36,7 +35,6 @@ export function CategoryCard({
   category: Category;
   featured?: boolean;
 }) {
-  const [imageFailed, setImageFailed] = useState(false);
   const Icon = CATEGORY_ICONS[category.slug] ?? Package;
   const typeCount = category.subcategories.length;
 
@@ -44,30 +42,19 @@ export function CategoryCard({
     <Link
       href={`/categories/${category.slug}`}
       className={cn(
-        "group relative flex aspect-[4/3] h-full w-full flex-col justify-end overflow-hidden rounded-md bg-gradient-to-br from-brand-green to-brand-green-dark shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-green-dark/20 lg:aspect-auto"
+        "group relative flex aspect-[4/3] h-full w-full flex-col justify-end overflow-hidden rounded-xl bg-gradient-to-br from-brand-green to-brand-green-dark shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-green-dark/20 lg:aspect-auto"
       )}
     >
-      {!imageFailed && (
-        <Image
-          src={category.coverImage}
-          alt={category.name}
-          fill
-          sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-          onError={() => setImageFailed(true)}
-        />
-      )}
+      <Icon
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute text-white/10 transition-transform duration-500 group-hover:scale-105",
+          featured ? "-bottom-10 -right-10 h-48 w-48" : "-bottom-6 -right-6 h-28 w-28"
+        )}
+        strokeWidth={1}
+      />
 
-      {imageFailed && (
-        <Icon
-          aria-hidden
-          className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-white/10"
-          strokeWidth={1}
-        />
-      )}
-
-      {/* Legibility gradient, always present regardless of image state. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
       <div className="pointer-events-none absolute left-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/20">
         <Icon className="h-5 w-5 text-white" strokeWidth={1.75} />

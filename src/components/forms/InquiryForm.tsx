@@ -46,7 +46,7 @@ export function InquiryForm({
 
   if (status === "success") {
     return (
-      <p className="rounded-md bg-green-50 p-4 text-sm text-green-700">
+      <p className="rounded-xl bg-green-50 p-4 text-sm text-green-700">
         Thanks — we&apos;ve received your inquiry and will get back to you shortly.
       </p>
     );
@@ -58,26 +58,26 @@ export function InquiryForm({
         name="name"
         required
         placeholder="Full name"
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-ink"
+        className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
       />
       <input
         name="phone"
         required
         placeholder="Phone number"
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-ink"
+        className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
       />
       <input
         name="email"
         type="email"
         placeholder="Email (optional)"
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-ink"
+        className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
       />
       <textarea
         name="message"
         required
         rows={3}
         placeholder="What equipment are you interested in?"
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-ink"
+        className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-brand-ink outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
       />
       {/* Honeypot — real visitors never see or fill this; a submission with it filled in is a bot. */}
       <input
@@ -88,7 +88,7 @@ export function InquiryForm({
         aria-hidden="true"
         className="absolute -left-[9999px] h-0 w-0 opacity-0"
       />
-      <Button variant="secondary" type="submit" disabled={status === "submitting"} className="w-full">
+      <Button type="submit" disabled={status === "submitting"} className="w-full py-3">
         {status === "submitting" ? "Sending..." : "Send Inquiry"}
       </Button>
       {status === "error" && (

@@ -16,18 +16,15 @@ export async function ValueProps() {
   return (
     <section className="py-10 sm:py-14">
       <Container>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid divide-y divide-brand-ink/10 border-y border-brand-ink/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {items.map(({ icon: Icon, label, detail }) => (
-            <div
-              key={label}
-              className="flex min-w-0 items-center gap-3 rounded-md bg-brand-green/8 px-5 py-4"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-cream">
-                <Icon size={18} />
+            <div key={label} className="flex min-w-0 items-center gap-4 py-5 sm:px-6 sm:py-6">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green/10 text-brand-green-dark">
+                <Icon size={20} strokeWidth={1.75} />
               </span>
               <div className="min-w-0 leading-tight">
                 <p className="font-semibold text-brand-ink">{label}</p>
-                <p className="truncate text-sm text-brand-ink/60">{detail}</p>
+                <p className="mt-0.5 truncate text-sm text-brand-ink/60">{detail}</p>
               </div>
             </div>
           ))}
