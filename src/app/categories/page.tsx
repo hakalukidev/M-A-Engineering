@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Package } from "lucide-react";
 import { CATEGORY_ICONS } from "@/components/category/CategoryCard";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { getAllCategories } from "@/data/categories";
 
@@ -26,60 +24,36 @@ export default async function CategoriesPage() {
         className="mb-12"
       />
 
-      <div className="flex flex-col gap-14 sm:gap-20">
-        {categories.map((category, index) => {
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {categories.map((category) => {
           const Icon = CATEGORY_ICONS[category.slug] ?? Package;
           const typeCount = category.subcategories.length;
-          const imageOnRight = index % 2 === 0;
 
           return (
-            <section
+            <Link
               key={category.id}
-              className="flex flex-col items-center gap-8 lg:flex-row lg:gap-14"
+              href={`/categories/${category.slug}`}
+              className="group flex flex-col gap-5 rounded-[32px] border border-brand-ink/10 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-green/30 hover:shadow-xl hover:shadow-brand-green-dark/5"
             >
-              <div
-                className={cn(
-                  "relative h-[300px] w-full overflow-hidden rounded-xl bg-zinc-100 shadow-md ring-1 ring-black/5 sm:h-[420px] lg:h-[520px] lg:flex-[1.2]",
-                  imageOnRight ? "lg:order-2" : "lg:order-1"
-                )}
-              >
-                <Image
-                  src={category.coverImage}
-                  alt={category.name}
-                  fill
-                  sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
+              <div className="flex items-center justify-between">
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-green/10 text-brand-green-dark transition-colors duration-300 group-hover:bg-brand-green-dark group-hover:text-white">
+                  <Icon size={26} strokeWidth={1.75} />
+                </span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-ink/5 text-brand-ink/60 transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white">
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
+                </span>
               </div>
 
-              <div
-                className={cn(
-                  "flex w-full max-w-lg flex-col gap-4 lg:flex-1",
-                  imageOnRight ? "lg:order-1" : "lg:order-2"
-                )}
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-brand-cream">
-                  <Icon size={22} strokeWidth={1.75} />
-                </span>
-                <p className="text-sm font-semibold uppercase tracking-wide text-brand-green">
+              <div>
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-brand-green">
                   {typeCount} {typeCount === 1 ? "type" : "types"}
                 </p>
-                <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
-                  {category.name}
-                </h2>
-                <p className="text-base leading-relaxed text-brand-ink/70">
+                <h2 className="text-xl font-bold tracking-tight text-brand-ink">{category.name}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-brand-ink/60">
                   {category.shortDescription}
                 </p>
-                <Link
-                  href={`/categories/${category.slug}`}
-                  className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-brand-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark hover:shadow-lg"
-                >
-                  Explore {category.name}
-                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
-                </Link>
               </div>
-            </section>
+            </Link>
           );
         })}
       </div>

@@ -17,7 +17,7 @@ export function LifestyleBreak({
   seeClientsHref: string;
 }) {
   return (
-    <section className="bg-brand-cream py-14 sm:py-20">
+    <section className="bg-brand-cream py-16 sm:py-24">
       <Container>
         <a
           href={seeClientsHref}

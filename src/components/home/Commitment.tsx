@@ -9,7 +9,7 @@ import { Container } from "@/components/ui/Container";
  */
 export function Commitment() {
   return (
-    <section className="py-14 sm:py-20">
+    <section className="py-16 sm:py-24">
       <Container>
         <div className="mx-auto flex max-w-5xl items-center justify-center">
           <div className="relative z-0 -mr-[6%] w-[26%] shrink-0 aspect-[13/15] overflow-hidden rounded-xl shadow-lg">

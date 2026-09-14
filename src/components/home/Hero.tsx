@@ -46,16 +46,16 @@ export async function Hero() {
   const productCount = products.length;
 
   return (
-    <section className="bg-brand-cream pb-4 sm:pb-6">
+    <section className="bg-brand-cream pb-8 sm:pb-12">
       <div className="px-2.5 pt-2.5 sm:px-5 sm:pt-5">
         <div className="relative min-h-[72vh] w-full overflow-hidden rounded-2xl bg-brand-green-dark sm:min-h-[78vh]">
           <Image
-            src="/images/hero/hero_image.png"
+            src="/images/hero/hero_kitchen_2.png"
             alt="Warm, professionally equipped kitchen interior"
             fill
             priority
             sizes="100vw"
-            className="object-cover lg:object-contain"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/5 sm:from-black/60 sm:via-black/20 sm:to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent sm:from-black/50 sm:via-transparent" />

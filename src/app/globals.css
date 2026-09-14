@@ -4,17 +4,17 @@
   --background: #f8f7f4;
   --foreground: #191c1a;
 
-  /* Brand palette — refined forest green with a warm brass accent, on a clean neutral field. */
-  --brand-green: #14532d;
-  --brand-green-dark: #0d3b20;
+  /* Brand palette — cool-toned emerald with a warm brass accent, on a clean neutral field. */
+  --brand-green: #0f5c46;
+  --brand-green-dark: #0a3d2e;
   --brand-cream: #f5f3ee;
   --brand-orange: #a9752f;
   --brand-orange-dark: #855c25;
   --brand-ink: #191c1a;
   --brand-muted: #6b7280;
   --brand-card: #ffffff;
-  --brand-primary: #14532d;
-  --brand-primary-dark: #0d3b20;
+  --brand-primary: #0f5c46;
+  --brand-primary-dark: #0a3d2e;
 }
 
 /*

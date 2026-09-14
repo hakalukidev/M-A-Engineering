@@ -14,7 +14,7 @@ export async function ValueProps() {
   ];
 
   return (
-    <section className="py-10 sm:py-14">
+    <section className="py-14 sm:py-20">
       <Container>
         <div className="grid divide-y divide-brand-ink/10 border-y border-brand-ink/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {items.map(({ icon: Icon, label, detail }) => (
