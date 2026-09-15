@@ -21,7 +21,7 @@ export default async function HomePage() {
       <Hero />
       <ValueProps />
       <CategoryShowcase categories={categories} />
-      <LifestyleBreak photos={clientsSettings.photos} seeClientsHref={clientsSettings.seeClientsHref} />
+      <LifestyleBreak photos={clientsSettings.photos} />
       <Commitment />
       <QuoteCTA phone={settings.phone} whatsapp={settings.whatsapp} />
       <BackgroundAudioPlayer />

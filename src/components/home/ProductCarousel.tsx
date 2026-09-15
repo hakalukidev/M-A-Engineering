@@ -36,12 +36,20 @@ export function ProductCarousel({
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  // Fraction of the track currently in view / scrolled past — drives the
+  // mobile-only progress pill below the cards (see render below). Never
+  // overlaps a card, unlike an edge fade would.
+  const [viewFraction, setViewFraction] = useState(1);
+  const [scrollFraction, setScrollFraction] = useState(0);
 
   function updateScrollState() {
     const el = scrollerRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 8);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setViewFraction(el.scrollWidth > 0 ? el.clientWidth / el.scrollWidth : 1);
+    setScrollFraction(maxScroll > 0 ? el.scrollLeft / maxScroll : 0);
   }
 
   useEffect(() => {
@@ -102,6 +110,7 @@ export function ProductCarousel({
                 product={product}
                 categorySlug={categorySlug}
                 subcategorySlug={subcategorySlug}
+                onNextClick={canScrollRight ? () => scrollByCard(1) : undefined}
               />
             </div>
           ))}
@@ -117,6 +126,22 @@ export function ProductCarousel({
           <ChevronRight size={18} />
         </button>
       </div>
+
+      {/* Mobile-only "there's more, swipe" cue — a scrollbar-style pill
+          below the row rather than anything laid over a card, so it can
+          never read as cropping a product photo. Hidden once every card
+          already fits in view (nothing to scroll to). */}
+      {viewFraction < 1 && (
+        <div aria-hidden className="mx-auto mt-3 h-1 w-24 overflow-hidden rounded-full bg-brand-ink/10 sm:hidden">
+          <div
+            className="h-full rounded-full bg-brand-ink/40"
+            style={{
+              width: `${viewFraction * 100}%`,
+              marginLeft: `${scrollFraction * (100 - viewFraction * 100)}%`,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

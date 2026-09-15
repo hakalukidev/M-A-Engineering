@@ -46,7 +46,7 @@ export function CategoryShowcase({ categories }: { categories: Category[] }) {
                   </p>
                 </div>
 
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-ink/5 text-brand-ink/60 transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-600 text-white transition-all duration-300 group-hover:bg-red-700">
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
                 </span>
               </Link>

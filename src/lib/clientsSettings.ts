@@ -9,13 +9,11 @@ export type ClientPhoto = {
 };
 
 export type ClientsSettings = {
-  seeClientsHref: string;
   photos: ClientPhoto[];
 };
 
 /** Falls back to the current handover photos until an admin saves real ones. */
 const DEFAULT_CLIENTS_SETTINGS: ClientsSettings = {
-  seeClientsHref: "#",
   photos: [
     { src: "/images/home/clients/client-1.jpg", alt: "MA Engineering handing over an order to Food Fantasy with Arafat" },
     { src: "/images/home/clients/client-2.jpg", alt: "MA Engineering handover with Bastu Properties Ltd." },

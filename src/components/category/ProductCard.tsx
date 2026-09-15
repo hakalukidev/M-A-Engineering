@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Plus } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Plus } from "lucide-react";
 import type { Product } from "@/types";
 import { formatPriceRange } from "@/lib/utils";
 
@@ -15,10 +15,13 @@ export function ProductCard({
   product,
   categorySlug,
   subcategorySlug,
+  onNextClick,
 }: {
   product: Product;
   categorySlug: string;
   subcategorySlug: string;
+  /** Renders a "next" arrow over the image (mobile only) — used by ProductCarousel to advance to the next card without waiting for a swipe. Omit outside a carousel. */
+  onNextClick?: () => void;
 }) {
   const href = `/categories/${categorySlug}/${subcategorySlug}/${product.id}`;
 
@@ -37,6 +40,20 @@ export function ProductCard({
           <span className="absolute right-2.5 top-2.5 flex h-8 w-8 translate-y-1 items-center justify-center rounded-full bg-white/90 text-brand-green-dark opacity-0 shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:bg-brand-orange group-hover:text-white">
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
           </span>
+          {onNextClick && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onNextClick();
+              }}
+              aria-label="Next product"
+              className="absolute right-2.5 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-ink shadow-md backdrop-blur-sm transition-colors hover:bg-brand-orange hover:text-white sm:hidden"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          )}
         </div>
       </Link>
 
