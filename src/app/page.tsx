@@ -8,12 +8,14 @@ import { BackgroundAudioPlayer } from "@/components/audio/BackgroundAudioPlayer"
 import { getAllCategories } from "@/data/categories";
 import { getFooterSettings } from "@/lib/settings";
 import { getClientsSettings } from "@/lib/clientsSettings";
+import { getCommitmentSettings } from "@/lib/commitmentSettings";
 
 export default async function HomePage() {
-  const [categories, settings, clientsSettings] = await Promise.all([
+  const [categories, settings, clientsSettings, commitmentSettings] = await Promise.all([
     getAllCategories(),
     getFooterSettings(),
     getClientsSettings(),
+    getCommitmentSettings(),
   ]);
 
   return (
@@ -22,7 +24,7 @@ export default async function HomePage() {
       <ValueProps />
       <CategoryShowcase categories={categories} />
       <LifestyleBreak photos={clientsSettings.photos} />
-      <Commitment />
+      <Commitment {...commitmentSettings} />
       <QuoteCTA phone={settings.phone} whatsapp={settings.whatsapp} />
       <BackgroundAudioPlayer />
     </>

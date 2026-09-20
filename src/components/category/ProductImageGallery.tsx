@@ -17,13 +17,13 @@ export function ProductImageGallery({ images, alt }: { images: string[]; alt: st
 
   return (
     <div>
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-brand-ink/10 bg-brand-card shadow-md shadow-brand-ink/5">
+      <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-brand-ink/10 bg-brand-card shadow-md shadow-brand-ink/5">
         <Image
           src={active}
           alt={alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover"
+          className="object-contain"
           priority
         />
 
@@ -60,7 +60,7 @@ export function ProductImageGallery({ images, alt }: { images: string[]; alt: st
                   : "border-brand-ink/10 hover:border-brand-ink/30"
               )}
             >
-              <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+              <Image src={src} alt="" fill sizes="80px" className="object-contain" />
             </button>
           ))}
         </div>

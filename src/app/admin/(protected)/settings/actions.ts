@@ -8,6 +8,7 @@ import type { AboutSettings } from "@/lib/aboutSettings";
 import type { ClientsSettings } from "@/lib/clientsSettings";
 import type { BestsellersSettings } from "@/lib/bestsellersSettings";
 import type { CategoriesExploreSettings } from "@/lib/categoriesExploreSettings";
+import type { CommitmentSettings } from "@/lib/commitmentSettings";
 
 export async function updateFooterSettings(input: FooterSettings) {
   await requireAdmin();
@@ -43,4 +44,11 @@ export async function updateCategoriesExploreSettings(input: CategoriesExploreSe
   await adminDb.collection("settings").doc("categoriesExplore").set(input, { merge: true });
   updateTag("categories-explore-settings"); // busts the unstable_cache in src/lib/categoriesExploreSettings.ts immediately, read-your-own-writes
   revalidatePath("/"); // the "Explore our built-to-last Categories" carousel renders on the homepage
+}
+
+export async function updateCommitmentSettings(input: CommitmentSettings) {
+  await requireAdmin();
+  await adminDb.collection("settings").doc("commitment").set(input, { merge: true });
+  updateTag("commitment-settings"); // busts the unstable_cache in src/lib/commitmentSettings.ts immediately, read-your-own-writes
+  revalidatePath("/"); // the "Our commitment" collage + statement renders on the homepage
 }

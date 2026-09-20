@@ -10,6 +10,7 @@ const SETTINGS_TABS = [
   { href: "/admin/settings/clients", label: "Happy Clients" },
   { href: "/admin/settings/bestsellers", label: "Bestselling Products" },
   { href: "/admin/settings/categories-explore", label: "Explore Categories" },
+  { href: "/admin/settings/commitment", label: "Our Commitment" },
 ] as const;
 
 export function SettingsTabs() {
