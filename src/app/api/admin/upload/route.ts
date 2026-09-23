@@ -36,7 +36,10 @@ export async function POST(request: Request) {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const { url } = await uploadImageToCloudinary(buffer, { folder: "ma-engineering/catalog" });
+  const { url } = await uploadImageToCloudinary(buffer, {
+    folder: "ma-engineering/catalog",
+    compress: true,
+  });
 
   return NextResponse.json({ url });
 }

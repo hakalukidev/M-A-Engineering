@@ -71,7 +71,7 @@ export function Header({ phone }: { phone: string }) {
               : "bg-brand-green-dark"
           )}
         >
-          <div className="mx-auto grid min-h-14 w-full max-w-[1920px] grid-cols-[auto_1fr] items-center gap-4 px-5 py-2 sm:px-8 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:px-10 lg:py-3 xl:px-12">
+          <div className="mx-auto grid min-h-14 w-full max-w-[1920px] grid-cols-[auto_1fr] items-center gap-3 px-5 sm:gap-4 py-2 sm:px-8 lg:min-h-20 lg:grid-cols-[auto_1fr_auto] lg:px-10 lg:py-3 xl:px-12">
             <Link href="/" className="flex min-w-0 items-center gap-2.5 justify-self-start lg:min-w-fit">
               <Image
                 src="/images/logo/homelogo.svg"

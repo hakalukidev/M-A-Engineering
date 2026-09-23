@@ -14,9 +14,11 @@ const SLIDE_INTERVAL_MS = 3500;
  * breathing room after the product carousel. Photos are admin-editable
  * (Settings > Happy Clients) via src/lib/clientsSettings.ts.
  *
- * The showcase auto-advances through the photos one at a time. "See Our
- * Clients" opens all of them together in a gallery overlay, for anyone who
- * wants to see the whole set at once instead of waiting for the slideshow.
+ * On laptops and up (lg+) every photo is laid out at once in a full-width
+ * grid. Below that the showcase auto-advances through them one at a time.
+ * "See Our Clients" opens all of them together in a gallery overlay, for
+ * anyone who wants to see the whole set at once instead of waiting for the
+ * slideshow.
  */
 export function LifestyleBreak({ photos }: { photos: ClientPhoto[] }) {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -45,8 +47,27 @@ export function LifestyleBreak({ photos }: { photos: ClientPhoto[] }) {
           <ArrowRight size={16} />
         </button>
 
+        {photos.length > 0 && (
+          <div className="hidden gap-3 lg:grid lg:grid-cols-3 xl:grid-cols-6">
+            {photos.map((photo) => (
+              <div
+                key={photo.src}
+                className="relative aspect-square overflow-hidden rounded-lg bg-brand-green-dark"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(min-width: 1280px) 16vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         {currentPhoto && (
-          <>
+          <div className="lg:hidden">
             <div className="relative aspect-[16/10] w-full max-w-xl overflow-hidden rounded-xl bg-brand-green-dark sm:rounded-lg">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -86,7 +107,7 @@ export function LifestyleBreak({ photos }: { photos: ClientPhoto[] }) {
                 ))}
               </div>
             )}
-          </>
+          </div>
         )}
 
         <div className="mt-8 sm:mt-10">

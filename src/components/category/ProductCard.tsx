@@ -34,7 +34,7 @@ export function ProductCard({
             alt={product.name}
             fill
             sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            className="object-contain transition-transform duration-500 ease-out group-hover:scale-110"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           <span className="absolute right-2.5 top-2.5 flex h-8 w-8 translate-y-1 items-center justify-center rounded-full bg-white/90 text-brand-green-dark opacity-0 shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:bg-brand-orange group-hover:text-white">

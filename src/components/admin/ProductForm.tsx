@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { slugify } from "@/lib/utils";
 import {
   createProduct,
   updateProduct,
@@ -25,6 +26,7 @@ export function ProductForm({
   const router = useRouter();
   const isEdit = Boolean(initial);
   const [slug, setSlug] = useState(initial?.slug ?? "");
+  const [slugTouched, setSlugTouched] = useState(isEdit);
   const [name, setName] = useState(initial?.name ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
   const [sizes, setSizes] = useState<SizeRow[]>(
@@ -66,6 +68,13 @@ export function ProductForm({
       return;
     }
 
+    const finalSlug = slug.trim() || slugify(name);
+    if (!isEdit && !finalSlug) {
+      setError("Enter a product name (or a slug) so we can build its URL");
+      setSubmitting(false);
+      return;
+    }
+
     try {
       if (isEdit && initial) {
         await updateProduct(categorySlug, subcategorySlug, initial.slug, {
@@ -82,7 +91,7 @@ export function ProductForm({
         await createProduct({
           categorySlug,
           subcategorySlug,
-          slug,
+          slug: finalSlug,
           name,
           description,
           image,
@@ -104,18 +113,29 @@ export function ProductForm({
           <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">Slug</label>
           <input
             value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            onChange={(e) => {
+              setSlug(e.target.value);
+              setSlugTouched(true);
+            }}
             disabled={isEdit}
-            required
-            placeholder="standard-dining-table-4-seat"
+            placeholder="auto-filled from name"
             className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green disabled:bg-zinc-100 disabled:text-zinc-500"
           />
+          {!isEdit && (
+            <p className="mt-1 text-xs text-brand-muted">
+              Auto-filled from the product name — edit it directly if you want a different URL.
+            </p>
+          )}
         </div>
         <div>
           <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted">Name</label>
           <input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              const nextName = e.target.value;
+              setName(nextName);
+              if (!isEdit && !slugTouched) setSlug(slugify(nextName));
+            }}
             required
             className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand-green"
           />

@@ -19,16 +19,16 @@ export type CommitmentSettings = {
 const DEFAULT_COMMITMENT_SETTINGS: CommitmentSettings = {
   photos: [
     {
-      src: "/images/categories/commercial-kitchen-equipment/refrigeration-storage/blast-chiller.jpg",
-      alt: "Commercial refrigeration units",
+      src: "/images/categories/commercial-kitchen-equipment/cooking-equipment/four-burner-gas-stove.jpg",
+      alt: "M A Engineering four-burner stainless steel gas stove",
     },
     {
-      src: "/images/categories/restaurant-equipment/dining-furniture/wooden-dining-chair.jpg",
-      alt: "Wooden dining chairs and table",
+      src: "/images/categories/bakery-equipment/display-showcases/cake-display-showcase-curved.jpg",
+      alt: "Bakery display showcase filled with pastries in a shop",
     },
     {
-      src: "/images/categories/bakery-equipment/ovens-proofers/deck-oven-2-deck.jpg",
-      alt: "Commercial deck oven and proofer",
+      src: "/images/categories/bakery-equipment/display-showcases/display-showcase-red-gold-inshop.jpg",
+      alt: "Red and gold display showcase by M A Engineering",
     },
   ],
   text: "Discover our commitment to [leaf] **durable, responsibly sourced materials**, energy-efficient engineering, and **ethical manufacturing** partnerships — all built to support a harder-working operation and a [leaf] **greener commercial kitchen.**",

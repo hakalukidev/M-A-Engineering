@@ -14,8 +14,8 @@ export const siteConfig = {
   locale: "en",
 
   contact: {
-    phone: "+8801XXXXXXXXX", // TODO: client phone
-    whatsapp: "+8801XXXXXXXXX", // TODO: client WhatsApp (E.164, no spaces)
+    phone: "+8801778612000",
+    whatsapp: "+8801778612000",
     email: "info@example.com", // TODO: client inquiry inbox
     address: "167, M A Engineering Factory, 21 Matikata Rd, Dhaka 1206",
     mapUrl: "https://maps.app.goo.gl/oRsHQjYAMjP7Pc21A",
@@ -23,12 +23,13 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: "https://facebook.com/maengineering", // TODO: client Facebook page URL
-    youtube: "https://youtube.com/@maengineering", // TODO: client YouTube channel URL
-    instagram: "https://instagram.com/maengineering", // TODO: client Instagram profile URL
-    linkedin: "https://linkedin.com/company/maengineering", // TODO: client LinkedIn page URL
+    facebook: "https://www.facebook.com/maengineering80",
+    // Empty = hidden in the footer. Fill in once the client shares these accounts.
+    youtube: "",
+    instagram: "",
+    linkedin: "",
     /** Facebook page id/username used to build the m.me Messenger deep link. */
-    messenger: "maengineering", // TODO: client Facebook page id
+    messenger: "maengineering80",
   },
 
   /**

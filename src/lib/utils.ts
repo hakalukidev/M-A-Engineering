@@ -18,6 +18,15 @@ export function whatsappHref(phone: string, message?: string) {
   return `https://wa.me/${digits}${query}`;
 }
 
+/** URL-safe slug from a display name, e.g. `slugify("Standard Dining Table (4-Seat)")` -> "standard-dining-table-4-seat". */
+export function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 /** Format a BDT price for display, e.g. `formatPrice(45000)` -> "৳45,000". */
 export function formatPrice(bdt: number) {
   return `৳${bdt.toLocaleString("en-US")}`;

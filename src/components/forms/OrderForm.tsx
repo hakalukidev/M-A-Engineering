@@ -163,8 +163,9 @@ export function OrderForm({
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-start lg:gap-10">
-      <form onSubmit={handleSubmit} className="order-2 space-y-5 lg:order-1">
+    // minmax(0,1fr) + min-w-0: the product <select> is as wide as its longest option name and would otherwise stretch the page sideways on mobile.
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
+      <form onSubmit={handleSubmit} className="order-2 min-w-0 space-y-5 lg:order-1">
         {/* Product + fixed size/price */}
         <div className="rounded-xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm sm:p-6">
           <StepHeader n={1} title="Select a product" />
@@ -176,7 +177,7 @@ export function OrderForm({
               required
               value={productId}
               onChange={(e) => handleProductChange(e.target.value)}
-              className="w-full appearance-none rounded-xl border border-zinc-300 bg-white px-4 py-3 pr-10 text-sm font-medium text-brand-ink outline-none transition-colors focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
+              className="w-full min-w-0 appearance-none truncate rounded-xl border border-zinc-300 bg-white px-4 py-3 pr-10 text-sm font-medium text-brand-ink outline-none transition-colors focus:border-brand-green focus:ring-2 focus:ring-brand-green/15"
             >
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
@@ -276,7 +277,7 @@ export function OrderForm({
           </div>
 
           {selectedPaymentMethod && (
-            <div className="mt-3 rounded-xl border-l-4 border-brand-green bg-brand-green/5 p-3 text-sm text-brand-ink">
+            <div className="mt-3 break-words rounded-xl border-l-4 border-brand-green bg-brand-green/5 p-3 text-sm text-brand-ink">
               <p>
                 <span className="font-semibold">{selectedPaymentMethod.accountLabel}:</span>{" "}
                 {selectedPaymentMethod.accountValue}
@@ -364,7 +365,7 @@ export function OrderForm({
       </form>
 
       {/* Order summary — sticky on desktop */}
-      <aside className="order-1 lg:order-2 lg:sticky lg:top-24">
+      <aside className="order-1 min-w-0 lg:order-2 lg:sticky lg:top-24">
         <div className="space-y-4 rounded-xl border border-brand-ink/10 bg-brand-card p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
             Order Summary
@@ -391,14 +392,14 @@ export function OrderForm({
           )}
 
           <div className="space-y-2 border-t border-zinc-100 pt-3 text-sm">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <span className="text-brand-muted">Price</span>
               <span className="font-medium text-brand-ink">
                 {selectedSize ? formatPrice(selectedSize.price) : "—"}
               </span>
             </div>
             {selectedPaymentMethod && (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <span className="text-brand-muted">Payment via</span>
                 <span className="font-medium text-brand-ink">{selectedPaymentMethod.name}</span>
               </div>
@@ -411,7 +412,7 @@ export function OrderForm({
             )}
           </div>
 
-          <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
+          <div className="flex items-center justify-between gap-3 border-t border-zinc-100 pt-3">
             <span className="text-sm font-semibold text-brand-ink">Total</span>
             <span className="text-xl font-bold text-brand-orange">
               {selectedSize ? formatPrice(selectedSize.price) : "—"}

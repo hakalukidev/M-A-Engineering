@@ -110,7 +110,8 @@ export async function Footer() {
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <p>
+          {/* Right margin keeps the credit clear of the fixed contact button (FloatingActionStack) on desktop. */}
+          <p className="sm:mr-16">
             Developed by{" "}
             <a
               href="https://hakaluki.dev"
